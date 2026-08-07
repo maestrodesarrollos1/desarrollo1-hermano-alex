@@ -1,0 +1,50 @@
+{
+  "couple": {
+    "partner1": "Nombre 1",
+    "partner2": "Nombre 2"
+  },
+  "event": {
+    "dateLabel": "Fecha por definir",
+    "dateIso": "2027-06-18T18:00",
+    "city": "Ciudad",
+    "venue": "Lugar del evento"
+  },
+  "contact": {
+    "email": "contacto@example.com",
+    "phone": "+34 600 000 000"
+  },
+  "rsvp": {
+    "url": "#",
+    "noteTitle": "Bloque personalizable",
+    "noteText": "Utiliza este espacio para una nota de agradecimiento, información sobre regalos o cualquier indicación adicional para las personas invitadas.",
+    "ctaTitle": "Celebremos juntos",
+    "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
+  },
+  "hero": {
+    "eyebrow": "Plantilla de celebración"
+  },
+  "story": {
+    "title": "Vuestras historias",
+    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
+    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+  },
+  "theme": {
+    "primaryDark": "#3D315B",
+    "primary": "#7668A6",
+    "soft": "#E7E1F2",
+    "text": "#4E4568"
+  },
+  "images": {
+    "hero": ""
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": true
+  }
+}
