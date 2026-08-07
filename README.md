@@ -2,3 +2,4 @@
 Repositorio desarrollo 1 hermano Alex
 
 - git desde carles
+- git de alex
