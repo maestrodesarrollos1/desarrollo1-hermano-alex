@@ -36,6 +36,7 @@ const countdownShortLabels: Record<string, string> = {
 const homePaths = ["/", "/es", "/val", "/eng", "/ru"];
 const DEFAULT_NAV_HEIGHT = 72;
 const NAV_GAP = 12;
+const NUPIA_STUDIO_URL = import.meta.env.VITE_NUPIA_STUDIO_URL ?? "http://localhost:8084";
 
 const Navbar = () => {
   const { getHomePath } = useLocalizedNavigation();
@@ -231,17 +232,17 @@ const Navbar = () => {
     </span>
   );
   const studioMark = (
-    <span className="flex items-center gap-1.5 font-nav text-[8px] font-medium tracking-[0.2em]" style={{ color: "var(--template-primary-dark)" }} aria-label="Nupia">
+    <a href={NUPIA_STUDIO_URL} className="absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center gap-1.5 font-nav text-[8px] font-medium tracking-[0.2em] transition-opacity hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4" style={{ color: "var(--template-primary-dark)" }} aria-label="Nupia, estudio digital de bodas">
       <img className="h-7 w-5 object-contain" src="/images/nupia-mark.png" alt="" />
       <span>NUPIA</span>
-    </span>
+    </a>
   );
 
   return (
     <header className="fixed left-0 right-0 top-0 z-[100] border-b border-[#C9E6D0] bg-white/[0.97] shadow-[0_10px_34px_rgba(15,61,46,0.12)] backdrop-blur-xl">
-      <div ref={mainBarRef} className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+      {studioMark}
+      <div ref={mainBarRef} className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 pl-24 pr-4 py-2.5 sm:pl-28 sm:pr-6 xl:pl-24 xl:pr-6">
         <div className="flex shrink-0 items-center gap-3 sm:gap-4">
-          {studioMark}
           {isHomePage ? (
             <button
               type="button"
