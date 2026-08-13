@@ -230,28 +230,37 @@ const Navbar = () => {
       {weddingData.couple.short}
     </span>
   );
+  const studioMark = (
+    <span className="flex items-center gap-1.5 font-nav text-[8px] font-medium tracking-[0.2em]" style={{ color: "var(--template-primary-dark)" }} aria-label="Nupia">
+      <img className="h-7 w-5 object-contain" src="/images/nupia-mark.png" alt="" />
+      <span>NUPIA</span>
+    </span>
+  );
 
   return (
     <header className="fixed left-0 right-0 top-0 z-[100] border-b border-[#C9E6D0] bg-white/[0.97] shadow-[0_10px_34px_rgba(15,61,46,0.12)] backdrop-blur-xl">
       <div ref={mainBarRef} className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-        {isHomePage ? (
-          <button
-            type="button"
-            onClick={handleLogoClick}
-            aria-label="Ir al inicio de la plantilla"
-            className="shrink-0 transition-opacity hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5E46]"
-          >
-            {logo}
-          </button>
-        ) : (
-          <Link
-            to={getHomePath()}
-            aria-label="Ir al inicio de la plantilla"
-            className="shrink-0 transition-opacity hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5E46]"
-          >
-            {logo}
-          </Link>
-        )}
+        <div className="flex shrink-0 items-center gap-3 sm:gap-4">
+          {studioMark}
+          {isHomePage ? (
+            <button
+              type="button"
+              onClick={handleLogoClick}
+              aria-label="Ir al inicio de la plantilla"
+              className="transition-opacity hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5E46]"
+            >
+              {logo}
+            </button>
+          ) : (
+            <Link
+              to={getHomePath()}
+              aria-label="Ir al inicio de la plantilla"
+              className="transition-opacity hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1F5E46]"
+            >
+              {logo}
+            </Link>
+          )}
+        </div>
 
         <nav className="hidden flex-1 items-center justify-end gap-1 lg:flex" aria-label="Navegacion principal">
           {navItems.map((item) => renderNavItem(item))}
