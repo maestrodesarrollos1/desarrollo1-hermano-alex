@@ -1,0 +1,50 @@
+{
+  "couple": {
+    "partner1": "Nombre 1",
+    "partner2": "Nombre 2"
+  },
+  "event": {
+    "dateLabel": "Fecha por definir",
+    "dateIso": "2027-06-18T18:00",
+    "city": "Ciudad",
+    "venue": "Lugar del evento"
+  },
+  "contact": {
+    "email": "contacto@example.com",
+    "phone": "+34 600 000 000"
+  },
+  "rsvp": {
+    "url": "#",
+    "noteTitle": "Una respuesta esperada",
+    "noteText": "Nos encantara saber si podras acompanarnos. Confirma tu asistencia y cuentanos cualquier detalle importante.",
+    "ctaTitle": "Nos encantaria contar contigo",
+    "ctaText": "Una celebracion intima, luminosa y pensada para disfrutar sin prisas."
+  },
+  "hero": {
+    "eyebrow": "Una invitacion para recordar"
+  },
+  "story": {
+    "title": "Nuestra historia",
+    "paragraph1": "Todo empezo como empiezan las cosas que importan: sin demasiado ruido, pero con una certeza dificil de explicar.",
+    "paragraph2": "Queremos celebrar este paso rodeados de las personas que han formado parte del camino."
+  },
+  "theme": {
+    "primaryDark": "#633542",
+    "primary": "#C47F8F",
+    "soft": "#F6DDE0",
+    "text": "#7A5360"
+  },
+  "images": {
+    "hero": ""
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": true
+  }
+}

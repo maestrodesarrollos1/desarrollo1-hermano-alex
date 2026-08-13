@@ -18,6 +18,32 @@ class BuildError(RuntimeError):
     pass
 
 
+def tools_root(repo_root: Path) -> Path:
+    return repo_root.parent / ".tools"
+
+
+def find_node(repo_root: Path) -> str | None:
+    local_node = tools_root(repo_root) / "node-v24.18.0-win-x64" / ("node.exe" if os.name == "nt" else "node")
+    if local_node.is_file():
+        return str(local_node)
+    return shutil.which("node.exe" if os.name == "nt" else "node")
+
+
+def find_npm(repo_root: Path) -> str | None:
+    local_npm = tools_root(repo_root) / "node-v24.18.0-win-x64" / ("npm.cmd" if os.name == "nt" else "npm")
+    if local_npm.is_file():
+        return str(local_npm)
+    return shutil.which("npm.cmd" if os.name == "nt" else "npm")
+
+
+def node_env(repo_root: Path) -> dict[str, str]:
+    env = os.environ.copy()
+    local_bin = tools_root(repo_root) / "node-v24.18.0-win-x64"
+    if local_bin.is_dir():
+        env["PATH"] = f"{local_bin}{os.pathsep}{env.get('PATH', '')}"
+    return env
+
+
 def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     handle, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
@@ -46,7 +72,8 @@ class TemplateBuilder:
 
     def export(self, parent_directory: Path, flat_values: dict[str, Any]) -> Path:
         self.prepare_preview(flat_values)
-        npm = shutil.which("npm.cmd" if os.name == "nt" else "npm")
+        repo_root = self.template.descriptor_path.parent.parent
+        npm = find_npm(repo_root)
         if not npm:
             raise BuildError("No se encontró npm. Instala Node.js y vuelve a intentarlo.")
 
@@ -60,6 +87,7 @@ class TemplateBuilder:
                 errors="replace",
                 timeout=300,
                 check=False,
+                env=node_env(repo_root),
             )
         except (OSError, subprocess.TimeoutExpired) as exc:
             raise BuildError(f"No se pudo compilar la plantilla: {exc}") from exc

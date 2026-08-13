@@ -1,0 +1,6 @@
+.tools/
+**/node_modules/
+**/dist/
+**/vite-dev*.out
+**/vite-dev*.err
+**/nupia-mark-source.png

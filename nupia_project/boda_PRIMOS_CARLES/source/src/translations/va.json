@@ -1,0 +1,129 @@
+{
+  "nav": {
+    "story": "Historia",
+    "details": "Detalls",
+    "schedule": "Agenda",
+    "contact": "RSVP"
+  },
+  "hero": {
+    "tagline": "Una plantilla elegant per a la vostra celebracio.",
+    "description": "Substituiu este text per la vostra historia, la informacio de l'esdeveniment i els detalls que necessiten els convidats.",
+    "seeSchedule": "Veure agenda",
+    "rsvpNow": "Confirmar assistencia",
+    "dateLine": "18 de juny de 2027 · Lloc pendent"
+  },
+  "about": {
+    "title": "La Nostra Historia",
+    "experienceTitle": "Presenteu la celebracio amb un missatge personal",
+    "experienceText1": "Esta seccio pot contar com vos vau coneixer, que significa este dia o qualsevol introduccio breu per als convidats.",
+    "experienceText2": "També podeu usar-la per a viatge, codi de vestimenta, allotjament o informacio important.",
+    "highlights": {
+      "story": {
+        "title": "La vostra historia",
+        "description": "Afegiu un resum proxim i emotiu sobre la relacio."
+      },
+      "date": {
+        "title": "La data",
+        "description": "Deixeu clar quan comenca la cerimònia i quan arranca la celebracio."
+      },
+      "place": {
+        "title": "El lloc",
+        "description": "Incloeu ubicacio, referencies utiles i opcions de transport."
+      }
+    }
+  },
+  "services": {
+    "title": "Detalls Del Dia",
+    "subtitle": "Tres blocs senzills per a organitzar la informacio principal de l'esdeveniment.",
+    "items": {
+      "welcome": {
+        "title": "Benvinguda",
+        "description": "Useu este espai per al missatge inicial, allotjament, trasllats o recomanacions.",
+        "tags": ["Benvinguda", "Viatge", "Allotjament"]
+      },
+      "moments": {
+        "title": "Moments Especials",
+        "description": "Destaqueu cerimònia, cocktail, fotos, regals o qualsevol moment important.",
+        "tags": ["Cerimònia", "Fotos", "Regals"]
+      },
+      "party": {
+        "title": "Celebracio",
+        "description": "Expliqueu la festa, la musica, el sopar, l'after party o qualsevol altre pla.",
+        "tags": ["Sopar", "Musica", "Festa"]
+      }
+    }
+  },
+  "process": {
+    "title": "Agenda De L'Esdeveniment",
+    "subtitle": "Un format clar per a presentar el ritme del gran dia.",
+    "step1Title": "Cerimònia",
+    "step1Description": "Compartiu aci l'hora d'arribada, l'inici de la cerimònia i les indicacions importants.",
+    "step2Title": "Cocktail I Sopar",
+    "step2Description": "Afegiu l'horari de l'aperitiu, el sopar, discursos o sorpreses especials.",
+    "step3Title": "Festa",
+    "step3Description": "Tanqueu l'agenda amb ball, barra lliure, after party o l'hora final prevista.",
+    "communication": "Notes Per Als Convidats",
+    "communicationDesc": "Podeu usar este bloc per a transport, dress code, clima o recordatoris practics.",
+    "availability": "Preguntes Frequents",
+    "availabilityDesc": "Perfecte per a allergies, xiquets, allotjament, aparcament o informacio util."
+  },
+  "contact": {
+    "title": "RSVP",
+    "subtitle": "Useu este formulari com a base per a arreplegar confirmacions abans de l'esdeveniment.",
+    "name": "Nom",
+    "email": "Correu",
+    "guests": "Nombre d'assistents",
+    "guestsPlaceholder": "Exemple: 2 adults",
+    "message": "Missatge",
+    "messagePlaceholder": "Restriccions alimentaries, dubtes o notes especials",
+    "send": "Enviar confirmacio",
+    "submitting": "Enviant...",
+    "privacy": "Este formulari nomes es una plantilla. Connecteu-lo al vostre backend o servei RSVP abans de publicar.",
+    "emailLabel": "Correu de contacte",
+    "rsvpDeadline": "Data limit RSVP",
+    "rsvpDeadlineValue": "15 de maig de 2027",
+    "venue": "Lloc de l'esdeveniment",
+    "venueValue": "Nom de l'espai\nCiutat, Pais",
+    "validationTitle": "Falten dades",
+    "validationMessage": "Completeu nom, correu i missatge abans d'enviar.",
+    "successTitle": "Formulari d'exemple enviat",
+    "successMessage": "La plantilla funciona en frontend. Connecteu aci el vostre sistema real de RSVP.",
+    "errorTitle": "No s'ha pogut enviar",
+    "errorMessage": "Reviseu la integracio del formulari abans de publicar la web.",
+    "templateNoticeTitle": "Sense dades reals ni mapa incrustat",
+    "templateNoticeText": "Este bloc substitueix la informacio personal anterior. Afegiu el vostre mapa, contacte i contingut final quan estiga llest."
+  },
+  "footer": {
+    "description": "Plantilla base per a una web de boda amb historia, detalls, agenda i RSVP.",
+    "location": "Nom del lloc · Ciutat, Pais",
+    "navigationTitle": "Navegacio",
+    "navigation": {
+      "about": "Historia",
+      "services": "Detalls",
+      "schedule": "Agenda",
+      "contact": "RSVP"
+    },
+    "notesTitle": "Nota",
+    "notesText": "Substituiu tots els placeholders per les vostres dades abans de publicar.",
+    "credit": "Wedding Website Template",
+    "rights": "Tots els drets reservats.",
+    "templateHint": "Esta versio ja no inclou noms, fotos ni dades del projecte original."
+  },
+  "logo": {
+    "partner1": "Alex",
+    "partner2": "Jamie",
+    "asociados": "wedding day",
+    "ariaLabel": "Logotip d'exemple per a una web de boda"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Pagina no trobada",
+    "backHome": "Tornar a l'inici"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "message": "Esta plantilla usa cookies basiques per a recordar preferencies del visitant.",
+    "accept": "Acceptar",
+    "deny": "Tancar"
+  }
+}
