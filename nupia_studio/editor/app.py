@@ -56,6 +56,12 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWebChannel import QWebChannel
 
 from .builder import TemplateBuilder, find_node, find_npm, write_json_atomic
+from .briefing_document import (
+    BRIEFING_DIRECTORY,
+    BriefingDocumentError,
+    create_briefing_document,
+    import_briefing_document,
+)
 from .catalog import CatalogError, FieldDefinition, TemplateDefinition, discover_templates
 from .component_catalog import (
     ComponentExistsError,
@@ -674,6 +680,18 @@ class EditorWindow(QMainWindow):
         import_photos.setToolTip("Importa landing, historia, galeria y despedida desde una carpeta")
         import_photos.triggered.connect(self.import_project_photos)
         toolbar.addAction(import_photos)
+
+        import_briefing = QAction("Importar briefing Word", self)
+        import_briefing.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogContentsView))
+        import_briefing.setToolTip("Carga los contenidos de un briefing Word y pide la carpeta de fotos")
+        import_briefing.triggered.connect(self.import_briefing_word)
+        toolbar.addAction(import_briefing)
+
+        create_briefing = QAction("Crear briefing Word", self)
+        create_briefing.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogNewFolder))
+        create_briefing.setToolTip("Genera un Word rellenable para la plantilla actual")
+        create_briefing.triggered.connect(self.create_briefing_word)
+        toolbar.addAction(create_briefing)
 
         undo = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowBack), "Deshacer", self)
         undo.setToolTip("Deshacer ultimo cambio")
@@ -1572,6 +1590,66 @@ class EditorWindow(QMainWindow):
                 "No se encontraron fotos compatibles",
                 "Usa landing, historia1, historia2, galeria1 a galeria6 o despedida con extension jpg, png, webp o avif.",
             )
+
+    def create_briefing_word(self) -> None:
+        filename = re.sub(r"[^a-z0-9]+", "-", self.template.name.lower()).strip("-")
+        destination = BRIEFING_DIRECTORY / f"briefing-{filename}.docx"
+        try:
+            create_briefing_document(self.template, destination)
+        except (OSError, BriefingDocumentError) as exc:
+            QMessageBox.critical(self, "No se pudo crear el briefing", str(exc))
+            return
+        self.status_label.setText(f"Briefing creado: {destination.name}")
+        QMessageBox.information(
+            self,
+            "Briefing Word creado",
+            f"Se ha creado el formulario de {self.template.name}.\n\n{destination}",
+        )
+
+    def import_briefing_word(self) -> None:
+        path_text, _ = QFileDialog.getOpenFileName(
+            self,
+            "Importar briefing Word",
+            str(BRIEFING_DIRECTORY),
+            "Documentos Word (*.docx)",
+        )
+        if not path_text:
+            return
+        try:
+            briefing = import_briefing_document(Path(path_text), self.template, self.current_values())
+        except (OSError, BriefingDocumentError) as exc:
+            QMessageBox.critical(self, "No se pudo importar el briefing", str(exc))
+            return
+
+        self._set_values(briefing.values)
+        import_photos = QMessageBox.question(
+            self,
+            "Fotos del briefing",
+            "Ahora selecciona la carpeta con las fotos definitivas o de stock.\n\n"
+            "Los archivos deben llamarse landing, historia1, historia2, galeria1 a galeria6 y despedida.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
+        )
+        imported_slots: tuple[str, ...] = ()
+        if import_photos == QMessageBox.StandardButton.Yes:
+            folder = QFileDialog.getExistingDirectory(
+                self,
+                "Selecciona las fotos del briefing",
+                str((self.working_project_dir / "fotos") if self.working_project_dir else PROJECTS_ROOT),
+            )
+            if folder:
+                try:
+                    photos = import_photo_folder(Path(folder), self.template, self.current_values())
+                except (OSError, ValueError) as exc:
+                    QMessageBox.warning(self, "El contenido se importó", f"No se pudieron añadir las fotos:\n\n{exc}")
+                else:
+                    self._set_values(photos.values)
+                    imported_slots = photos.imported_slots
+
+        summary = f"Campos importados: {len(briefing.imported_fields)}"
+        if imported_slots:
+            summary += f" · Fotos aplicadas: {', '.join(imported_slots)}"
+        self.status_label.setText(summary)
 
     def open_in_browser(self) -> None:
         if not self._persist_preview():

@@ -32,10 +32,28 @@ python -m editor.run_editor --check
 - Edición directa de textos al hacer clic en la vista previa.
 - Sincronización del desplazamiento entre la web y la configuración visible.
 - Paletas globales y colores ajustables individualmente.
+- Briefings Word por plantilla: se pueden rellenar y reimportar con los campos de contenido.
+- Al importar un briefing, Studio pide la carpeta de fotos definitivas o de stock y aplica la convención de nombres.
 - Componentes propios de cada plantilla y componentes `.compt` compartidos.
 - Importación `.compt` desde archivo o URL HTTPS, siempre con HTML, CSS y JavaScript.
 - Guardado y apertura de proyectos JSON.
 - Build de producción y exportación de `dist`.
+
+## Briefings Word y fotos
+
+Los formularios listos para enviar se guardan en `nupia_studio/briefings/`. Hay uno por cada plantilla y se pueden regenerar con:
+
+```powershell
+python -m editor.briefing_document
+```
+
+La persona que prepara la boda solo tiene que rellenar la columna **Respuesta** y conservar la columna **Clave Studio**. En la barra superior del editor:
+
+1. Pulsa el icono **Crear briefing Word** si necesitas un documento nuevo para la plantilla activa.
+2. Pulsa **Importar briefing Word** y elige el documento completado.
+3. Confirma la carpeta de fotos. Studio reconoce `landing`, `historia1`, `historia2`, `galeria1` a `galeria6` y `despedida`, en JPG/JPEG/PNG/WebP/AVIF.
+
+El propio Word indica qué fotografía se debe solicitar en cada hueco. Puede ser una foto definitiva de la pareja o una foto provisional de stock con licencia de publicación.
 
 ## Organización
 
