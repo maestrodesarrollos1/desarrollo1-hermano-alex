@@ -1,6 +1,8 @@
 import values from "@/generated/template-values.json";
 
-export type TemplateValues = typeof values;
+export type TemplateValues = typeof values & {
+  theme: typeof values.theme & { radius?: string };
+};
 
 export const templateValues: TemplateValues = values;
 
@@ -32,6 +34,11 @@ export const applyTemplateTheme = () => {
   root.style.setProperty("--template-primary", templateValues.theme.primary);
   root.style.setProperty("--template-soft", templateValues.theme.soft);
   root.style.setProperty("--template-text", templateValues.theme.text);
+  const radius = Math.max(0, Math.min(32, Number(templateValues.theme.radius ?? 12) || 0));
+  root.style.setProperty("--template-radius", `${radius}px`);
+  root.style.setProperty("--template-radius-control", `clamp(0px, ${Math.max(2, Math.round(radius * 0.62))}px, 18px)`);
+  root.style.setProperty("--template-radius-card", `clamp(0px, ${radius}px, 30px)`);
+  root.style.setProperty("--template-radius-image", `clamp(0px, ${Math.max(1, Math.round(radius * 0.72))}px, 24px)`);
   root.style.setProperty("--foreground", hexToHslChannels(templateValues.theme.primaryDark));
   root.style.setProperty("--card-foreground", hexToHslChannels(templateValues.theme.primaryDark));
   root.style.setProperty("--popover-foreground", hexToHslChannels(templateValues.theme.primaryDark));

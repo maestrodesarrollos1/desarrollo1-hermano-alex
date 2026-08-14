@@ -787,3 +787,17 @@
     padding: 0 1rem 0 3.2rem;
   }
 }
+
+/* Tokens compartidos: el editor regula la geometría sin deformar cada componente. */
+:root { --template-radius: 12px; --template-radius-control: 8px; --template-radius-card: 12px; --template-radius-image: 9px; }
+button:not(.rounded-full), input, textarea, select, [role="dialog"] { border-radius: var(--template-radius-control) !important; }
+.faq-accordion__item, .story-photo-pile__cloud-card, [class~="rounded-lg"], [class~="rounded-xl"], [class~="rounded-2xl"] { border-radius: var(--template-radius-card) !important; }
+img:not(.rounded-full), video, picture, .story-photo-pile__image { border-radius: var(--template-radius-image); }
+
+/* Puente de paleta para módulos de las colecciones anteriores. */
+[class*="text-[#4A1F2A]"], [class*="text-[#3D315B]"], [class*="text-[#633542]"], [class*="text-[#14382A]"], [class*="text-[#123C2D]"] { color: var(--template-primary-dark) !important; }
+[class*="bg-[#4A1F2A]"], [class*="bg-[#3D315B]"], [class*="bg-[#633542]"], [class*="bg-[#14382A]"], [class*="bg-[#123C2D]"], [class*="bg-[#09150F]"] { background-color: var(--template-primary-dark) !important; }
+[class*="text-[#A7605F]"], [class*="text-[#7668A6]"], [class*="text-[#C47F8F]"], [class*="text-[#B58A3C]"], [class*="text-[#D9B76F]"] { color: var(--template-primary) !important; }
+[class*="bg-[#A7605F]"], [class*="bg-[#7668A6]"], [class*="bg-[#C47F8F]"], [class*="bg-[#B58A3C]"], [class*="bg-[#D9B76F]"] { background-color: var(--template-primary) !important; }
+[class*="bg-[#F1DDD5]"], [class*="bg-[#E7E1F2]"], [class*="bg-[#F6DDE0]"], [class*="bg-[#F7F1E5]"], [class*="bg-[#F3EFE4]"] { background-color: var(--template-surface) !important; }
+[class*="border-[#A7605F]"], [class*="border-[#7668A6]"], [class*="border-[#C47F8F]"], [class*="border-[#B58A3C]"], [class*="border-[#D9B76F]"] { border-color: var(--template-primary) !important; }

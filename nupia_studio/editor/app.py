@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from PySide6.QtCore import QObject, QPoint, QRectF, QProcess, QThread, QTimer, Qt, QUrl, Signal, Slot
+from PySide6.QtCore import QObject, QPoint, QRectF, QProcess, QSize, QThread, QTimer, Qt, QUrl, Signal, Slot
 from PySide6.QtGui import (
     QAction,
     QColor,
@@ -43,8 +43,10 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QPushButton,
     QScrollArea,
+    QSlider,
     QSizePolicy,
     QSplitter,
+    QStyle,
     QToolBar,
     QToolButton,
     QVBoxLayout,
@@ -480,6 +482,69 @@ class PaletteDropdown(QWidget):
         self._update_swatches()
         self.values_changed.emit()
 
+
+class RadiusControl(QWidget):
+    values_changed = Signal()
+
+    def __init__(self, field: FieldDefinition, value: Any, parent: QWidget | None = None):
+        super().__init__(parent)
+        self.key = field.key
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 8, 0, 0)
+        layout.setSpacing(6)
+
+        heading = QHBoxLayout()
+        label = QLabel("Redondeado")
+        label.setObjectName("radiusLabel")
+        self.value_label = QLabel()
+        self.value_label.setObjectName("radiusValue")
+        self.value_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        heading.addWidget(label)
+        heading.addWidget(self.value_label, 1)
+        layout.addLayout(heading)
+
+        scale = QHBoxLayout()
+        scale.setSpacing(8)
+        square = QLabel("Mas cuadrado")
+        square.setObjectName("radiusHint")
+        rounded = QLabel("Mas redondeado")
+        rounded.setObjectName("radiusHint")
+        rounded.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        scale.addWidget(square)
+        scale.addWidget(rounded, 1)
+        layout.addLayout(scale)
+
+        self.slider = QSlider(Qt.Orientation.Horizontal)
+        self.slider.setRange(0, 32)
+        self.slider.setSingleStep(1)
+        self.slider.setPageStep(4)
+        self.slider.setToolTip("Ajusta el redondeado de botones, tarjetas, campos y contenedores")
+        self.slider.valueChanged.connect(self._changed)
+        layout.addWidget(self.slider)
+        self.set_values({self.key: value})
+
+    def value(self, key: str) -> str:
+        return str(self.slider.value()) if key == self.key else ""
+
+    def set_values(self, values: dict[str, Any]) -> None:
+        try:
+            value = int(float(str(values.get(self.key, 12))))
+        except (TypeError, ValueError):
+            value = 12
+        self.slider.blockSignals(True)
+        self.slider.setValue(max(self.slider.minimum(), min(self.slider.maximum(), value)))
+        self.slider.blockSignals(False)
+        self._update_label()
+
+    def _changed(self, _value: int) -> None:
+        self._update_label()
+        self.values_changed.emit()
+
+    def _update_label(self) -> None:
+        value = self.slider.value()
+        tone = "Editorial" if value <= 5 else "Equilibrado" if value <= 16 else "Suave"
+        self.value_label.setText(f"{value} px · {tone}")
+
     def _update_swatches(self) -> None:
         for key, button in self.swatches.items():
             color = self.values.get(key, "#FFFFFF")
@@ -538,10 +603,13 @@ class EditorWindow(QMainWindow):
         self.preview_port = 0
         self.project_path: Path | None = None
         self.working_project_dir: Path | None = None
+        self.history: list[dict[str, Any]] = []
+        self.history_index = -1
         self.export_worker: ExportWorker | None = None
         self.selected_editor_key: str | None = None
         self.component_picker: ComponentDropdown | None = None
         self.palette_picker: PaletteDropdown | None = None
+        self.radius_picker: RadiusControl | None = None
 
         self.preview_process = QProcess(self)
         self.preview_process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
@@ -550,8 +618,13 @@ class EditorWindow(QMainWindow):
 
         self.preview_debounce = QTimer(self)
         self.preview_debounce.setSingleShot(True)
-        self.preview_debounce.setInterval(350)
+        self.preview_debounce.setInterval(45)
         self.preview_debounce.timeout.connect(self._write_preview)
+
+        self.history_debounce = QTimer(self)
+        self.history_debounce.setSingleShot(True)
+        self.history_debounce.setInterval(420)
+        self.history_debounce.timeout.connect(self._record_history)
 
         self.retry_timer = QTimer(self)
         self.retry_timer.setSingleShot(True)
@@ -568,58 +641,88 @@ class EditorWindow(QMainWindow):
     def _create_toolbar(self) -> None:
         toolbar = QToolBar("Proyecto", self)
         toolbar.setMovable(False)
-        toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
+        toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        toolbar.setIconSize(QSize(19, 19))
         self.addToolBar(toolbar)
+
+        primary_icons = {
+            "Nueva plantilla": QStyle.StandardPixmap.SP_FileIcon,
+            "Abrir": QStyle.StandardPixmap.SP_DialogOpenButton,
+            "Guardar": QStyle.StandardPixmap.SP_DialogSaveButton,
+        }
 
         for label, shortcut, callback in (
             ("Nueva plantilla", "Ctrl+N", self.reset_project),
             ("Abrir", "Ctrl+O", self.open_project),
             ("Guardar", "Ctrl+S", self.save_project),
         ):
-            action = QAction(label, self)
+            action = QAction(self.style().standardIcon(primary_icons[label]), label, self)
+            action.setToolTip(label)
             action.setShortcut(shortcut)
             action.triggered.connect(callback)
             toolbar.addAction(action)
 
         toolbar.addSeparator()
         new_working_project = QAction("Crear proyecto", self)
+        new_working_project.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogNewFolder))
         new_working_project.setToolTip("Crea una copia de la plantilla actual dentro de proyectos")
         new_working_project.triggered.connect(self.create_working_project)
         toolbar.addAction(new_working_project)
 
         import_photos = QAction("Importar fotos", self)
+        import_photos.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileIcon))
         import_photos.setToolTip("Importa landing, historia, galeria y despedida desde una carpeta")
         import_photos.triggered.connect(self.import_project_photos)
         toolbar.addAction(import_photos)
 
+        undo = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowBack), "Deshacer", self)
+        undo.setToolTip("Deshacer ultimo cambio")
+        undo.setShortcut("Ctrl+Z")
+        undo.triggered.connect(self.undo)
+        toolbar.addAction(undo)
+
+        redo = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowForward), "Rehacer", self)
+        redo.setToolTip("Rehacer cambio")
+        redo.setShortcut("Ctrl+Shift+Z")
+        redo.triggered.connect(self.redo)
+        toolbar.addAction(redo)
+
         open_browser = QAction("Abrir navegador", self)
+        open_browser.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ComputerIcon))
         open_browser.setToolTip("Abre la plantilla actual en el navegador predeterminado")
         open_browser.triggered.connect(self.open_in_browser)
         toolbar.addAction(open_browser)
 
         open_code = QAction("Abrir en VS Code", self)
+        open_code.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DirOpenIcon))
         open_code.setToolTip("Abre el proyecto activo con code .")
         open_code.triggered.connect(self.open_in_code)
         toolbar.addAction(open_code)
 
         publish = QAction("GitHub", self)
+        publish.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DriveNetIcon))
         publish.setToolTip("Inicializa y publica el proyecto activo en un repositorio privado")
         publish.triggered.connect(self.publish_project)
         toolbar.addAction(publish)
 
         toolbar.addSeparator()
         refresh = QAction("Actualizar vista", self)
+        refresh.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_BrowserReload))
+        refresh.setToolTip("Recarga la plantilla desde los archivos guardados")
         refresh.setShortcut("Ctrl+R")
         refresh.triggered.connect(self.refresh_preview)
         toolbar.addAction(refresh)
 
         toolbar.addSeparator()
         self.export_action = QAction("Exportar web", self)
+        self.export_action.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogSaveButton))
+        self.export_action.setToolTip("Compila una copia estática lista para publicar")
         self.export_action.triggered.connect(self.export_site)
         toolbar.addAction(self.export_action)
 
         toolbar.addSeparator()
         import_component = QAction("Añadir componente", self)
+        import_component.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView))
         import_component.setToolTip("Instalar un archivo .compt desde el equipo o una URL HTTPS")
         import_component.triggered.connect(self.add_component)
         toolbar.addAction(import_component)
@@ -720,9 +823,10 @@ class EditorWindow(QMainWindow):
             QMainWindow { background: #eef3ef; }
             QWidget#editorPanel { background: #f4f8f5; border-left: 1px solid #ccdbd0; }
             QWidget#previewPanel { background: #dfe7e1; }
-            QToolBar { background: #ffffff; border-bottom: 1px solid #dce8df; spacing: 5px; padding: 7px; }
-            QToolButton { padding: 7px 12px; border-radius: 5px; color: #163e2e; }
-            QToolButton:hover { background: #eaf5ed; }
+            QToolBar { background: #ffffff; border-bottom: 1px solid #dce8df; spacing: 4px; padding: 6px 10px; }
+            QToolButton { min-width: 34px; min-height: 34px; padding: 7px; border: 1px solid transparent; border-radius: 8px; color: #163e2e; }
+            QToolButton:hover { background: #eaf5ed; border-color: #bdd8c4; }
+            QToolButton:pressed { background: #d8ecdf; }
             QLabel#editorTitle { font-size: 22px; font-weight: 700; color: #123b2b; background: transparent; }
             QLabel#templateLabel { color: #254F3D; background: transparent; font-size: 11px; font-weight: 700; }
             QLabel#description { color: #5a7165; padding-bottom: 4px; }
@@ -743,6 +847,12 @@ class EditorWindow(QMainWindow):
             QLabel#componentError { color: #8A3E36; background: #FBEDEB; border: 1px solid #E8C5C0;
                                     border-radius: 5px; padding: 7px; font-size: 11px; }
             QLabel#swatchLabel { color: #4C6959; background: transparent; font-size: 10px; font-weight: 600; }
+            QLabel#radiusLabel { color: #254F3D; background: transparent; font-size: 12px; font-weight: 700; }
+            QLabel#radiusValue { color: #2E7D59; background: transparent; font-size: 11px; font-weight: 700; }
+            QLabel#radiusHint { color: #71877A; background: transparent; font-size: 10px; }
+            QSlider::groove:horizontal { height: 5px; background: #D8E7DB; border-radius: 2px; }
+            QSlider::sub-page:horizontal { background: #2E7D59; border-radius: 2px; }
+            QSlider::handle:horizontal { width: 16px; margin: -6px 0; border: 2px solid #ffffff; border-radius: 8px; background: #174A35; }
             QLineEdit, QPlainTextEdit, QComboBox { color: #173e2f; border: 1px solid #bfcfc3; border-radius: 6px;
                                                   padding: 8px; background: #ffffff;
                                                   selection-color: #ffffff; selection-background-color: #2e7d59; }
@@ -783,6 +893,7 @@ class EditorWindow(QMainWindow):
         self.selected_editor_key = None
         self.component_picker = None
         self.palette_picker = None
+        self.radius_picker = None
         while self.palette_layout.count():
             palette_item = self.palette_layout.takeAt(0)
             palette_widget = palette_item.widget()
@@ -799,6 +910,8 @@ class EditorWindow(QMainWindow):
     def _select_template(self, index: int) -> None:
         if index < 0 or index >= len(self.templates):
             return
+        if self.widgets:
+            self._persist_preview()
         self._stop_server()
         self.template = self.templates[index]
         self.builder = TemplateBuilder(self.template)
@@ -806,7 +919,7 @@ class EditorWindow(QMainWindow):
         self.working_project_dir = None
         self.description_label.setText(self.template.description)
         self._build_form(self.template.current_values())
-        self._write_preview()
+        self._persist_preview()
         self._start_server()
 
     def _build_form(self, values: dict[str, Any]) -> None:
@@ -820,16 +933,27 @@ class EditorWindow(QMainWindow):
 
         for group_name, fields in groups.items():
             is_component_group = all(field.kind == "boolean" for field in fields)
-            is_palette_group = all(field.kind == "color" for field in fields)
-            if is_palette_group:
-                picker = PaletteDropdown(fields, values)
+            palette_fields = [field for field in fields if field.kind == "color"]
+            radius_field = next((field for field in fields if field.key == "theme.radius"), None)
+            normal_fields = [field for field in fields if field.kind != "color" and field.key != "theme.radius"]
+            if palette_fields:
+                picker = PaletteDropdown(palette_fields, values)
                 picker.values_changed.connect(self._field_changed)
                 self.palette_picker = picker
-                for field in fields:
+                for field in palette_fields:
                     self.widgets[field.key] = picker
                 self.palette_layout.addWidget(picker)
                 self.palette_group.setVisible(True)
+            if radius_field:
+                radius_picker = RadiusControl(radius_field, values.get(radius_field.key, radius_field.default))
+                radius_picker.values_changed.connect(self._field_changed)
+                self.radius_picker = radius_picker
+                self.widgets[radius_field.key] = radius_picker
+                self.palette_layout.addWidget(radius_picker)
+                self.palette_group.setVisible(True)
+            if palette_fields and not normal_fields:
                 continue
+            fields = normal_fields
             visible_group_name = "Componentes" if is_component_group else group_name
             group = QGroupBox(visible_group_name)
             layout = QFormLayout(group)
@@ -887,6 +1011,8 @@ class EditorWindow(QMainWindow):
             self.form_layout.addWidget(group)
         self.form_layout.addStretch(1)
         self.loading_form = False
+        self.history = [dict(self.current_values())]
+        self.history_index = 0
 
     def _create_field_widget(self, field: FieldDefinition, value: Any) -> QWidget:
         if field.kind == "boolean":
@@ -949,6 +1075,33 @@ class EditorWindow(QMainWindow):
         if not self.loading_form:
             self.status_label.setText("Aplicando cambios…")
             self.preview_debounce.start()
+            self.history_debounce.start()
+
+    def _record_history(self) -> None:
+        values = self.current_values()
+        if self.history_index >= 0 and self.history[self.history_index] == values:
+            return
+        self.history = self.history[: self.history_index + 1]
+        self.history.append(dict(values))
+        self.history_index = len(self.history) - 1
+
+    def undo(self) -> None:
+        self.history_debounce.stop()
+        if self.history_index <= 0:
+            self.status_label.setText("No hay cambios anteriores")
+            return
+        self.history_index -= 1
+        self._set_values(self.history[self.history_index])
+        self.status_label.setText("Cambio deshecho")
+
+    def redo(self) -> None:
+        self.history_debounce.stop()
+        if self.history_index >= len(self.history) - 1:
+            self.status_label.setText("No hay cambios posteriores")
+            return
+        self.history_index += 1
+        self._set_values(self.history[self.history_index])
+        self.status_label.setText("Cambio rehecho")
 
     def _select_field_from_preview(self, key: str) -> None:
         widget = self.widgets.get(key)
@@ -984,6 +1137,7 @@ class EditorWindow(QMainWindow):
         if committed:
             self.status_label.setText("Guardando el texto editado…")
             self.preview_debounce.start()
+            self.history_debounce.start()
 
     def _scroll_settings_for_component(self, component_key: str) -> None:
         field_by_component = {
@@ -1058,8 +1212,6 @@ class EditorWindow(QMainWindow):
             return
         state = "activado" if enabled else "desactivado"
         self.status_label.setText(f"Componente {state}: {component_id}")
-        if self.server_ready:
-            QTimer.singleShot(450, self.web_view.reload)
 
     def _clear_component_preview(self, update_status: bool = True) -> None:
         self.web_view.page().runJavaScript(
@@ -1073,6 +1225,8 @@ class EditorWindow(QMainWindow):
         if isinstance(widget, ComponentDropdown):
             return widget.value(key)
         if isinstance(widget, PaletteDropdown):
+            return widget.value(key)
+        if isinstance(widget, RadiusControl):
             return widget.value(key)
         if isinstance(widget, QCheckBox):
             return widget.isChecked()
@@ -1094,7 +1248,7 @@ class EditorWindow(QMainWindow):
             if not widget:
                 continue
             value = values.get(field.key, field.default)
-            if isinstance(widget, (ComponentDropdown, PaletteDropdown)):
+            if isinstance(widget, (ComponentDropdown, PaletteDropdown, RadiusControl)):
                 if id(widget) not in configured_custom_widgets:
                     widget.set_values(values)
                     configured_custom_widgets.add(id(widget))
@@ -1111,15 +1265,23 @@ class EditorWindow(QMainWindow):
         self.loading_form = False
         self.preview_debounce.start()
 
-    def _write_preview(self) -> None:
+    def _persist_preview(self) -> bool:
         try:
             self.builder.prepare_preview(self.current_values())
         except (OSError, CatalogError) as exc:
             self.status_label.setText(f"No se pudieron aplicar los cambios: {exc}")
+            return False
+        return True
+
+    def _apply_preview_values(self, values: dict[str, Any]) -> None:
+        if not self.server_ready:
             return
-        self.status_label.setText("Cambios aplicados")
-        if self.server_ready:
-            QTimer.singleShot(450, self.web_view.reload)
+        payload = json.dumps(values, ensure_ascii=False).replace("</", "<\\/")
+        self.web_view.page().runJavaScript(f"window.__nupiaApplyEditorValues?.({payload});")
+
+    def _write_preview(self) -> None:
+        self._apply_preview_values(self.current_values())
+        self.status_label.setText("Vista previa actualizada")
 
     def _start_server(self) -> None:
         node = find_node(REPO_ROOT)
@@ -1174,6 +1336,7 @@ class EditorWindow(QMainWindow):
             self.server_ready = True
             self.status_label.setText("Previsualización conectada · haz clic en un texto")
             self._install_visual_editor()
+            QTimer.singleShot(60, self._write_preview)
         elif self.preview_process.state() == QProcess.ProcessState.Running and not self.server_ready:
             self.retry_timer.start(650)
 
@@ -1182,6 +1345,52 @@ class EditorWindow(QMainWindow):
         (() => {
           if (window.__templateVisualEditorInstalled) return;
           window.__templateVisualEditorInstalled = true;
+
+          window.__nupiaApplyEditorValues = (values) => {
+            const root = document.documentElement;
+            const theme = values.theme || {};
+            const colors = {
+              primaryDark: '--template-primary-dark',
+              primary: '--template-primary',
+              soft: '--template-soft',
+              text: '--template-text',
+            };
+            Object.entries(colors).forEach(([key, variable]) => {
+              if (theme[key]) root.style.setProperty(variable, theme[key]);
+            });
+            const radius = Math.max(0, Math.min(32, Number(theme.radius ?? 12) || 0));
+            root.style.setProperty('--template-radius', `${radius}px`);
+            root.style.setProperty('--template-radius-control', `clamp(0px, ${Math.max(2, Math.round(radius * .62))}px, 18px)`);
+            root.style.setProperty('--template-radius-card', `clamp(0px, ${radius}px, 30px)`);
+            root.style.setProperty('--template-radius-image', `clamp(0px, ${Math.max(1, Math.round(radius * .72))}px, 24px)`);
+
+            Object.entries(values).forEach(([key, value]) => {
+              if (!key.includes('.') || typeof value === 'boolean') return;
+              const selector = `[data-editor-key="${CSS.escape(key)}"]`;
+              document.querySelectorAll(selector).forEach((element) => {
+                if (element.isContentEditable) return;
+                const nextValue = String(value ?? '');
+                if (element.dataset.editorMultiline === 'true') {
+                  element.innerText = nextValue;
+                } else {
+                  element.textContent = nextValue;
+                }
+              });
+            });
+
+            const sections = {
+              'sections.gallery': '[data-editor-component="gallery"], #galeria, #gallery',
+              'sections.schedule': '[data-editor-component="schedule"], #cronograma, #schedule',
+              'sections.rsvp': '[data-editor-component="rsvp"], #confirmacion, #rsvp',
+              'sections.faq': '[data-editor-component="faq"], #preguntas, #faq',
+            };
+            Object.entries(sections).forEach(([key, selector]) => {
+              if (!(key in values)) return;
+              document.querySelectorAll(selector).forEach((element) => {
+                element.style.display = values[key] ? '' : 'none';
+              });
+            });
+          };
 
           const style = document.createElement('style');
           style.id = 'template-visual-editor-style';
@@ -1310,7 +1519,8 @@ class EditorWindow(QMainWindow):
             return int(sock.getsockname()[1])
 
     def refresh_preview(self) -> None:
-        self._write_preview()
+        if not self._persist_preview():
+            return
         if self.server_ready:
             self.web_view.reload()
         elif self.preview_process.state() == QProcess.ProcessState.NotRunning:
@@ -1338,7 +1548,7 @@ class EditorWindow(QMainWindow):
         self.project_path = directory / PROJECT_MANIFEST
         self.description_label.setText(f"Proyecto activo: {directory.name} · {template.description}")
         self._build_form(template.current_values())
-        self._write_preview()
+        self._persist_preview()
         self._start_server()
         self.setWindowTitle(f"{directory.name} — Nupia Studio")
         self.status_label.setText(f"Proyecto activo: {directory.name}")
@@ -1364,6 +1574,8 @@ class EditorWindow(QMainWindow):
             )
 
     def open_in_browser(self) -> None:
+        if not self._persist_preview():
+            return
         if self.preview_process.state() == QProcess.ProcessState.NotRunning:
             self._start_server()
             QTimer.singleShot(1200, self.open_in_browser)
@@ -1397,8 +1609,9 @@ class EditorWindow(QMainWindow):
         )
         if not accepted or not repository_name.strip():
             return
+        if not self._persist_preview():
+            return
         try:
-            self._write_preview()
             init_git_repository(self.working_project_dir, username)
             remote = publish_to_github(self.working_project_dir, username, token, repository_name)
         except ProjectServiceError as exc:
@@ -1484,8 +1697,6 @@ class EditorWindow(QMainWindow):
         values = self.current_values()
         self._build_form(values)
         self.status_label.setText(f"Componente instalado y activado: {component.name}")
-        if self.server_ready:
-            QTimer.singleShot(450, self.web_view.reload)
 
     def save_project(self) -> None:
         initial = str(self.project_path or (REPO_ROOT / f"proyecto-{self.template.template_id}.json"))
@@ -1496,6 +1707,8 @@ class EditorWindow(QMainWindow):
         if path.suffix.lower() != ".json":
             path = path.with_suffix(".json")
 
+        if not self._persist_preview():
+            return
         values = self.current_values()
         assets_dir = path.parent / f"{path.stem}_assets"
         for field in self.template.fields:
@@ -1568,7 +1781,7 @@ class EditorWindow(QMainWindow):
                 QMessageBox.warning(self, "Componentes incompletos", str(exc))
         merged_values = {**self.template.defaults, **values}
         self._build_form(merged_values)
-        self._write_preview()
+        self._persist_preview()
         self.project_path = path
         self.setWindowTitle(f"{path.stem} — Personalizador de plantillas")
         self.status_label.setText(f"Proyecto abierto: {path.name}")
@@ -1577,7 +1790,8 @@ class EditorWindow(QMainWindow):
         parent_text = QFileDialog.getExistingDirectory(self, "Carpeta donde guardar la exportación", str(REPO_ROOT))
         if not parent_text:
             return
-        self._write_preview()
+        if not self._persist_preview():
+            return
         self.export_action.setEnabled(False)
         self.status_label.setText("Compilando y exportando…")
         self.export_worker = ExportWorker(self.builder, Path(parent_text), self.current_values())
@@ -1611,6 +1825,7 @@ class EditorWindow(QMainWindow):
             )
             event.ignore()
             return
+        self._persist_preview()
         self._stop_server()
         event.accept()
 
