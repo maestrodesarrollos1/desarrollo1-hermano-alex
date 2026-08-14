@@ -3,4 +3,7 @@
 **/dist/
 **/vite-dev*.out
 **/vite-dev*.err
+**/.vite/
+**/__pycache__/
+**/*.py[cod]
 **/nupia-mark-source.png

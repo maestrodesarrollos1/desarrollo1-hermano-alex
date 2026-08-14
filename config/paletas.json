@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "generic": {
+    "name": "Nupia bosque",
+    "primaryDark": "#123C2D",
+    "primary": "#4F8B6D",
+    "soft": "#DDEBDD",
+    "text": "#294D3A"
+  },
+  "palettes": [
+    {
+      "id": "nupia-bosque",
+      "name": "Nupia bosque",
+      "primaryDark": "#123C2D",
+      "primary": "#4F8B6D",
+      "soft": "#DDEBDD",
+      "text": "#294D3A"
+    },
+    {
+      "id": "adrian-gema",
+      "name": "Adrian y Gema",
+      "primaryDark": "#4A1F2A",
+      "primary": "#A7605F",
+      "soft": "#F1DDD5",
+      "text": "#63323B"
+    },
+    {
+      "id": "anillo-verde",
+      "name": "Anillo verde",
+      "primaryDark": "#123C2D",
+      "primary": "#4F8B6D",
+      "soft": "#DDEBDD",
+      "text": "#294D3A"
+    },
+    {
+      "id": "primos-carles",
+      "name": "Primos Carles",
+      "primaryDark": "#3D315B",
+      "primary": "#7668A6",
+      "soft": "#E7E1F2",
+      "text": "#4E4568"
+    },
+    {
+      "id": "puertas-rosa",
+      "name": "Puertas rosa",
+      "primaryDark": "#633542",
+      "primary": "#C47F8F",
+      "soft": "#F6DDE0",
+      "text": "#7A5360"
+    },
+    {
+      "id": "noche-azul",
+      "name": "Noche azul",
+      "primaryDark": "#102A43",
+      "primary": "#2F5D8A",
+      "soft": "#DCE8F5",
+      "text": "#203B55"
+    },
+    {
+      "id": "arena",
+      "name": "Arena natural",
+      "primaryDark": "#3F382F",
+      "primary": "#9A7B54",
+      "soft": "#EDE4D8",
+      "text": "#51483D"
+    }
+  ]
+}

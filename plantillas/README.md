@@ -1,44 +1,17 @@
-# Catálogo de plantillas
+# Catalogo de plantillas
 
-Este repositorio separa el editor, la biblioteca global de componentes y el código de cada plantilla. Puedes añadir nuevas plantillas como carpetas hermanas sin mezclar sus dependencias ni sus componentes propios.
+Esta carpeta contiene las invitaciones React/Vite de Nupia. Cada carpeta tiene un `template.json` y un `source/` aislado, por lo que sus decisiones artisticas, dependencias y datos no se mezclan con otras bodas.
 
 ```text
 plantillas/
-├─ editor/                       editor visual en Python
-├─ componentes/                  biblioteca `.compt` compartida
-└─ boda-elegante/
-   ├─ template.json              configuración para el editor
-   └─ source/                    proyecto React/Vite de la plantilla
+|- componentes/             biblioteca global .compt
+|- boda-elegante/
+|- boda_ADRIAN_GEMA/
+|- boda_ANILLO_VERDE/
+|- boda_PRIMOS_CARLES/
+`- boda_PUERTAS_ROSA/
 ```
 
-## Abrir el editor
+Desde la raiz usa `02_abrir_plantilla.bat` para abrir una plantilla. Para crear una boda real y editarla, abre `03_abrir_nupia_studio.bat`: Studio crea una copia independiente en `../proyectos/`.
 
-Desde esta carpeta:
-
-```powershell
-python -m pip install -r editor/requirements.txt
-npm install --prefix boda-elegante/source
-python -m editor.run_editor
-```
-
-En Windows también puedes abrir `editor/iniciar_editor.bat` con doble clic. La documentación completa está en [editor/README.md](editor/README.md).
-
-## Añadir una plantilla
-
-Crea una carpeta directa bajo esta raíz con esta forma:
-
-```text
-nueva-plantilla/
-├─ template.json
-└─ source/
-   ├─ package.json
-   └─ src/generated/
-```
-
-En `template.json`, usa `"source": "source"` y define los campos editables. El editor descubre automáticamente todos los descriptores `*/template.json` al arrancar.
-
-## Componentes compartidos
-
-Los componentes importados se guardan en `componentes/`, no dentro de una plantilla. El editor copia el catálogo generado a todas las plantillas registradas, de modo que los `.compt` quedan disponibles en todos los espacios de trabajo. Cada `.compt` debe incluir siempre HTML, CSS y JavaScript según [componentes/README.md](componentes/README.md).
-
-Los componentes nativos de una plantilla permanecen dentro de su propia carpeta `source`; solo los `.compt` instalados forman parte de la biblioteca global.
+Las fotos se importan desde una carpeta del proyecto con los nombres `landing`, `historia1`, `historia2`, `galeria1` a `galeria6` y `despedida`. La paleta se controla con `primaryDark`, `primary`, `soft` y `text` desde el editor o `../config/paletas.json`.
