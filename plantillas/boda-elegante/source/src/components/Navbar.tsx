@@ -15,17 +15,20 @@ type NavItem = {
 };
 
 const navItems: readonly NavItem[] = [
+  ...(templateValues.sections.countdown ? [{ label: "Cuenta atras", href: "#countdown" }] : []),
   ...(templateValues.sections.story
-    ? [{ label: "Sobre nosotros", href: "#sobre-nosotros" }]
+    ? [{ label: "Historias", href: "#sobre-nosotros" }]
     : []),
   ...(templateValues.sections.schedule ? [{ label: "Cronograma", href: "#cronograma" }] : []),
-  ...(templateValues.sections.faq
-    ? [{ label: "Preguntas frecuentes", href: "#preguntas-frecuentes" }]
-    : []),
+  ...(templateValues.sections.messages ? [{ label: "Mensajes", href: "#mensajes" }] : []),
   ...(templateValues.sections.rsvp
     ? [{ label: "Confirma asistencia", href: "#confirmar-asistencia" }]
     : []),
+  ...(templateValues.sections.faq
+    ? [{ label: "Preguntas frecuentes", href: "#preguntas-frecuentes" }]
+    : []),
 ];
+const gamePath = "/es/juego";
 const countdownShortLabels: Record<string, string> = {
   Dias: "D",
   Horas: "H",
@@ -255,6 +258,12 @@ const Navbar = () => {
 
         <nav className="hidden flex-1 items-center justify-end gap-1 lg:flex" aria-label="Navegacion principal">
           {navItems.map((item) => renderNavItem(item))}
+          <Link
+            to={gamePath}
+            className="font-nav ml-2 flex min-h-[44px] items-center justify-center border border-[#F1DDD5] bg-white px-3 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[#63323B] transition-colors hover:border-[#A7605F] hover:bg-[#A7605F] hover:text-white xl:text-[11px]"
+          >
+            Participa y gana
+          </Link>
         </nav>
 
         <button
@@ -277,21 +286,21 @@ const Navbar = () => {
         )}
       >
         <div className="mx-auto flex max-w-7xl justify-center px-4 py-1.5 sm:px-6">
-          <div className="font-nav flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border border-[#DDF0E1] bg-white/92 px-3 py-1.5 text-[#0F3D2E] shadow-[0_8px_20px_rgba(15,61,46,0.06)] sm:px-4">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#7FAF8E] sm:text-[10px]">
+          <div className="font-nav flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border border-[#F1DDD5] bg-white/92 px-3 py-1.5 text-[#63323B] shadow-[0_8px_20px_rgba(74,31,42,0.06)] sm:px-4">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#A7605F] sm:text-[10px]">
               Cuenta atras
             </span>
 
             {countdownItems.map((item) => (
               <span key={item.label} className="inline-flex items-center gap-2">
-                <span className="text-[11px] leading-none text-[#B8D8C0]" aria-hidden="true">
+                <span className="text-[11px] leading-none text-[#F1DDD5]" aria-hidden="true">
                   |
                 </span>
                 <span className="inline-flex items-baseline gap-1 whitespace-nowrap">
                   <span className="text-sm font-semibold leading-none tabular-nums sm:text-[15px]">
                     {item.value}
                   </span>
-                  <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#2E7D59] sm:text-[10px]">
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A7605F] sm:text-[10px]">
                     {countdownShortLabels[item.label] ?? item.label}
                   </span>
                 </span>
@@ -308,6 +317,13 @@ const Navbar = () => {
       >
         <nav className="py-2" aria-label="Navegacion principal movil">
           {navItems.map((item) => renderNavItem(item, true))}
+          <Link
+            to={gamePath}
+            onClick={() => setMobileOpen(false)}
+            className="font-nav flex w-full items-center justify-center px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0F3D2E] transition-colors hover:bg-[#F1DDD5] hover:text-[#A7605F]"
+          >
+            Participa y gana
+          </Link>
         </nav>
       </div>
     </header>

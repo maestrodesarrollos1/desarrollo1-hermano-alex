@@ -52,7 +52,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWebChannel import QWebChannel
 
-from .builder import TemplateBuilder, write_json_atomic
+from .builder import TemplateBuilder, find_node, find_npm, write_json_atomic
 from .catalog import CatalogError, FieldDefinition, TemplateDefinition, discover_templates
 from .component_catalog import (
     ComponentExistsError,
@@ -1065,7 +1065,7 @@ class EditorWindow(QMainWindow):
             QTimer.singleShot(450, self.web_view.reload)
 
     def _start_server(self) -> None:
-        node = shutil.which("node.exe" if os.name == "nt" else "node")
+        node = find_node(REPO_ROOT)
         vite = self.template.source_path / "node_modules" / "vite" / "bin" / "vite.js"
         if not node:
             self.status_label.setText("Falta Node.js para activar la previsualización.")
@@ -1478,7 +1478,7 @@ def main(argv: list[str] | None = None) -> int:
         component_catalog_error = str(exc)
 
     if args.check:
-        npm = shutil.which("npm.cmd" if os.name == "nt" else "npm")
+        npm = find_npm(REPO_ROOT)
         print(f"Catálogo correcto: {len(templates)} plantilla(s)")
         print(f"PySide6: disponible")
         print(f"npm: {npm or 'no encontrado'}")

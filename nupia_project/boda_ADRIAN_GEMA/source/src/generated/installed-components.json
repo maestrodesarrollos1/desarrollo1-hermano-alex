@@ -1,0 +1,16 @@
+[
+  {
+    "id": "bloque-bienvenida",
+    "name": "Bloque de bienvenida",
+    "description": "Ejemplo con HTML, CSS y JavaScript aislados.",
+    "variant": "feature",
+    "slot": "before-rsvp",
+    "height": 420,
+    "enabled": false,
+    "code": {
+      "html": "<section class=\"welcome\"><p class=\"eyebrow\">Un detalle especial</p><h2>Gracias por acompañarnos</h2><p>Este bloque procede de un archivo .compt con HTML, CSS y JavaScript.</p><button id=\"welcome-action\" type=\"button\">Mostrar mensaje</button><p id=\"welcome-message\" class=\"message\" hidden>¡Nos vemos muy pronto!</p></section>",
+      "css": "*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif}body{display:grid;place-items:center;padding:32px;background:var(--template-surface);color:var(--template-text)}.welcome{width:min(760px,100%);padding:54px 36px;text-align:center;border:1px solid var(--template-border);background:#fff}.eyebrow{margin:0;text-transform:uppercase;letter-spacing:.28em;font-size:12px;font-weight:700;color:var(--template-primary)}h2{margin:18px 0;font-family:Georgia,serif;font-size:clamp(38px,7vw,64px);font-weight:400;color:var(--template-primary-dark)}p{font-size:17px;line-height:1.7}button{margin-top:18px;padding:14px 24px;border:0;background:var(--template-primary-dark);color:#fff;text-transform:uppercase;letter-spacing:.14em;cursor:pointer}.message{color:var(--template-primary);font-weight:700}",
+      "js": "const button=document.querySelector('#welcome-action');const message=document.querySelector('#welcome-message');button.addEventListener('click',()=>{message.hidden=!message.hidden;button.textContent=message.hidden?'Mostrar mensaje':'Ocultar mensaje';});"
+    }
+  }
+]
