@@ -38,8 +38,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
         .rose-doors__underlay { position:absolute; inset:0; z-index:-2; background: linear-gradient(135deg, #f8e8df 0%, #e5b6ac 44%, #80485a 100%); }
         .rose-doors__shade { position:absolute; inset:0; z-index:2; pointer-events:none; background: linear-gradient(180deg, rgba(64,26,36,.25), transparent 30%, rgba(64,26,36,.38)); transition: opacity .8s ease; }
         .rose-doors__frame { position:absolute; inset:20px; z-index:8; border:1px solid rgba(255,249,243,.46); pointer-events:none; }
-        .rose-doors__nupia { position:absolute; z-index:9; top:clamp(34px,7vh,74px); left:clamp(34px,7vw,116px); display:flex; align-items:center; gap:9px; color:rgba(255,249,243,.82); font-family:var(--font-nav),Arial,sans-serif; font-size:9px; font-weight:500; letter-spacing:.24em; }
-        .rose-doors__nupia img { width:19px; height:28px; object-fit:contain; filter:brightness(0) invert(1); opacity:.88; }
         .rose-doors__door { position:absolute; top:0; bottom:0; z-index:4; width:50.2%; background-size:200% auto; transition: transform 1250ms cubic-bezier(.22,1,.36,1), filter 800ms ease; will-change:transform; }
         .rose-doors__door--left { left:0; background-position:left center; transform-origin:left center; }
         .rose-doors__door--right { right:0; background-position:right center; transform-origin:right center; }
@@ -71,7 +69,7 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
         .rose-doors__enter { margin-top:40px; border:1px solid #633542; padding:15px 24px; background:#633542; color:#fff9f3; font-family:var(--font-nav),Arial,sans-serif; font-size:10px; font-weight:500; letter-spacing:.23em; text-transform:uppercase; cursor:pointer; transition:background .25s ease,color .25s ease; }
         .rose-doors__enter:hover { background:#c47f8f; color:#542d39; }
         .rose-doors.is-open .rose-doors__invitation { animation:invitationReveal .85s cubic-bezier(.22,1,.36,1) .34s forwards; pointer-events:auto; }
-        @media (max-width:640px) { .rose-doors__scene, .rose-doors__door { background-position:center center; } .rose-doors__door { background-size:auto 100%; } .rose-doors__frame { inset:13px; } .rose-doors__nupia { top:30px; left:28px; } .rose-doors__heading { top:52px; } .rose-doors__names { font-size:clamp(47px,15vw,68px); } .rose-doors__invitation { min-height:min(620px,calc(100vh - 40px)); } }
+        @media (max-width:640px) { .rose-doors__scene, .rose-doors__door { background-position:center center; } .rose-doors__door { background-size:auto 100%; } .rose-doors__frame { inset:13px; } .rose-doors__heading { top:52px; } .rose-doors__names { font-size:clamp(47px,15vw,68px); } .rose-doors__invitation { min-height:min(620px,calc(100vh - 40px)); } }
         @media (prefers-reduced-motion:reduce) { .rose-doors, .rose-doors * { transition-duration:1ms !important; animation-duration:1ms !important; } }
       `}</style>
 
@@ -81,11 +79,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
       <div className="rose-doors__door rose-doors__door--right" />
       <div className="rose-doors__shade" />
       <div className="rose-doors__frame" />
-      <div className="rose-doors__nupia" aria-label="Nupia">
-        <img src="/images/nupia-mark.png" alt="" />
-        <span>NUPIA</span>
-      </div>
-
       <div className="rose-doors__heading">
         <p className="rose-doors__eyebrow" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p>
         <p className="rose-doors__names"><span data-editor-key="couple.partner1">{weddingData.couple.partner1}</span><i>&amp;</i><span data-editor-key="couple.partner2">{weddingData.couple.partner2}</span></p>

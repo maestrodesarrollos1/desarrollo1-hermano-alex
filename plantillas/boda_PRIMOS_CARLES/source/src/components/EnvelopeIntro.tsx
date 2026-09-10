@@ -96,7 +96,7 @@ function EnvelopeLogo() {
   );
 }
 
-function WebsiteLogo({ big }: { big?: boolean }) {
+function WebsiteLogo({ big, onEnter }: { big?: boolean; onEnter?: () => void }) {
   return (
     <div
       style={{
@@ -104,12 +104,37 @@ function WebsiteLogo({ big }: { big?: boolean }) {
         display: "flex",
         height: "100%",
         justifyContent: "center",
+        position: "relative",
         textAlign: "center",
         width: "100%",
-        transform: big ? "scale(1.15)" : "scale(0.82)",
+        transform: big ? "scale(1)" : "scale(0.82)",
       }}
     >
       <EnvelopeLogo />
+      {big && onEnter ? (
+        <button
+          type="button"
+          onClick={onEnter}
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: "8%",
+            border: "1px solid var(--template-primary-dark)",
+            background: "var(--template-primary-dark)",
+            color: "var(--template-soft)",
+            cursor: "pointer",
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: "10px",
+            letterSpacing: "0.18em",
+            padding: "14px 18px",
+            textTransform: "uppercase",
+            transform: "translateX(-50%)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Entrar a la celebracion
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -133,7 +158,8 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   };
 
   useEffect(() => {
-    return () => timers.current.forEach(window.clearTimeout);
+    const activeTimers = timers.current;
+    return () => activeTimers.forEach(window.clearTimeout);
   }, []);
 
   useEffect(() => {
@@ -176,10 +202,13 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
       setStage("lifting");
     });
     at(1380, () => setStage("logo"));
-    at(2600, () => {
-      setStage("leaving");
-      completeIntro();
-    });
+  };
+
+  const enterCelebration = () => {
+    if (stage !== "logo") return;
+
+    setStage("leaving");
+    at(720, completeIntro);
   };
 
   const flapOpen = stage !== "closed";
@@ -226,27 +255,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
       >
         <div style={{ position: "absolute", inset: 16, border: "1px solid color-mix(in srgb, var(--template-soft) 42%, transparent)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", inset: 28, border: "1px solid color-mix(in srgb, var(--template-soft) 22%, transparent)", pointerEvents: "none" }} />
-        <div
-          aria-label="Nupia"
-          style={{
-            position: "absolute",
-            top: "clamp(34px, 6vw, 62px)",
-            left: "clamp(38px, 7vw, 96px)",
-            zIndex: 8,
-            display: "flex",
-            alignItems: "center",
-            gap: 9,
-            color: "var(--template-primary-dark)",
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 9,
-            fontWeight: 500,
-            letterSpacing: "0.24em",
-          }}
-        >
-          <img src="/images/nupia-mark.png" alt="" style={{ width: 19, height: 28, objectFit: "contain", opacity: 0.72 }} />
-          <span>NUPIA</span>
-        </div>
-
         <div style={{ width: "100%", maxWidth: 640, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div
             style={{
@@ -336,7 +344,7 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
                     padding: logoPhase ? "28px" : "16px",
                   }}
                 >
-                  <WebsiteLogo big={logoPhase} />
+                  <WebsiteLogo big={logoPhase} onEnter={stage === "logo" ? enterCelebration : undefined} />
                 </div>
               </div>
 

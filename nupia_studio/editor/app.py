@@ -59,7 +59,7 @@ from .builder import TemplateBuilder, find_node, find_npm, write_json_atomic
 from .briefing_document import (
     BRIEFING_DIRECTORY,
     BriefingDocumentError,
-    create_briefing_document,
+    create_global_briefing_document,
     import_briefing_document,
 )
 from .catalog import CatalogError, FieldDefinition, TemplateDefinition, discover_templates
@@ -488,6 +488,14 @@ class PaletteDropdown(QWidget):
         self._update_swatches()
         self.values_changed.emit()
 
+    def _update_swatches(self) -> None:
+        for key, button in self.swatches.items():
+            color = self.values.get(key, "#FFFFFF")
+            button.setStyleSheet(
+                f"QPushButton {{ background: {color}; border: 2px solid #FFFFFF; border-radius: 6px; }}"
+                "QPushButton:hover { border: 2px solid #2E7D59; }"
+            )
+
 
 class RadiusControl(QWidget):
     values_changed = Signal()
@@ -550,15 +558,6 @@ class RadiusControl(QWidget):
         value = self.slider.value()
         tone = "Editorial" if value <= 5 else "Equilibrado" if value <= 16 else "Suave"
         self.value_label.setText(f"{value} px · {tone}")
-
-    def _update_swatches(self) -> None:
-        for key, button in self.swatches.items():
-            color = self.values.get(key, "#FFFFFF")
-            button.setStyleSheet(
-                f"QPushButton {{ background: {color}; border: 2px solid #FFFFFF; border-radius: 6px; }}"
-                "QPushButton:hover { border: 2px solid #2E7D59; }"
-            )
-
 
 class PreviewBridge(QObject):
     field_selected = Signal(str)
@@ -687,9 +686,9 @@ class EditorWindow(QMainWindow):
         import_briefing.triggered.connect(self.import_briefing_word)
         toolbar.addAction(import_briefing)
 
-        create_briefing = QAction("Crear briefing Word", self)
+        create_briefing = QAction("Crear briefing universal", self)
         create_briefing.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogNewFolder))
-        create_briefing.setToolTip("Genera un Word rellenable para la plantilla actual")
+        create_briefing.setToolTip("Genera un único Word rellenable compatible con todas las plantillas")
         create_briefing.triggered.connect(self.create_briefing_word)
         toolbar.addAction(create_briefing)
 
@@ -1592,10 +1591,9 @@ class EditorWindow(QMainWindow):
             )
 
     def create_briefing_word(self) -> None:
-        filename = re.sub(r"[^a-z0-9]+", "-", self.template.name.lower()).strip("-")
-        destination = BRIEFING_DIRECTORY / f"briefing-{filename}.docx"
+        destination = BRIEFING_DIRECTORY / "briefing-universal-nupia.docx"
         try:
-            create_briefing_document(self.template, destination)
+            create_global_briefing_document(discover_templates(TEMPLATES_ROOT), destination)
         except (OSError, BriefingDocumentError) as exc:
             QMessageBox.critical(self, "No se pudo crear el briefing", str(exc))
             return
@@ -1603,7 +1601,9 @@ class EditorWindow(QMainWindow):
         QMessageBox.information(
             self,
             "Briefing Word creado",
-            f"Se ha creado el formulario de {self.template.name}.\n\n{destination}",
+            "Se ha creado el formulario universal. Sirve para cualquier plantilla: "
+            "elige el diseño en Studio antes de importarlo.\n\n"
+            f"{destination}",
         )
 
     def import_briefing_word(self) -> None:

@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { href: "#obra", label: "La obra" },
-  { href: "#coleccion", label: "Coleccion" },
-  { href: "#contacto", label: "Contacto" },
-  { href: "#proceso", label: "El proceso" },
+  { href: "#coleccion", label: "Diseños" },
+  { href: "#proceso", label: "Cómo trabajamos" },
+  { href: "#dudas", label: "Dudas" },
 ];
 
 const BrandNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
   const closeMenu = () => setIsOpen(false);
+  useEffect(() => {
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) { setIsOpen(false); toggle.current?.focus(); }
+    };
+    const breakpoint = window.matchMedia("(min-width: 761px)");
+    const closeDesktop = () => { if (breakpoint.matches) setIsOpen(false); };
+    document.addEventListener("keydown", escape);
+    breakpoint.addEventListener("change", closeDesktop);
+    return () => { document.removeEventListener("keydown", escape); breakpoint.removeEventListener("change", closeDesktop); };
+  }, [isOpen]);
 
   return (
     <header className="brand-nav">
@@ -23,16 +33,18 @@ const BrandNav = () => {
           <small>ESTUDIO DIGITAL</small>
         </a>
 
-        <nav className="brand-nav__links" aria-label="Navegacion principal">
+        <nav className="brand-nav__links" aria-label="Navegación principal">
           {links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
         </nav>
 
-        <a className="brand-nav__cta" href="#contacto">Hablemos</a>
+        <a className="brand-nav__cta" href="#contacto">Hablemos de vuestra boda</a>
         <button
           className="brand-nav__toggle"
+          ref={toggle}
           type="button"
-          aria-label={isOpen ? "Cerrar menu" : "Abrir menu"}
+          aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
           onClick={() => setIsOpen((current) => !current)}
         >
           {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
@@ -40,8 +52,8 @@ const BrandNav = () => {
       </div>
 
       {isOpen ? (
-        <div className="brand-nav__drawer">
-          <nav aria-label="Navegacion movil">
+        <div id="mobile-navigation" className="brand-nav__drawer">
+          <nav aria-label="Navegación móvil">
             {links.map((link) => <a key={link.href} href={link.href} onClick={closeMenu}>{link.label}</a>)}
             <a href="#contacto" onClick={closeMenu}>Hablemos</a>
           </nav>

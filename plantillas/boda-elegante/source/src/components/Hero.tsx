@@ -3,11 +3,11 @@ import { templateValues } from "@/config/template-values";
 
 const Hero = () => {
   const backgroundImage = templateValues.images.hero
-    ? `linear-gradient(180deg, rgba(5,15,11,0.12) 0%, rgba(5,15,11,0.2) 35%, rgba(5,15,11,0.66) 100%), url("${templateValues.images.hero}")`
+    ? `linear-gradient(180deg, rgba(4,12,31,0.12) 0%, rgba(4,12,31,0.2) 35%, rgba(4,12,31,0.68) 100%), url("${templateValues.images.hero}")`
     : "radial-gradient(circle at top, var(--template-primary) 0%, var(--template-text) 35%, var(--template-primary-dark) 78%)";
 
   return (
-    <section id="hero" data-editor-component="hero" className="scroll-animate scroll-mt-[84px] bg-[#0D1F18]">
+    <section id="hero" data-editor-component="hero" className="scroll-animate scroll-mt-[84px] bg-[#07162F]">
       <div
         className="relative h-[calc(100dvh-var(--nav-height))] min-h-[34rem] overflow-hidden bg-cover bg-center"
         style={{ backgroundColor: "var(--template-primary-dark)", backgroundImage }}
@@ -15,7 +15,7 @@ const Hero = () => {
         <div className="absolute -left-24 top-20 h-72 w-72 rounded-full border border-white/10" aria-hidden="true" />
         <div className="absolute -right-20 bottom-10 h-96 w-96 rounded-full border border-white/10" aria-hidden="true" />
 
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,15,11,0.12)_0%,rgba(5,15,11,0.18)_35%,rgba(5,15,11,0.58)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,31,0.12)_0%,rgba(4,12,31,0.18)_35%,rgba(4,12,31,0.58)_100%)]" />
 
         <div className="pointer-events-none absolute inset-4 border-2 border-white/60 sm:inset-6 md:inset-8" />
 

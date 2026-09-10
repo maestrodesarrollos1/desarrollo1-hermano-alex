@@ -1,27 +1,21 @@
+import { ArrowUpRight } from "lucide-react";
+
 const FeaturedExperience = () => (
-  <section id="obra" className="featured-work" aria-labelledby="featured-title">
-    <div className="featured-work__intro brand-shell">
-      <p className="brand-index">01 / LA PRIMERA IMPRESION</p>
-      <h2 id="featured-title">No es una invitación.<br />Es la <em>entrada</em> al día.</h2>
-      <p className="featured-work__lede">Antes de saber la hora o la dirección, los invitados perciben una atmósfera. Ahí empieza una buena web de boda.</p>
+  <section id="obra" className="featured-work brand-shell" aria-labelledby="featured-title">
+    <div className="featured-work__intro">
+      <p className="brand-index">01 / MUCHO MÁS QUE UNA FECHA</p>
+      <h2 id="featured-title">Que os reconozcan.<br /><em>Incluso antes de leer vuestros nombres.</em></h2>
+      <div className="featured-work__lede">
+        <p>Habéis elegido cada detalle de la boda. La invitación también puede hablar de vosotros.</p>
+        <p>Damos forma a una web con vuestras fotografías, colores e historia. Y reunimos en ella lo que vuestros invitados necesitan saber.</p>
+        <a className="text-link" href="#proceso">Vosotros la imagináis. Nosotros la creamos. <ArrowUpRight aria-hidden="true" /></a>
+      </div>
     </div>
-
-    <figure className="featured-work__image">
-      <img src="/images/dinner-editorial.png" alt="Detalle editorial de una mesa de boda nocturna con flores blancas y velas" loading="lazy" decoding="async" />
-      <div className="featured-work__veil" aria-hidden="true" />
-      <figcaption>
-        <span>OBRA DESTACADA / 2027</span>
-        <strong>EL DÍA DE ALMA &amp; HUGO</strong>
-        <span>Una invitación nocturna, pensada para leerse despacio.</span>
-      </figcaption>
-    </figure>
-
-    <div className="featured-work__notes brand-shell" aria-label="Elementos que puede integrar una web de boda">
-      <p><span>01</span> La historia, en vuestro tono.</p>
-      <p><span>02</span> El día, sin mensajes perdidos.</p>
-      <p><span>03</span> Un lugar para confirmar y volver.</p>
-    </div>
+    <dl className="featured-work__notes">
+      <div><dt>Una primera emoción.</dt><dd>Una entrada con personalidad y un espacio para vuestra historia.</dd></div>
+      <div><dt>El día, en un solo lugar.</dt><dd>Fecha, horarios, ubicación y detalles prácticos, siempre a mano.</dd></div>
+      <div><dt>Un enlace para compartir.</dt><dd>Una web que los invitados abren desde el móvil, sin instalar una app.</dd></div>
+    </dl>
   </section>
 );
-
 export default FeaturedExperience;

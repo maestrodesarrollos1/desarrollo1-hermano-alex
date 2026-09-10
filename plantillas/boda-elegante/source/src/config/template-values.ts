@@ -34,6 +34,9 @@ export const applyTemplateTheme = () => {
   root.style.setProperty("--template-primary", templateValues.theme.primary);
   root.style.setProperty("--template-soft", templateValues.theme.soft);
   root.style.setProperty("--template-text", templateValues.theme.text);
+  root.style.setProperty("--background", hexToHslChannels(templateValues.theme.soft));
+  root.style.setProperty("--card", hexToHslChannels(templateValues.theme.soft));
+  root.style.setProperty("--popover", hexToHslChannels(templateValues.theme.soft));
   const radius = Math.max(0, Math.min(32, Number(templateValues.theme.radius ?? 12) || 0));
   root.style.setProperty("--template-radius", `${radius}px`);
   root.style.setProperty("--template-radius-control", `clamp(0px, ${Math.max(2, Math.round(radius * 0.62))}px, 18px)`);

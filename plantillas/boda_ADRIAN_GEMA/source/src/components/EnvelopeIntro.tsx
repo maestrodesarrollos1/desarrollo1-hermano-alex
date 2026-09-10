@@ -21,7 +21,8 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   };
 
   useEffect(() => {
-    return () => timers.current.forEach(window.clearTimeout);
+    const activeTimers = timers.current;
+    return () => activeTimers.forEach(window.clearTimeout);
   }, []);
 
   useEffect(() => {
@@ -61,10 +62,13 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
     setShowHint(false);
     setStage("opening");
     at(980, () => setStage("revealed"));
-    at(2350, () => {
-      setStage("leaving");
-      completeIntro();
-    });
+  };
+
+  const enterCelebration = () => {
+    if (stage !== "revealed") return;
+
+    setStage("leaving");
+    at(720, completeIntro);
   };
 
   const isOpen = stage !== "closed";
@@ -141,27 +145,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
             border: "1px solid color-mix(in srgb, var(--template-soft) 60%, transparent)",
           }}
         />
-        <div
-          aria-label="Nupia"
-          style={{
-            position: "absolute",
-            top: "clamp(34px, 6vw, 62px)",
-            left: "clamp(38px, 7vw, 96px)",
-            zIndex: 8,
-            display: "flex",
-            alignItems: "center",
-            gap: 9,
-            color: "var(--template-primary-dark)",
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 9,
-            fontWeight: 500,
-            letterSpacing: "0.24em",
-          }}
-        >
-          <img src="/images/nupia-mark.png" alt="" style={{ width: 19, height: 28, objectFit: "contain", opacity: 0.72 }} />
-          <span>NUPIA</span>
-        </div>
-
         <div
           className="folio-shell"
           style={{
@@ -418,6 +401,31 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
             >
               Tocar para abrir
             </div>
+          ) : null}
+
+          {stage === "revealed" ? (
+            <button
+              type="button"
+              onClick={enterCelebration}
+              style={{
+                position: "absolute",
+                left: "50%",
+                bottom: "clamp(20px, 5vw, 38px)",
+                zIndex: 15,
+                border: "1px solid var(--template-primary-dark)",
+                background: "var(--template-primary-dark)",
+                color: "var(--template-soft)",
+                cursor: "pointer",
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: "10px",
+                letterSpacing: "0.2em",
+                padding: "14px 18px",
+                textTransform: "uppercase",
+                transform: "translateX(-50%)",
+              }}
+            >
+              Entrar a la celebracion
+            </button>
           ) : null}
         </div>
       </div>

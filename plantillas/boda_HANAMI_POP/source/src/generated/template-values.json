@@ -1,0 +1,51 @@
+{
+  "couple": {
+    "partner1": "Aiko",
+    "partner2": "Dani"
+  },
+  "event": {
+    "dateLabel": "9 de octubre de 2027",
+    "dateIso": "2027-10-09T19:30",
+    "city": "Madrid",
+    "venue": "Jardin de los Farolillos"
+  },
+  "contact": {
+    "email": "contacto@example.com",
+    "phone": "+34 600 000 000"
+  },
+  "rsvp": {
+    "url": "#",
+    "noteTitle": "Bloque personalizable",
+    "noteText": "Utiliza este espacio para una nota de agradecimiento, información sobre regalos o cualquier indicación adicional para las personas invitadas.",
+    "ctaTitle": "Celebremos juntos",
+    "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
+  },
+  "hero": {
+    "eyebrow": "Capitulo I: la noche nos encontro"
+  },
+  "story": {
+    "title": "Vuestras historias",
+    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
+    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+  },
+  "theme": {
+    "primaryDark": "#10205C",
+    "primary": "#FF5C91",
+    "soft": "#FFF1E7",
+    "text": "#173B9A",
+    "radius": "4"
+  },
+  "images": {
+    "hero": "/images/hanami/festival-night.png"
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": true
+  }
+}

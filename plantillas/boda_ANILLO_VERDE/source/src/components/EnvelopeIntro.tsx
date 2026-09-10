@@ -83,21 +83,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           border: 1px solid rgba(248, 238, 215, .2);
           pointer-events: none;
         }
-        .jewel-intro__nupia {
-          position: absolute;
-          z-index: 3;
-          top: clamp(36px, 7vh, 74px);
-          right: clamp(34px, 7vw, 116px);
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          color: rgba(247, 241, 229, .76);
-          font-family: var(--font-nav), Arial, sans-serif;
-          font-size: 9px;
-          font-weight: 500;
-          letter-spacing: .24em;
-        }
-        .jewel-intro__nupia img { width: 19px; height: 28px; object-fit: contain; filter: brightness(0) invert(1); opacity: .82; }
         .jewel-intro__masthead {
           position: absolute;
           z-index: 3;
@@ -225,7 +210,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
         @media (max-width: 640px) {
           .jewel-intro__image { object-position: 51% 56%; }
           .jewel-intro::before { background: linear-gradient(0deg, rgba(4, 11, 7, .83) 0%, rgba(4, 11, 7, .08) 58%, rgba(4, 11, 7, .36) 100%); }
-          .jewel-intro__nupia { top: 30px; right: 28px; }
           .jewel-intro__masthead { top: 54px; left: 42px; }
           .jewel-intro__names { font-size: clamp(47px, 15vw, 70px); }
           .jewel-intro__card { min-height: min(610px, calc(100vh - 52px)); }
@@ -236,11 +220,6 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
       `}</style>
 
       <img className="jewel-intro__image" src="/images/intro/jewel-case-editorial.png" alt="Estuche de joyeria verde con lazo de seda" />
-
-      <div className="jewel-intro__nupia" aria-label="Nupia">
-        <img src="/images/nupia-mark.png" alt="" />
-        <span>NUPIA</span>
-      </div>
 
       <div className="jewel-intro__masthead">
         <p className="jewel-intro__kicker" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p>

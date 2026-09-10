@@ -42,14 +42,14 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 161 60% 15%;
+    --background: 38 35% 75%;
+    --foreground: 142 19% 29%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 161 60% 15%;
+    --card: 38 35% 75%;
+    --card-foreground: 142 19% 29%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 161 60% 15%;
+    --popover: 38 35% 75%;
+    --popover-foreground: 142 19% 29%;
 
     --primary: 151 46% 34%;
     --primary-foreground: 0 0% 100%;
@@ -70,21 +70,22 @@
     --input: 126 50% 95%;
     --ring: 151 46% 34%;
 
-    --sage-50: #FFFFFF;
-    --sage-100: #F2FAF3;
-    --sage-200: #EAF6EC;
-    --sage-300: #DDF0E1;
-    --sage-400: #C9E6D0;
-    --sage-500: #2E7D59;
-    --sage-600: #1F5E46;
-    --sage-700: #0F3D2E;
+    --sage-50: #EADABD;
+    --sage-100: #E4D2B2;
+    --sage-200: #D9C6A5;
+    --sage-300: #C6B18C;
+    --sage-400: #B69A70;
+    --sage-500: #A96F4C;
+    --sage-600: #637554;
+    --sage-700: #506242;
 
-    --template-primary-dark: #0F3D2E;
-    --template-primary: #2E7D59;
-    --template-soft: #DDF0E1;
-    --template-text: #1F5E46;
-    --template-surface: color-mix(in srgb, var(--template-soft) 22%, white);
-    --template-border: color-mix(in srgb, var(--template-soft) 68%, white);
+    --template-primary-dark: #637554;
+    --template-primary: #A96F4C;
+    --template-soft: #D9C6A5;
+    --template-text: #506242;
+    --template-surface: color-mix(in srgb, var(--template-soft) 86%, #eadabd);
+    --template-panel: color-mix(in srgb, var(--template-soft) 72%, #f0dfc1);
+    --template-border: color-mix(in srgb, var(--template-primary-dark) 19%, var(--template-soft));
 
     --font-title: "Felixti", Georgia, serif;
     --font-body: "Soho Pro", "Helvetica Neue", Arial, sans-serif;
@@ -145,6 +146,18 @@
   background-color: var(--template-surface) !important;
 }
 
+[class~="bg-white"] {
+  background-color: var(--template-surface) !important;
+  background-image:
+      repeating-linear-gradient(0deg, rgba(77, 88, 65, .018) 0, rgba(77, 88, 65, .018) 1px, transparent 1px, transparent 6px) !important;
+  box-shadow: inset 0 1px rgba(255, 245, 222, .42), inset 0 -1px rgba(72, 81, 61, .05);
+}
+
+[class~="bg-white/92"],
+[class~="bg-white/[0.97]"] {
+  background-color: color-mix(in srgb, var(--template-surface) 94%, transparent) !important;
+}
+
 [class~="border-[#DDECE0]"],
 [class~="border-[#EAF6EC]"],
 [class~="border-[#C9E6D0]"],
@@ -200,13 +213,23 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
+    background-color: var(--template-surface);
     overflow-x: hidden;
     max-width: 100vw;
     position: relative;
   }
 
   body::before {
-    display: none;
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    display: block;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(77, 88, 65, .035) 0, rgba(77, 88, 65, .035) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(90deg, rgba(169, 111, 76, .028) 0, rgba(169, 111, 76, .028) 1px, transparent 1px, transparent 7px);
+    content: "";
+    opacity: .72;
+    pointer-events: none;
   }
 
   h1,
@@ -379,7 +402,7 @@
     aspect-ratio: 5 / 6;
     border: 1px solid rgba(238, 246, 240, 0.95);
     border-radius: 1.55rem;
-    background: #fff;
+    background: var(--template-panel);
     object-fit: cover;
     box-shadow:
       0 22px 52px color-mix(in srgb, var(--template-primary-dark) 15%, transparent),
@@ -633,7 +656,7 @@
     position: relative;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--template-primary-dark) 14%, white);
-    background: #ffffff;
+    background: var(--template-panel);
     box-shadow: none;
     transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
@@ -682,7 +705,7 @@
   }
 
   .faq-accordion__question:hover {
-    background: color-mix(in srgb, var(--template-soft) 26%, white);
+    background: color-mix(in srgb, var(--template-soft) 78%, var(--template-panel));
     color: var(--template-primary);
   }
 
@@ -706,7 +729,7 @@
   }
 
   .faq-accordion__toggle:checked ~ .faq-accordion__question {
-    background: color-mix(in srgb, var(--template-soft) 34%, white);
+    background: color-mix(in srgb, var(--template-soft) 82%, var(--template-panel));
   }
 
   .faq-accordion__toggle:checked ~ .faq-accordion__answer {
@@ -811,7 +834,7 @@ img:not(.rounded-full), video, picture, .story-photo-pile__image { border-radius
 
 /* Puente de paleta para módulos de las colecciones anteriores. */
 [class*="text-[#4A1F2A]"], [class*="text-[#3D315B]"], [class*="text-[#633542]"], [class*="text-[#14382A]"], [class*="text-[#123C2D]"] { color: var(--template-primary-dark) !important; }
-[class*="bg-[#4A1F2A]"], [class*="bg-[#3D315B]"], [class*="bg-[#633542]"], [class*="bg-[#14382A]"], [class*="bg-[#123C2D]"], [class*="bg-[#09150F]"] { background-color: var(--template-primary-dark) !important; }
+[class*="bg-[#4A1F2A]"], [class*="bg-[#3D315B]"], [class*="bg-[#633542]"], [class*="bg-[#14382A]"], [class*="bg-[#123C2D]"], [class*="bg-[#09150F]"], [class*="bg-[#07162F]"] { background-color: var(--template-primary-dark) !important; }
 [class*="text-[#A7605F]"], [class*="text-[#7668A6]"], [class*="text-[#C47F8F]"], [class*="text-[#B58A3C]"], [class*="text-[#D9B76F]"] { color: var(--template-primary) !important; }
 [class*="bg-[#A7605F]"], [class*="bg-[#7668A6]"], [class*="bg-[#C47F8F]"], [class*="bg-[#B58A3C]"], [class*="bg-[#D9B76F]"] { background-color: var(--template-primary) !important; }
 [class*="bg-[#F1DDD5]"], [class*="bg-[#E7E1F2]"], [class*="bg-[#F6DDE0]"], [class*="bg-[#F7F1E5]"], [class*="bg-[#F3EFE4]"] { background-color: var(--template-surface) !important; }

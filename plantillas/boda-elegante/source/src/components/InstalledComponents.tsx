@@ -39,8 +39,8 @@ const componentDocument = (component: InstalledComponent) => {
       --template-primary: ${theme.primary};
       --template-soft: ${theme.soft};
       --template-text: ${theme.text};
-      --template-surface: color-mix(in srgb, var(--template-soft) 22%, white);
-      --template-border: color-mix(in srgb, var(--template-soft) 68%, white);
+      --template-surface: color-mix(in srgb, var(--template-soft) 86%, #eadabd);
+      --template-border: color-mix(in srgb, var(--template-primary-dark) 19%, var(--template-soft));
     }
     html { color-scheme: light; }
     ${css}

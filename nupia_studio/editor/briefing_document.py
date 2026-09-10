@@ -14,11 +14,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
-from .catalog import TemplateDefinition, discover_templates
+from .catalog import FieldDefinition, TemplateDefinition, discover_templates
 from .workspace import TEMPLATES_ROOT
 
 
 BRIEFING_DIRECTORY = TEMPLATES_ROOT.parent / "nupia_studio" / "briefings"
+GLOBAL_BRIEFING_TEMPLATE_ID = "nupia-global"
 PHOTO_SLOTS = (
     ("landing", "Portada", "Una foto vertical o panorámica de los dos. Es la imagen que abre la invitación."),
     ("historia1", "Historia 1", "Una imagen natural que cuente un momento compartido."),
@@ -58,16 +59,20 @@ def create_briefing_document(template: TemplateDefinition, destination: Path) ->
 
     kicker = document.add_paragraph()
     kicker.style = "Nupia Kicker"
-    kicker.add_run("NUPIA / BRIEFING DE BODA")
+    is_global = template.template_id == GLOBAL_BRIEFING_TEMPLATE_ID
+    kicker.add_run("NUPIA / BRIEFING UNIVERSAL DE BODA" if is_global else "NUPIA / BRIEFING DE BODA")
 
     title = document.add_paragraph()
     title.style = "Nupia Title"
-    title.add_run(f"Información para {template.name}")
+    title.add_run("Toda vuestra boda, en un único documento" if is_global else f"Información para {template.name}")
 
     subtitle = document.add_paragraph()
     subtitle.style = "Nupia Intro"
     subtitle.add_run(
-        "Rellena la columna de respuesta y guarda el archivo. Después, en Nupia Studio, "
+        "Rellena la columna de respuesta y guarda el archivo. Este briefing sirve para cualquier plantilla Nupia: "
+        "elige primero el diseño en Studio, importa el Word y selecciona también la carpeta de fotos."
+        if is_global
+        else "Rellena la columna de respuesta y guarda el archivo. Después, en Nupia Studio, "
         "elige Importar briefing Word y selecciona también la carpeta de fotos."
     )
 
@@ -77,7 +82,7 @@ def create_briefing_document(template: TemplateDefinition, destination: Path) ->
 
     fields_by_group: dict[str, list[Any]] = {}
     for field in template.fields:
-        if field.kind == "image" or field.key == "theme.radius":
+        if field.kind == "image":
             continue
         fields_by_group.setdefault(field.group, []).append(field)
 
@@ -143,6 +148,33 @@ def create_briefing_document(template: TemplateDefinition, destination: Path) ->
     return destination
 
 
+def create_global_briefing_document(templates: list[TemplateDefinition], destination: Path) -> Path:
+    if not templates:
+        raise BriefingDocumentError("No hay plantillas disponibles para crear el briefing universal.")
+    fields_by_key: dict[str, FieldDefinition] = {}
+    for template in templates:
+        for field in template.fields:
+            fields_by_key.setdefault(field.key, field)
+    ordered_fields = tuple(
+        sorted(
+            fields_by_key.values(),
+            key=lambda field: (_global_group_order(field.group), field.label.casefold()),
+        )
+    )
+    reference = templates[0]
+    global_template = TemplateDefinition(
+        template_id=GLOBAL_BRIEFING_TEMPLATE_ID,
+        name="Briefing universal Nupia",
+        description="Datos compartidos para cualquier plantilla Nupia.",
+        descriptor_path=reference.descriptor_path,
+        source_path=reference.source_path,
+        preview_path=reference.preview_path,
+        values_path=reference.values_path,
+        fields=ordered_fields,
+    )
+    return create_briefing_document(global_template, destination)
+
+
 def import_briefing_document(path: Path, template: TemplateDefinition, current_values: dict[str, Any]) -> BriefingImportResult:
     if path.suffix.lower() != ".docx":
         raise BriefingDocumentError("Selecciona un archivo Word .docx generado por Nupia.")
@@ -155,7 +187,7 @@ def import_briefing_document(path: Path, template: TemplateDefinition, current_v
     template_id = marker.partition("=")[2].strip()
     if not template_id:
         raise BriefingDocumentError("Este Word no parece un briefing generado por Nupia Studio.")
-    if template_id != template.template_id:
+    if template_id not in {GLOBAL_BRIEFING_TEMPLATE_ID, template.template_id}:
         raise BriefingDocumentError(
             f"El briefing corresponde a '{template_id}', pero la plantilla activa es '{template.template_id}'."
         )
@@ -184,7 +216,9 @@ def import_briefing_document(path: Path, template: TemplateDefinition, current_v
 
 def generate_all_briefings(output_directory: Path = BRIEFING_DIRECTORY) -> list[Path]:
     documents: list[Path] = []
-    for template in discover_templates(TEMPLATES_ROOT):
+    templates = discover_templates(TEMPLATES_ROOT)
+    documents.append(create_global_briefing_document(templates, output_directory / "briefing-universal-nupia.docx"))
+    for template in templates:
         filename = f"briefing-{_slugify(template.name)}.docx"
         documents.append(create_briefing_document(template, output_directory / filename))
     return documents
@@ -318,6 +352,11 @@ def _set_cell_text(cell: Any, text: str, *, bold: bool = False, color: str = "17
 def _slugify(value: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", value.lower())
     return normalized.strip("-")
+
+
+def _global_group_order(group: str) -> int:
+    order = {"Datos básicos": 0, "Textos": 1, "Contacto": 2, "Diseño": 3, "Secciones": 4, "Fotos": 5, "Imágenes": 5}
+    return order.get(group, 99)
 
 
 def main(argv: list[str] | None = None) -> int:

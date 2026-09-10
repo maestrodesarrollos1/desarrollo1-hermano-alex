@@ -1,470 +1,282 @@
 import { useEffect, useRef, useState } from "react";
 import { weddingData } from "@/data/weddingData";
 import { templateValues } from "@/config/template-values";
-import flowersImage from "../../resources/flores.png";
 
-type EnvelopeIntroProps = {
-  onComplete?: () => void;
-};
-
-type IntroStage = "closed" | "opening" | "revealed" | "leaving";
+type IntroStage = "closed" | "opened" | "leaving";
+type EnvelopeIntroProps = { onComplete?: () => void };
 
 export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
   const [stage, setStage] = useState<IntroStage>("closed");
-  const [showHint, setShowHint] = useState(false);
-  const timers = useRef<number[]>([]);
-  const completed = useRef(false);
-
-  const at = (ms: number, fn: () => void) => {
-    const id = window.setTimeout(fn, ms);
-    timers.current.push(id);
-  };
-
-  useEffect(() => {
-    return () => timers.current.forEach(window.clearTimeout);
-  }, []);
-
-  useEffect(() => {
-    const fontId = "wedding-intro-fonts";
-    if (document.getElementById(fontId)) return;
-
-    const link = document.createElement("link");
-    link.id = fontId;
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap";
-    document.head.appendChild(link);
-  }, []);
-
-  useEffect(() => {
-    if (stage !== "closed") return;
-
-    const hintIn = window.setTimeout(() => setShowHint(true), 4200);
-    const hintOut = window.setTimeout(() => setShowHint(false), 9800);
-    timers.current.push(hintIn, hintOut);
-
-    return () => {
-      clearTimeout(hintIn);
-      clearTimeout(hintOut);
-    };
-  }, [stage]);
-
-  const completeIntro = () => {
-    if (completed.current) return;
-    completed.current = true;
-    onComplete?.();
-  };
-
-  const handleOpen = () => {
-    if (stage !== "closed") return;
-
-    setShowHint(false);
-    setStage("opening");
-    at(980, () => setStage("revealed"));
-    at(2350, () => {
-      setStage("leaving");
-      completeIntro();
-    });
-  };
-
-  const isOpen = stage !== "closed";
+  const timer = useRef<number | null>(null);
+  const opened = stage === "opened";
   const leaving = stage === "leaving";
 
+  useEffect(() => () => {
+    if (timer.current) window.clearTimeout(timer.current);
+  }, []);
+
+  const enterCelebration = () => {
+    if (!opened) return;
+    setStage("leaving");
+    timer.current = window.setTimeout(() => onComplete?.(), 720);
+  };
+
   return (
-    <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+    <section
+      className={`watercolor-intro${opened ? " is-open" : ""}${leaving ? " is-leaving" : ""}`}
+      aria-label="Entrada a la invitación de boda"
+    >
       <style>{`
-        @keyframes folioIn {
-          from { opacity: 0; transform: translateY(24px) scale(.97); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes watercolor-card-in {
+          from { opacity: 0; transform: translate(-50%, -46%) scale(.94); }
+          to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
-        @keyframes invitationFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-7px); }
+        @keyframes watercolor-breath {
+          0%, 100% { transform: scale(1); opacity: .72; }
+          50% { transform: scale(1.1); opacity: 1; }
         }
-        @keyframes shimmerLine {
-          from { transform: translateX(-115%); }
-          to { transform: translateX(115%); }
-        }
-        @keyframes hintRise {
-          0%, 100% { opacity: .55; transform: translate(-50%, 0); }
-          50% { opacity: .95; transform: translate(-50%, -8px); }
-        }
-        .folio-shell {
-          animation: folioIn 850ms cubic-bezier(.22,1,.36,1) both;
-        }
-        .folio-card {
-          animation: invitationFloat 4.8s ease-in-out infinite;
-        }
-        .folio-line::after {
-          animation: shimmerLine 2.2s ease-in-out infinite;
-          background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--template-primary) 42%, white), transparent);
-          content: "";
+        .watercolor-intro {
+          position: fixed;
           inset: 0;
-          position: absolute;
+          z-index: 140;
+          overflow: hidden;
+          isolation: isolate;
+          background: #4d6046;
+          color: #faf7ed;
+          font-family: var(--font-title), Georgia, serif;
+          transition: opacity .72s ease, filter .72s ease;
         }
-        .folio-seal:hover {
-          background: var(--template-primary-dark) !important;
-          transform: translate(-50%, -50%) scale(1.04) !important;
+        .watercolor-intro.is-leaving { opacity: 0; filter: blur(8px); pointer-events: none; }
+        .watercolor-intro__scene {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 48%;
+          filter: saturate(.86) brightness(.84) contrast(.96);
+          transform: scale(1.025);
+          transition: transform 1.15s cubic-bezier(.22, 1, .36, 1), filter .85s ease;
+        }
+        .watercolor-intro::before {
+          position: absolute;
+          z-index: 1;
+          inset: 0;
+          background: rgba(67, 84, 58, .22);
+          content: "";
+          transition: background .7s ease;
+        }
+        .watercolor-intro::after {
+          position: absolute;
+          z-index: 8;
+          inset: 20px;
+          border: 1px solid rgba(255, 250, 235, .66);
+          content: "";
+          pointer-events: none;
+        }
+        .watercolor-intro__place {
+          position: absolute;
+          z-index: 2;
+          top: clamp(34px, 7vh, 72px);
+          left: clamp(34px, 7vw, 110px);
+          display: flex;
+          align-items: center;
+          gap: 11px;
+          margin: 0;
+          color: rgba(255, 251, 239, .94);
+          font-family: var(--font-nav), Arial, sans-serif;
+          font-size: 9px;
+          font-weight: 500;
+          letter-spacing: .26em;
+          line-height: 1.5;
+          text-transform: uppercase;
+        }
+        .watercolor-intro__place i {
+          display: block;
+          width: 8px;
+          height: 8px;
+          border: 1px solid currentColor;
+          border-radius: 50%;
+          box-shadow: 14px 7px 0 -4px rgba(255, 251, 239, .86), -13px 12px 0 -4px rgba(255, 251, 239, .68);
+        }
+        .watercolor-intro__cover-copy {
+          position: absolute;
+          z-index: 4;
+          left: 50%;
+          bottom: clamp(70px, 11vh, 142px);
+          width: min(620px, calc(100vw - 56px));
+          transform: translateX(-50%);
+          text-align: center;
+          text-shadow: 0 5px 24px rgba(40, 53, 36, .42);
+          transition: opacity .38s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+        }
+        .watercolor-intro__eyebrow,
+        .watercolor-intro__date {
+          margin: 0;
+          font-family: var(--font-nav), Arial, sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: .3em;
+          line-height: 1.65;
+          text-transform: uppercase;
+        }
+        .watercolor-intro__eyebrow { color: rgba(255, 251, 239, .88); }
+        .watercolor-intro__date { color: #f2d6a4; }
+        .watercolor-intro__cover-copy h1 {
+          margin: 22px 0 18px;
+          color: #fffaf0;
+          font-family: var(--font-title), Georgia, serif;
+          font-size: clamp(58px, 9vw, 118px);
+          font-weight: 400;
+          letter-spacing: 0;
+          line-height: .76;
+        }
+        .watercolor-intro__cover-copy h1 span { display: block; }
+        .watercolor-intro__cover-copy h1 i {
+          display: block;
+          margin: 12px 0;
+          color: #f5d6a0;
+          font-size: .35em;
+          font-style: italic;
+        }
+        .watercolor-intro__open {
+          display: inline-flex;
+          position: relative;
+          z-index: 1;
+          align-items: center;
+          gap: 13px;
+          margin-top: 34px;
+          border: 1px solid rgba(255, 250, 235, .78);
+          padding: 15px 19px;
+          background: rgba(77, 96, 70, .32);
+          color: #fffaf0;
+          font-family: var(--font-nav), Arial, sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: .22em;
+          text-transform: uppercase;
+          backdrop-filter: blur(4px);
+          cursor: pointer;
+          transition: background .2s ease, transform .2s ease;
+        }
+        .watercolor-intro__open:hover { background: rgba(77, 96, 70, .62); transform: translateY(-2px); }
+        .watercolor-intro__open i {
+          display: block;
+          width: 12px;
+          height: 12px;
+          border: 1px solid currentColor;
+          border-radius: 50%;
+          animation: watercolor-breath 2.6s ease-in-out infinite;
+        }
+        .watercolor-intro.is-open .watercolor-intro__cover-copy {
+          opacity: 0;
+          pointer-events: none;
+          transform: translate(-50%, 18px);
+        }
+        .watercolor-intro.is-open .watercolor-intro__scene {
+          filter: saturate(.72) brightness(.48) blur(2px);
+          transform: scale(1.08);
+        }
+        .watercolor-intro.is-open::before { background: rgba(54, 72, 47, .5); }
+        .watercolor-intro__card {
+          position: absolute;
+          z-index: 5;
+          top: 50%;
+          left: 50%;
+          display: grid;
+          width: min(570px, calc(100vw - 52px));
+          min-height: min(604px, calc(100vh - 54px));
+          box-sizing: border-box;
+          place-items: center;
+          padding: clamp(36px, 6vw, 76px);
+          background: #f7f0df;
+          color: #506242;
+          box-shadow: 0 42px 120px rgba(8, 23, 16, .48);
+          opacity: 0;
+          pointer-events: none;
+        }
+        .watercolor-intro__card::before {
+          position: absolute;
+          inset: 15px;
+          border: 1px solid rgba(54, 85, 68, .34);
+          content: "";
+        }
+        .watercolor-intro__card::after {
+          position: absolute;
+          inset: 28px;
+          border: 1px solid rgba(173, 116, 75, .48);
+          content: "";
+        }
+        .watercolor-intro__paper { position: relative; z-index: 1; width: 100%; text-align: center; }
+        .watercolor-intro__paper h1 {
+          margin: 28px 0 24px;
+          font-size: clamp(49px, 7.2vw, 82px);
+          font-weight: 400;
+          line-height: .86;
+        }
+        .watercolor-intro__paper h1 span { display: block; white-space: nowrap; }
+        .watercolor-intro__paper h1 em {
+          display: block;
+          margin: 11px 0;
+          color: #af754d;
+          font-size: .38em;
+          font-style: italic;
+        }
+        .watercolor-intro__paper .watercolor-intro__eyebrow { color: #607e68; }
+        .watercolor-intro__paper .watercolor-intro__date { color: #536c5a; }
+        .watercolor-intro__enter {
+          margin-top: 42px;
+          border: 1px solid #506242;
+          padding: 15px 22px;
+          background: #506242;
+          color: #f7f0df;
+          font-family: var(--font-nav), Arial, sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: .21em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background .2s ease, color .2s ease;
+        }
+        .watercolor-intro__enter:hover { background: #a86f49; color: #fff9ed; }
+        .watercolor-intro.is-open .watercolor-intro__card {
+          animation: watercolor-card-in .9s cubic-bezier(.22, 1, .36, 1) .22s forwards;
+          pointer-events: auto;
+        }
+        @media (max-width: 640px) {
+          .watercolor-intro::after { inset: 12px; }
+          .watercolor-intro__place { top: 29px; left: 29px; }
+          .watercolor-intro__cover-copy { bottom: 76px; width: calc(100vw - 44px); }
+          .watercolor-intro__cover-copy h1 { font-size: clamp(54px, 16vw, 78px); }
+          .watercolor-intro__card { min-height: min(630px, calc(100dvh - 38px)); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .watercolor-intro, .watercolor-intro * { animation-duration: 1ms !important; transition-duration: 1ms !important; }
         }
       `}</style>
 
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 140,
-          display: "grid",
-          placeItems: "center",
-          overflow: "hidden",
-          padding: "clamp(18px, 4vw, 42px)",
-          background:
-            "radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--template-soft) 72%, white) 0%, transparent 34%), linear-gradient(135deg, #fffaf8 0%, var(--template-surface) 46%, color-mix(in srgb, var(--template-primary-dark) 12%, #fff) 100%)",
-          opacity: leaving ? 0 : 1,
-          filter: leaving ? "blur(10px)" : "blur(0)",
-          transition: "opacity 780ms ease, filter 780ms ease",
-          pointerEvents: leaving ? "none" : "auto",
-        }}
-      >
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: "clamp(14px, 3vw, 32px)",
-            border: "1px solid color-mix(in srgb, var(--template-primary) 22%, transparent)",
-          }}
-        />
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: "clamp(28px, 5vw, 58px)",
-            border: "1px solid color-mix(in srgb, var(--template-soft) 60%, transparent)",
-          }}
-        />
+      <img
+        className="watercolor-intro__scene"
+        src="/images/azure/finca-acuarela.png"
+        alt="Ilustración en acuarela de la finca de la celebración"
+      />
+      <p className="watercolor-intro__place"><i aria-hidden="true" /> La finca</p>
 
-        <div
-          className="folio-shell"
-          style={{
-            position: "relative",
-            width: "min(92vw, 680px)",
-            height: "min(78vh, 510px)",
-            minHeight: 390,
-            perspective: "1600px",
-          }}
-        >
-          <div
-            className="folio-card"
-            style={{
-              position: "absolute",
-              inset: "6% 7%",
-              display: "grid",
-              placeItems: "center",
-              padding: "clamp(22px, 5vw, 56px)",
-              background:
-                "linear-gradient(145deg, rgba(255,255,255,.96), color-mix(in srgb, var(--template-soft) 28%, white))",
-              border: "1px solid color-mix(in srgb, var(--template-primary) 20%, white)",
-              boxShadow: "0 28px 80px color-mix(in srgb, var(--template-primary-dark) 14%, transparent)",
-              opacity: isOpen ? 1 : 0.18,
-              transform: isOpen ? "translateY(0) scale(1)" : "translateY(18px) scale(.94)",
-              transition: "opacity 760ms ease 260ms, transform 980ms cubic-bezier(.22,1,.36,1) 220ms",
-            }}
-          >
-            <img
-              src={flowersImage}
-              alt=""
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                left: "-32px",
-                top: "-30px",
-                width: "clamp(118px, 24vw, 190px)",
-                transform: "rotate(-18deg)",
-                opacity: 0.12,
-                pointerEvents: "none",
-              }}
-            />
-            <img
-              src={flowersImage}
-              alt=""
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                right: "-34px",
-                bottom: "-36px",
-                width: "clamp(126px, 25vw, 210px)",
-                transform: "rotate(164deg)",
-                opacity: 0.1,
-                pointerEvents: "none",
-              }}
-            />
-            <div style={{ width: "100%", textAlign: "center", color: "var(--template-primary-dark)" }}>
-              <p
-                data-editor-key="hero.eyebrow"
-                style={{
-                  margin: 0,
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: "clamp(10px, 2.2vw, 13px)",
-                  fontWeight: 400,
-                  letterSpacing: "0.28em",
-                  lineHeight: 1.5,
-                  textTransform: "uppercase",
-                  color: "var(--template-primary)",
-                }}
-              >
-                {templateValues.hero.eyebrow}
-              </p>
-
-              <h1
-                style={{
-                  margin: "clamp(18px, 5vw, 34px) 0 0",
-                  fontSize: "clamp(42px, 10vw, 86px)",
-                  fontWeight: 400,
-                  lineHeight: 0.95,
-                }}
-              >
-                <span data-editor-key="couple.partner1">{weddingData.couple.partner1}</span>
-                <span style={{ display: "block", margin: "0.08em 0", fontSize: "0.38em", color: "var(--template-primary)" }}>
-                  &
-                </span>
-                <span data-editor-key="couple.partner2">{weddingData.couple.partner2}</span>
-              </h1>
-
-              <div
-                className="folio-line"
-                style={{
-                  position: "relative",
-                  height: 1,
-                  width: "min(58%, 260px)",
-                  margin: "clamp(22px, 5vw, 32px) auto",
-                  overflow: "hidden",
-                  background: "color-mix(in srgb, var(--template-primary) 28%, transparent)",
-                }}
-              />
-
-              <p
-                style={{
-                  margin: 0,
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontSize: "clamp(11px, 2.4vw, 15px)",
-                  letterSpacing: "0.2em",
-                  lineHeight: 1.7,
-                  textTransform: "uppercase",
-                  color: "var(--template-text)",
-                }}
-              >
-                <span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span>
-                <span aria-hidden="true"> · </span>
-                <span data-editor-key="event.city">{weddingData.event.city}</span>
-              </p>
-            </div>
-          </div>
-
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              inset: 0,
-              boxShadow: "0 34px 90px color-mix(in srgb, var(--template-primary-dark) 18%, transparent)",
-              pointerEvents: "none",
-            }}
-          />
-
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              transformStyle: "preserve-3d",
-              pointerEvents: isOpen ? "none" : "auto",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                background:
-                  "linear-gradient(135deg, var(--template-primary-dark), color-mix(in srgb, var(--template-primary) 72%, #111))",
-                borderRight: "1px solid color-mix(in srgb, var(--template-soft) 22%, transparent)",
-                transformOrigin: "0% 50%",
-                transform: isOpen ? "rotateY(-106deg)" : "rotateY(0deg)",
-                transition: "transform 1180ms cubic-bezier(.22,1,.36,1)",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={flowersImage}
-                alt=""
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  left: "-54px",
-                  top: "-50px",
-                  width: "clamp(110px, 22vw, 168px)",
-                  transform: "rotate(-22deg)",
-                  opacity: isOpen ? 0.02 : 0.18,
-                  transition: "opacity 520ms ease",
-                  pointerEvents: "none",
-                }}
-              />
-              <PanelPattern side="left" />
-            </div>
-            <div
-              style={{
-                position: "relative",
-                background:
-                  "linear-gradient(225deg, var(--template-primary-dark), color-mix(in srgb, var(--template-primary) 72%, #111))",
-                borderLeft: "1px solid color-mix(in srgb, var(--template-soft) 22%, transparent)",
-                transformOrigin: "100% 50%",
-                transform: isOpen ? "rotateY(106deg)" : "rotateY(0deg)",
-                transition: "transform 1180ms cubic-bezier(.22,1,.36,1)",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={flowersImage}
-                alt=""
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  right: "-58px",
-                  bottom: "-58px",
-                  width: "clamp(118px, 24vw, 180px)",
-                  transform: "rotate(158deg)",
-                  opacity: isOpen ? 0.02 : 0.17,
-                  transition: "opacity 520ms ease",
-                  pointerEvents: "none",
-                }}
-              />
-              <PanelPattern side="right" />
-            </div>
-          </div>
-
-          {stage === "closed" ? (
-            <button
-              className="folio-seal"
-              onClick={handleOpen}
-              aria-label="Abrir invitacion"
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                zIndex: 12,
-                width: "clamp(88px, 18vw, 116px)",
-                height: "clamp(88px, 18vw, 116px)",
-                borderRadius: "50%",
-                border: "1px solid color-mix(in srgb, var(--template-soft) 58%, white)",
-                background: "var(--template-primary)",
-                boxShadow:
-                  "0 18px 34px color-mix(in srgb, var(--template-primary-dark) 28%, transparent), inset 0 0 0 8px color-mix(in srgb, var(--template-soft) 22%, transparent)",
-                color: "#fffaf8",
-                cursor: "pointer",
-                transform: "translate(-50%, -50%)",
-                transition: "background 260ms ease, transform 260ms ease",
-              }}
-            >
-              <span
-                style={{
-                  display: "grid",
-                  placeItems: "center",
-                  width: "100%",
-                  height: "100%",
-                  fontSize: "clamp(24px, 5vw, 34px)",
-                  fontWeight: 500,
-                  letterSpacing: "0.04em",
-                }}
-              >
-                {(weddingData.couple.partner1.charAt(0) || "N").toUpperCase()}
-                <span style={{ fontSize: "0.5em", margin: "-0.24em 0", opacity: 0.82 }}>&</span>
-                {(weddingData.couple.partner2.charAt(0) || "N").toUpperCase()}
-              </span>
-            </button>
-          ) : null}
-
-          {showHint && stage === "closed" ? (
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                bottom: "clamp(18px, 5vw, 38px)",
-                zIndex: 11,
-                animation: "hintRise 1.6s ease-in-out infinite",
-                color: "#fffaf8",
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: "11px",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                pointerEvents: "none",
-              }}
-            >
-              Tocar para abrir
-            </div>
-          ) : null}
-        </div>
+      <div className="watercolor-intro__cover-copy">
+        <p className="watercolor-intro__eyebrow" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p>
+        <h1><span data-editor-key="couple.partner1">{weddingData.couple.partner1}</span><i>&amp;</i><span data-editor-key="couple.partner2">{weddingData.couple.partner2}</span></h1>
+        <p className="watercolor-intro__date"><span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span> / <span data-editor-key="event.city">{weddingData.event.city}</span></p>
+        <button className="watercolor-intro__open" type="button" onClick={() => setStage("opened")}><i aria-hidden="true" /> Descubrir la invitación</button>
       </div>
-    </div>
-  );
-}
 
-function PanelPattern({ side }: { side: "left" | "right" }) {
-  return (
-    <>
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: "clamp(16px, 3vw, 28px)",
-          border: "1px solid color-mix(in srgb, var(--template-soft) 34%, transparent)",
-          }}
-        />
-      <img
-        src={flowersImage}
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "-46px",
-          left: side === "left" ? "-22px" : undefined,
-          right: side === "right" ? "-22px" : undefined,
-          width: "clamp(138px, 28vw, 220px)",
-          height: "auto",
-          objectFit: "contain",
-          opacity: 0.18,
-          transform: side === "left" ? "rotate(82deg)" : "rotate(98deg) scaleX(-1)",
-          transformOrigin: "top center",
-          filter: "saturate(.92)",
-          pointerEvents: "none",
-        }}
-      />
-      <img
-        src={flowersImage}
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "28%",
-          left: side === "left" ? "-68px" : undefined,
-          right: side === "right" ? "-68px" : undefined,
-          width: "clamp(112px, 22vw, 168px)",
-          height: "auto",
-          objectFit: "contain",
-          opacity: 0.1,
-          transform: side === "left" ? "rotate(36deg)" : "rotate(-36deg) scaleX(-1)",
-          filter: "saturate(.85)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            side === "left"
-              ? "linear-gradient(105deg, rgba(255,255,255,.1) 0%, transparent 34%, rgba(0,0,0,.16) 100%)"
-              : "linear-gradient(255deg, rgba(255,255,255,.1) 0%, transparent 34%, rgba(0,0,0,.16) 100%)",
-          opacity: 0.72,
-        }}
-      />
-    </>
+      <article className="watercolor-intro__card" aria-hidden={!opened}>
+        <div className="watercolor-intro__paper">
+          <p className="watercolor-intro__eyebrow" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p>
+          <h1><span data-editor-key="couple.partner1">{weddingData.couple.partner1}</span><em>&amp;</em><span data-editor-key="couple.partner2">{weddingData.couple.partner2}</span></h1>
+          <p className="watercolor-intro__date"><span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span><br /><span data-editor-key="event.venue">{weddingData.event.venue}</span></p>
+          <button className="watercolor-intro__enter" type="button" onClick={enterCelebration}>Entrar a la celebración</button>
+        </div>
+      </article>
+    </section>
   );
 }

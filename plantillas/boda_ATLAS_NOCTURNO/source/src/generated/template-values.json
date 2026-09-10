@@ -1,0 +1,51 @@
+{
+  "couple": {
+    "partner1": "Nombre 1",
+    "partner2": "Nombre 2"
+  },
+  "event": {
+    "dateLabel": "Fecha por definir",
+    "dateIso": "2027-06-18T18:00",
+    "city": "Ciudad",
+    "venue": "Lugar del evento"
+  },
+  "contact": {
+    "email": "contacto@example.com",
+    "phone": "+34 600 000 000"
+  },
+  "rsvp": {
+    "url": "#",
+    "noteTitle": "Una noche escrita entre todos",
+    "noteText": "Nos encantara saber si podras acompanarnos. Deja tu respuesta y cualquier detalle que debamos cuidar.",
+    "ctaTitle": "Reserva tu lugar en la historia",
+    "ctaText": "Una celebracion de noche, con tiempo para mirar, brindar y bailar sin mirar el reloj."
+  },
+  "hero": {
+    "eyebrow": "El pase para nuestra noche"
+  },
+  "story": {
+    "title": "El lugar al que siempre volvemos",
+    "paragraph1": "Hay historias que no hacen ruido al empezar, pero acaban convirtiendose en el lugar al que una y otra vez queremos volver.",
+    "paragraph2": "Esta noche es nuestra forma de reunir cada camino, cada coincidencia y a todas las personas que lo hicieron posible."
+  },
+  "theme": {
+    "primaryDark": "#2C2638",
+    "primary": "#9B7CB5",
+    "soft": "#ECE8EF",
+    "text": "#51495E",
+    "radius": "10"
+  },
+  "images": {
+    "hero": ""
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": true
+  }
+}

@@ -41,7 +41,7 @@ python -m editor.run_editor --check
 
 ## Briefings Word y fotos
 
-Los formularios listos para enviar se guardan en `nupia_studio/briefings/`. Hay uno por cada plantilla y se pueden regenerar con:
+El formulario que se debe enviar al cliente es `nupia_studio/briefings/briefing-universal-nupia.docx`. Reúne los datos de todas las plantillas y Studio usa únicamente los campos compatibles con el diseño elegido. Los documentos específicos se conservan como referencia interna y se pueden regenerar junto al universal con:
 
 ```powershell
 python -m editor.briefing_document
@@ -49,7 +49,7 @@ python -m editor.briefing_document
 
 La persona que prepara la boda solo tiene que rellenar la columna **Respuesta** y conservar la columna **Clave Studio**. En la barra superior del editor:
 
-1. Pulsa el icono **Crear briefing Word** si necesitas un documento nuevo para la plantilla activa.
+1. Pulsa el icono **Crear briefing universal** si necesitas un documento nuevo para el cliente.
 2. Pulsa **Importar briefing Word** y elige el documento completado.
 3. Confirma la carpeta de fotos. Studio reconoce `landing`, `historia1`, `historia2`, `galeria1` a `galeria6` y `despedida`, en JPG/JPEG/PNG/WebP/AVIF.
 

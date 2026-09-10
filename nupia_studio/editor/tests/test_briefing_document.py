@@ -6,7 +6,12 @@ from pathlib import Path
 
 from docx import Document
 
-from editor.briefing_document import BriefingDocumentError, create_briefing_document, import_briefing_document
+from editor.briefing_document import (
+    BriefingDocumentError,
+    create_briefing_document,
+    create_global_briefing_document,
+    import_briefing_document,
+)
 from editor.catalog import discover_templates
 from editor.workspace import TEMPLATES_ROOT
 
@@ -41,3 +46,11 @@ class BriefingDocumentTests(unittest.TestCase):
             with self.assertRaises(BriefingDocumentError):
                 import_briefing_document(path, self.template, self.template.current_values())
 
+    def test_global_briefing_imports_into_any_template(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "global.docx"
+            create_global_briefing_document(self.templates, path)
+            result = import_briefing_document(path, self.template, self.template.current_values())
+
+        self.assertEqual(result.template_id, "nupia-global")
+        self.assertIn("theme.radius", result.imported_fields)

@@ -6,40 +6,7 @@ import NightPhotoGallery from "@/components/NightPhotoGallery";
 import { weddingData } from "@/data/weddingData";
 import { templateValues } from "@/config/template-values";
 
-const timelineItems = [
-  { time: "18:30", title: "Ceremonia", icon: Church },
-  { time: "20:00", title: "Coctel", icon: Wine },
-  { time: "21:30", title: "Cena", icon: Utensils },
-  { time: "00:00", title: "Fiesta", icon: Music },
-] as const;
-
-const faqItems = [
-  {
-    id: "faq-como-ir",
-    question: "Como puedo llegar?",
-    answer: "Incluye enlaces de mapas, direcciones, transporte colectivo y opciones de aparcamiento.",
-  },
-  {
-    id: "faq-musica",
-    question: "Puedo sugerir una cancion?",
-    answer: "Explica como enviar sugerencias o conecta este apartado con una pregunta del formulario RSVP.",
-  },
-  {
-    id: "faq-hora",
-    question: "A que hora debo llegar?",
-    answer: "Indica la hora recomendada de llegada y cuanto margen conviene dejar antes del comienzo.",
-  },
-  {
-    id: "faq-vestimenta",
-    question: "Cual es el codigo de vestimenta?",
-    answer: "Describe el nivel de formalidad, los colores reservados y cualquier recomendacion practica.",
-  },
-  {
-    id: "faq-tiempo",
-    question: "Que tiempo suele hacer?",
-    answer: "Anade una orientacion estacional y recuerda actualizarla cerca de la fecha del evento.",
-  },
-] as const;
+const timelineIcons = [Church, Wine, Utensils, Music] as const;
 
 const WeddingDetails = () => {
   return (
@@ -85,9 +52,9 @@ const WeddingDetails = () => {
                 <div>
                   <div className="flex items-center gap-3 text-white/72">
                     <Moon className="h-5 w-5" aria-hidden="true" />
-                    <p className="font-nav text-xs uppercase tracking-[0.3em]">Boda de noche</p>
+                    <p className="font-nav text-xs uppercase tracking-[0.3em]">{templateValues.schedule.eyebrow}</p>
                   </div>
-                  <h2 className="mt-3 font-script text-4xl leading-none text-white md:text-5xl">Cronograma</h2>
+                  <h2 className="mt-3 font-script text-4xl leading-none text-white md:text-5xl">{templateValues.schedule.title}</h2>
                   <p className="mt-4 text-sm leading-7 text-white/78 md:text-base">
                     <span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span>
                     {" · "}
@@ -96,8 +63,8 @@ const WeddingDetails = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                  {timelineItems.map((item, index) => {
-                    const Icon = item.icon;
+                  {templateValues.schedule.items.map((item, index) => {
+                    const Icon = timelineIcons[index % timelineIcons.length];
                     return (
                       <article
                         key={`${item.time}-${item.title}`}
@@ -153,13 +120,11 @@ const WeddingDetails = () => {
                 Preguntas frecuentes
               </h2>
               <div className="mt-7 h-px w-20 bg-[#DDF0E1]" />
-              <p className="mt-7 text-base leading-8 text-[#1F5E46]">
-                Un cierre limpio para resolver dudas sin romper la estetica de la invitacion.
-              </p>
+              <p className="mt-7 text-base leading-8 text-[#1F5E46]">Lo que sabemos hasta ahora, sin inventar ningún detalle.</p>
             </div>
 
             <div className="faq-accordion space-y-4">
-              {faqItems.map((item) => (
+              {templateValues.faq.map((item) => (
                 <article key={item.id} className="faq-accordion__item">
                   <input type="checkbox" id={item.id} className="faq-accordion__toggle" />
                   <span className="faq-accordion__plus" aria-hidden="true">
