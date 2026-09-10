@@ -138,28 +138,28 @@
       "key": "theme.primaryDark",
       "label": "Color oscuro",
       "type": "color",
-      "default": "#193E59",
+      "default": "#344638",
       "group": "Diseño"
     },
     {
       "key": "theme.primary",
       "label": "Color principal",
       "type": "color",
-      "default": "#A84631",
+      "default": "#80624D",
       "group": "Diseño"
     },
     {
       "key": "theme.soft",
       "label": "Color suave",
       "type": "color",
-      "default": "#E8F0F3",
+      "default": "#E8EBE1",
       "group": "Diseño"
     },
     {
       "key": "theme.text",
       "label": "Color del texto",
       "type": "color",
-      "default": "#243D47",
+      "default": "#41473F",
       "group": "Diseño"
     },
     {
@@ -173,21 +173,21 @@
       "key": "images.hero",
       "label": "Imagen de portada",
       "type": "image",
-      "default": "/images/pareja/landing.webp",
+      "default": "/images/pareja/portada-roma.webp",
       "group": "Fotos"
     },
     {
       "key": "images.landing",
       "label": "Portada",
       "type": "image",
-      "default": "/images/pareja/landing.webp",
+      "default": "/images/pareja/portada-roma.webp",
       "group": "Fotos"
     },
     {
       "key": "images.landingMobile",
       "label": "Portada móvil",
       "type": "image",
-      "default": "/images/pareja/landing-mobile.webp",
+      "default": "/images/pareja/portada-roma-mobile.webp",
       "group": "Fotos"
     },
     {
@@ -294,6 +294,188 @@
       "type": "image",
       "default": "/images/pareja/despedida.webp",
       "group": "Fotos"
+    },
+    {
+      "key": "album.title",
+      "label": "title",
+      "type": "text",
+      "default": "Nuestra historia, hoja a hoja.",
+      "group": "album"
+    },
+    {
+      "key": "album.order",
+      "label": "order",
+      "type": "textarea",
+      "default": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6, galeria7, galeria8, galeria9, galeria10, galeria11, galeria12",
+      "group": "album"
+    },
+    {
+      "key": "album.caption1",
+      "label": "caption1",
+      "type": "text",
+      "default": "Con el mar de fondo",
+      "group": "album"
+    },
+    {
+      "key": "album.date1",
+      "label": "date1",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption2",
+      "label": "caption2",
+      "type": "text",
+      "default": "En cualquier lugar",
+      "group": "album"
+    },
+    {
+      "key": "album.date2",
+      "label": "date2",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption3",
+      "label": "caption3",
+      "type": "text",
+      "default": "Tú, siempre",
+      "group": "album"
+    },
+    {
+      "key": "album.date3",
+      "label": "date3",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption4",
+      "label": "caption4",
+      "type": "text",
+      "default": "Los tres",
+      "group": "album"
+    },
+    {
+      "key": "album.date4",
+      "label": "date4",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption5",
+      "label": "caption5",
+      "type": "text",
+      "default": "El próximo destino",
+      "group": "album"
+    },
+    {
+      "key": "album.date5",
+      "label": "date5",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption6",
+      "label": "caption6",
+      "type": "text",
+      "default": "Sin prisa",
+      "group": "album"
+    },
+    {
+      "key": "album.date6",
+      "label": "date6",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption7",
+      "label": "caption7",
+      "type": "text",
+      "default": "Otra aventura",
+      "group": "album"
+    },
+    {
+      "key": "album.date7",
+      "label": "date7",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption8",
+      "label": "caption8",
+      "type": "text",
+      "default": "Nuestra compañía",
+      "group": "album"
+    },
+    {
+      "key": "album.date8",
+      "label": "date8",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption9",
+      "label": "caption9",
+      "type": "text",
+      "default": "Una parada más",
+      "group": "album"
+    },
+    {
+      "key": "album.date9",
+      "label": "date9",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption10",
+      "label": "caption10",
+      "type": "text",
+      "default": "A la misma orilla",
+      "group": "album"
+    },
+    {
+      "key": "album.date10",
+      "label": "date10",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption11",
+      "label": "caption11",
+      "type": "text",
+      "default": "De celebración",
+      "group": "album"
+    },
+    {
+      "key": "album.date11",
+      "label": "date11",
+      "type": "text",
+      "default": "",
+      "group": "album"
+    },
+    {
+      "key": "album.caption12",
+      "label": "caption12",
+      "type": "text",
+      "default": "Todo lo que viene",
+      "group": "album"
+    },
+    {
+      "key": "album.date12",
+      "label": "date12",
+      "type": "text",
+      "default": "",
+      "group": "album"
     },
     {
       "key": "sections.intro",

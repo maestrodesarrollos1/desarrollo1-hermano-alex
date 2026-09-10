@@ -4,7 +4,7 @@ export default function Hero() {
   return <section id="hero" data-editor-component="hero" className="az-hero">
     <picture>
       <source media="(max-width: 600px)" srcSet={v.images.landingMobile}/>
-      <img src={v.images.landing || v.images.hero} alt="Adrián y Gema juntos al atardecer" fetchPriority="high" width="1600" height="1200"/>
+      <img src={v.images.landing || v.images.hero} alt="Adrián y Gema mirándose frente al Coliseo de Roma" fetchPriority="high" width="1200" height="1600"/>
     </picture>
     <div className="az-hero-copy">
       <p className="az-kicker">Nos casamos · {v.event.venue}</p>

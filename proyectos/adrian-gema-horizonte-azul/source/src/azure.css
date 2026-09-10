@@ -1,11 +1,11 @@
 :root {
-  --template-surface: #fcfcfa;
-  --template-panel: #fff;
+  --template-surface: color-mix(in srgb, var(--template-soft) 16%, #fffefb);
+  --template-panel: #fffefb;
   --template-border: color-mix(in srgb, var(--template-primary-dark) 22%, white);
   --az-ink: var(--template-primary-dark);
   --az-accent: var(--template-primary);
   --az-soft: var(--template-soft);
-  --az-olive: #666f48;
+  --az-olive: color-mix(in srgb, var(--template-primary-dark) 76%, var(--template-primary));
   --az-serif: Georgia, 'Times New Roman', serif;
   --nav-height: 76px;
 }
@@ -65,7 +65,7 @@ body::before { display: none; }
 .az-story-main { width: 100%; transform: rotate(-3deg); }
 .az-story-main img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center; }
 .az-story-main figcaption { font: italic 16px var(--az-serif); margin-top: 13px; color: var(--az-olive); }
-.az-story-nala { position: absolute; bottom: 0; right: -7px; width: 43%; transform: rotate(5deg); background: white; padding: 9px 9px 13px; box-shadow: 0 10px 30px #193e591a; }
+.az-story-nala { position: absolute; bottom: 0; right: -7px; width: 43%; transform: rotate(5deg); background: white; padding: 9px 9px 13px; box-shadow: 0 10px 30px color-mix(in srgb, var(--az-ink) 10%, transparent); }
 .az-story-nala img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
 .az-story-nala figcaption { font: italic 14px var(--az-serif); text-align: center; margin-top: 11px; }
 .az-story-copy h2 { max-width: 300px; font-size: 64px; }
@@ -75,19 +75,7 @@ body::before { display: none; }
 .az-album { padding-block: 76px 85px; background: var(--az-soft); overflow: hidden; }
 .az-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 45px; }
 .az-section-heading>p { flex-shrink: 0; font-size: 14px; }
-.az-album-controls { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.az-album-controls>span { margin-right: 18px; font: 12px var(--font-nav); font-variant-numeric: tabular-nums; }
-.az-album-viewport { overflow: hidden; padding-left: max(56px, calc((100vw - 1232px) / 2)); }
-.az-album-track { display: flex; gap: 28px; touch-action: pan-y pinch-zoom; }
-.az-album-photo { flex: 0 0 320px; min-width: 0; }
-.az-album-photo:last-child { margin-right: 56px; }
-.az-album-photo button { position: relative; display: block; width: 100%; cursor: zoom-in; overflow: hidden; background: color-mix(in srgb, var(--az-ink) 8%, var(--az-soft)); }
-.az-album-photo img { width: 100%; height: 420px; object-fit: cover; transition: transform .7s; }
-.az-album-photo button:hover img { transform: scale(1.025); }
-.az-photo-expand { display: grid; place-items: center; position: absolute; bottom: 15px; right: 15px; color: white; background: #193e5999; width: 36px; height: 36px; }
-.az-album-photo figcaption { display: flex; justify-content: space-between; margin-top: 17px; font: italic 17px var(--az-serif); }
-.az-album-photo figcaption span:last-child { font: 10px var(--font-nav); padding-top: 4px; }
-.az-lightbox-overlay { position: fixed; inset: 0; background: rgb(12 26 34 / .94); z-index: 150; }
+.az-lightbox-overlay { position: fixed; inset: 0; background: color-mix(in srgb, var(--az-ink) 95%, transparent); z-index: 150; }
 .az-lightbox { position: fixed; z-index: 151; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px 25px 20px; color: white; }
 .az-lightbox>img { display: block; width: min(1100px, 100%); height: calc(100dvh - 150px); object-fit: contain; }
 .az-lightbox .az-icon { border-color: #ffffff70; }
@@ -131,7 +119,7 @@ body::before { display: none; }
 .az-message-form label { font: 11px var(--font-nav); color: var(--az-ink); }
 .az-message-form input,.az-message-form textarea { display: block; padding: 15px 0; width: 100%; background: transparent; color: var(--template-text); font: 16px/1.65 var(--font-body); border: 0; border-bottom: 1px solid var(--template-border); border-radius: 0 !important; margin-top: 12px; }
 .az-message-form textarea { resize: vertical; min-height: 115px; max-height: 340px; }
-.az-message-form input::placeholder,.az-message-form textarea::placeholder { color: #62757c; }
+.az-message-form input::placeholder,.az-message-form textarea::placeholder { color: var(--az-olive); }
 .az-message-form small { display: block; text-align: right; padding-top: 9px; color: var(--az-olive); }
 .az-message-bottom { grid-column: 1/-1; display: flex; justify-content: space-between; align-items: center; gap: 25px; padding-top: 20px; }
 .az-message-bottom p { font-size: 12px; max-width: 320px; color: var(--az-olive); }
@@ -147,7 +135,7 @@ body::before { display: none; }
 .az-faq details p { padding: 0 40px 25px 0; font-size: 15px; }
 .az-closing-photo { height: 620px; position: relative; isolation: isolate; overflow: hidden; background: var(--az-ink); }
 .az-closing-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 46%; border-radius:0!important; opacity:.9; }
-.az-closing-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, #102f40bb, transparent 65%); z-index:1; }
+.az-closing-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, color-mix(in srgb, var(--az-ink) 73%, transparent), transparent 65%); z-index:1; }
 .az-closing-photo>div { position: absolute; left: max(56px, calc((100% - 1232px)/2)); top: 32%; z-index: 2; color: white; }
 .az-closing-photo .az-kicker { color: white; }
 .az-closing-photo .az-closing-title { font: 64px/1.1 var(--az-serif); }
@@ -166,9 +154,9 @@ body::before { display: none; }
 .az-intro-date { font-size:14px; margin:20px 0 24px; }
 .az-intro-foot { position:absolute; bottom:36px; width:100%; text-align:center; padding-inline:26px; font:italic 15px var(--az-serif); }
 .az-intro.is-open { display:grid; place-items:center; padding:24px; }
-.az-intro.is-open::before { background:rgb(21 48 62 / .63); }
+.az-intro.is-open::before { background:color-mix(in srgb, var(--az-ink) 63%, transparent); }
 .az-intro.is-open .az-intro-scene { filter:blur(3px); }
-.az-invitation { width:min(520px,100%); background:#fcfcfa; box-shadow:0 28px 90px #0a283644; position:relative; padding:18px; animation:az-paper-in .7s ease both; }
+.az-invitation { width:min(520px,100%); background:#fcfcfa; box-shadow:0 28px 90px color-mix(in srgb, var(--az-ink) 27%, transparent); position:relative; padding:18px; animation:az-paper-in .7s ease both; }
 .az-invitation-illustration { height:150px; background: url('/images/pareja/finca-ilustrada.webp') center 43% / cover; }
 .az-invitation-paper { padding:26px 25px 28px; border:1px solid var(--template-border); border-top:0; text-align:center; }
 .az-invitation .az-kicker { margin-bottom:20px; }
@@ -191,7 +179,6 @@ body::before { display: none; }
   .az-contact aside { padding-left:35px; }
   .az-hero h1 { font-size:85px; }
   .az-hero-copy { top:23%; }
-  .az-album-viewport { padding-left:36px; }
 }
 @media(max-width:800px) {
   .azure-wedding h2 { font-size:38px; }
@@ -230,7 +217,7 @@ body::before { display: none; }
   .az-nav-date { font-size:10px; padding-left:18px; }
   .az-hero { height:calc(100svh - 100px); min-height:650px; }
   .az-hero img { object-position:center 45%; }
-  .az-hero::after { background:linear-gradient(0deg, #102f40c9, #102f4040 40%, transparent 67%); }
+  .az-hero::after { background:linear-gradient(0deg, color-mix(in srgb, var(--az-ink) 80%, transparent), color-mix(in srgb, var(--az-ink) 25%, transparent) 40%, transparent 67%); }
   .az-hero-copy { top:auto; bottom:100px; width:100%; right:0; padding-inline:25px; }
   .az-hero h1 { font-size:62px; display:block; line-height:1.1; }
   .az-hero h1 em { font-size:35px; padding-inline:10px; }
@@ -253,13 +240,6 @@ body::before { display: none; }
   .az-album { padding-block:55px; }
   .az-section-heading { flex-direction:column; gap:25px; margin-bottom:30px; }
   .az-section-heading h2 { font-size:36px; }
-  .az-album-controls { width:100%; }
-  .az-album-controls>span { margin-right:auto; }
-  .az-album-viewport { padding-left:22px; }
-  .az-album-track { gap:18px; }
-  .az-album-photo { flex-basis:78%; }
-  .az-album-photo img { height:360px; }
-  .az-album-photo:last-child { margin-right:22px; }
   .az-day { padding-block:55px; }
   .az-day .az-section-heading>p { display:none; }
   .az-agenda { grid-template-columns:1fr 1fr; row-gap:35px; }
@@ -286,7 +266,7 @@ body::before { display: none; }
   .az-faq summary { font-size:19px; }
   .az-closing-photo { height:650px; }
   .az-closing-photo img { object-position:center; }
-  .az-closing-photo::after { background:linear-gradient(0deg,#102f40c9,transparent 75%); }
+  .az-closing-photo::after { background:linear-gradient(0deg,color-mix(in srgb, var(--az-ink) 80%, transparent),transparent 75%); }
   .az-closing-photo>div { left:25px; top:auto; bottom:55px; right:25px; }
   .az-closing-photo .az-closing-title { font-size:44px; }
   .az-footer-bottom { flex-wrap:wrap; padding-block:28px; gap:18px; }
@@ -311,4 +291,30 @@ body::before { display: none; }
 @media(prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto!important; }
   *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+}
+/* La portada vertical conserva a la pareja bajo la tipografía, en todos los tamaños. */
+.az-hero { min-height: 660px; height: min(940px, calc(100svh - 116px)); }
+.az-hero img { object-position: center 58%; }
+.az-hero::after { background: linear-gradient(180deg, rgb(35 39 30 / .64), rgb(35 39 30 / .22) 30%, transparent 52%, rgb(35 39 30 / .48)); }
+.az-hero-copy { top: 35px; right: 0; width: 100%; padding: 0 30px; }
+.az-hero h1 { display: block; font-size: 80px; line-height: 1.1; text-shadow: none; }
+.az-hero h1 span { display: inline; }
+.az-hero h1 em { display: inline; font-size: 54px; margin-inline: 20px; }
+.az-hero-copy .az-kicker { margin-bottom: 18px; }
+.az-hero-copy > p:last-child { max-width: 500px; margin-top: 15px; font-size: 17px; }
+.az-invitation { background: var(--template-surface); }
+.az-invitation-paper { background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgb(87 78 58 / .018) 3px 4px); }
+@media (max-width: 800px) {
+  .az-hero { min-height: 640px; }
+  .az-hero h1 { font-size: 66px; }
+  .az-hero h1 em { font-size: 42px; margin-inline: 12px; }
+}
+@media (max-width: 600px) {
+  .az-hero { height: calc(100svh - 100px); min-height: 640px; }
+  .az-hero img { object-position: center 70%; }
+  .az-hero-copy { top: 35px; bottom: auto; padding-inline: 24px; }
+  .az-hero h1 { font-size: 53px; line-height: 1.1; }
+  .az-hero h1 span { display: inline; }
+  .az-hero h1 em { display: inline; font-size: 32px; margin-inline: 6px; padding: 0; }
+  .az-hero-copy > p:last-child { max-width: 240px; font-size: 14px; }
 }

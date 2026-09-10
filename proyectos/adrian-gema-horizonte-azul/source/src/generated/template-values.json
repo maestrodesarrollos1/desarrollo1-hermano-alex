@@ -30,16 +30,16 @@
     "paragraph2": "El 27 de marzo nos vemos en Finca Ronesa. Habrá tiempo para brindar, sentarnos a la mesa y bailar hasta medianoche."
   },
   "theme": {
-    "primaryDark": "#193E59",
-    "primary": "#A84631",
-    "soft": "#E8F0F3",
-    "text": "#243D47",
+    "primaryDark": "#344638",
+    "primary": "#80624D",
+    "soft": "#E8EBE1",
+    "text": "#41473F",
     "radius": "3"
   },
   "images": {
-    "hero": "/images/pareja/landing.webp",
-    "landing": "/images/pareja/landing.webp",
-    "landingMobile": "/images/pareja/landing-mobile.webp",
+    "hero": "/images/pareja/portada-roma.webp",
+    "landing": "/images/pareja/portada-roma.webp",
+    "landingMobile": "/images/pareja/portada-roma-mobile.webp",
     "historia1": "/images/pareja/historia1.webp",
     "historia2": "/images/pareja/historia2.webp",
     "galeria1": "/images/pareja/galeria1.webp",
@@ -55,6 +55,22 @@
     "galeria11": "/images/pareja/galeria11.webp",
     "galeria12": "/images/pareja/galeria12.webp",
     "despedida": "/images/pareja/despedida.webp"
+  },
+  "album": {
+    "title": "Nuestra historia, hoja a hoja.",
+    "order": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6, galeria7, galeria8, galeria9, galeria10, galeria11, galeria12",
+    "caption1": "Con el mar de fondo", "date1": "",
+    "caption2": "En cualquier lugar", "date2": "",
+    "caption3": "Tú, siempre", "date3": "",
+    "caption4": "Los tres", "date4": "",
+    "caption5": "El próximo destino", "date5": "",
+    "caption6": "Sin prisa", "date6": "",
+    "caption7": "Otra aventura", "date7": "",
+    "caption8": "Nuestra compañía", "date8": "",
+    "caption9": "Una parada más", "date9": "",
+    "caption10": "A la misma orilla", "date10": "",
+    "caption11": "De celebración", "date11": "",
+    "caption12": "Todo lo que viene", "date12": ""
   },
   "sections": {
     "intro": true,
