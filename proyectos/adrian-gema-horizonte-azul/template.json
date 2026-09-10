@@ -1,0 +1,411 @@
+{
+  "id": "boda-horizonte-azul",
+  "name": "Adrián & Gema · Horizonte Azul",
+  "description": "Proyecto de cliente: invitación mediterránea con álbum, calendario y datos del briefing.",
+  "source": "source",
+  "previewPath": "/es",
+  "valuesFile": "src/generated/template-values.json",
+  "fields": [
+    {
+      "key": "couple.partner1",
+      "label": "Nombre 1",
+      "type": "text",
+      "default": "Adrián",
+      "group": "La pareja",
+      "required": true
+    },
+    {
+      "key": "couple.partner2",
+      "label": "Nombre 2",
+      "type": "text",
+      "default": "Gema",
+      "group": "La pareja",
+      "required": true
+    },
+    {
+      "key": "event.dateLabel",
+      "label": "Fecha visible",
+      "type": "text",
+      "default": "27 de marzo de 2027",
+      "group": "El evento"
+    },
+    {
+      "key": "event.dateIso",
+      "label": "Fecha para la cuenta atrás",
+      "type": "datetime",
+      "default": "2027-03-27T12:00:00+01:00",
+      "group": "El evento"
+    },
+    {
+      "key": "event.city",
+      "label": "Ciudad",
+      "type": "text",
+      "default": "",
+      "group": "El evento"
+    },
+    {
+      "key": "event.venue",
+      "label": "Lugar del evento",
+      "type": "text",
+      "default": "Finca Ronesa",
+      "group": "El evento"
+    },
+    {
+      "key": "contact.email",
+      "label": "Email",
+      "type": "text",
+      "default": "",
+      "group": "Contacto"
+    },
+    {
+      "key": "contact.phone",
+      "label": "Teléfono",
+      "type": "text",
+      "default": "+34 619 544 090",
+      "group": "Contacto"
+    },
+    {
+      "key": "contact.name",
+      "label": "Persona de contacto",
+      "type": "text",
+      "default": "Nereida",
+      "group": "Contacto"
+    },
+    {
+      "key": "rsvp.url",
+      "label": "Enlace RSVP",
+      "type": "url",
+      "default": "",
+      "group": "Confirmaciones"
+    },
+    {
+      "key": "rsvp.noteTitle",
+      "label": "Título de la nota",
+      "type": "text",
+      "default": "Nos vemos en la finca",
+      "group": "Confirmaciones"
+    },
+    {
+      "key": "rsvp.noteText",
+      "label": "Texto de la nota",
+      "type": "text",
+      "default": "Para cualquier duda el día de la boda, podéis contactar con Nereida.",
+      "group": "Confirmaciones"
+    },
+    {
+      "key": "rsvp.ctaTitle",
+      "label": "Título RSVP",
+      "type": "text",
+      "default": "Guardadnos ese día.",
+      "group": "Confirmaciones"
+    },
+    {
+      "key": "rsvp.ctaText",
+      "label": "Texto RSVP",
+      "type": "textarea",
+      "default": "Pronto podréis confirmar vuestra asistencia desde aquí. Mientras tanto, reservad el 27 de marzo.",
+      "group": "Confirmaciones"
+    },
+    {
+      "key": "hero.eyebrow",
+      "label": "Frase de portada",
+      "type": "text",
+      "default": "Sigamos construyendo una vida juntos.",
+      "group": "Portada"
+    },
+    {
+      "key": "story.title",
+      "label": "Título de la historia",
+      "type": "text",
+      "default": "La vida, contigo.",
+      "group": "Historia"
+    },
+    {
+      "key": "story.paragraph1",
+      "label": "Historia · párrafo 1",
+      "type": "textarea",
+      "default": "De todos estos momentos nace el siguiente: nuestra boda. Nos hace mucha ilusión compartirlo con vosotros.",
+      "group": "Historia"
+    },
+    {
+      "key": "story.paragraph2",
+      "label": "Historia · párrafo 2",
+      "type": "textarea",
+      "default": "El 27 de marzo nos vemos en Finca Ronesa. Habrá tiempo para brindar, sentarnos a la mesa y bailar hasta medianoche.",
+      "group": "Historia"
+    },
+    {
+      "key": "theme.primaryDark",
+      "label": "Color oscuro",
+      "type": "color",
+      "default": "#193E59",
+      "group": "Diseño"
+    },
+    {
+      "key": "theme.primary",
+      "label": "Color principal",
+      "type": "color",
+      "default": "#A84631",
+      "group": "Diseño"
+    },
+    {
+      "key": "theme.soft",
+      "label": "Color suave",
+      "type": "color",
+      "default": "#E8F0F3",
+      "group": "Diseño"
+    },
+    {
+      "key": "theme.text",
+      "label": "Color del texto",
+      "type": "color",
+      "default": "#243D47",
+      "group": "Diseño"
+    },
+    {
+      "key": "theme.radius",
+      "label": "Redondeado",
+      "type": "text",
+      "default": "3",
+      "group": "Diseño"
+    },
+    {
+      "key": "images.hero",
+      "label": "Imagen de portada",
+      "type": "image",
+      "default": "/images/pareja/landing.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.landing",
+      "label": "Portada",
+      "type": "image",
+      "default": "/images/pareja/landing.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.landingMobile",
+      "label": "Portada móvil",
+      "type": "image",
+      "default": "/images/pareja/landing-mobile.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.historia1",
+      "label": "Historia",
+      "type": "image",
+      "default": "/images/pareja/historia1.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.historia2",
+      "label": "Foto con Nala",
+      "type": "image",
+      "default": "/images/pareja/historia2.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria1",
+      "label": "galeria1",
+      "type": "image",
+      "default": "/images/pareja/galeria1.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria2",
+      "label": "galeria2",
+      "type": "image",
+      "default": "/images/pareja/galeria2.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria3",
+      "label": "galeria3",
+      "type": "image",
+      "default": "/images/pareja/galeria3.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria4",
+      "label": "galeria4",
+      "type": "image",
+      "default": "/images/pareja/galeria4.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria5",
+      "label": "galeria5",
+      "type": "image",
+      "default": "/images/pareja/galeria5.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria6",
+      "label": "galeria6",
+      "type": "image",
+      "default": "/images/pareja/galeria6.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria7",
+      "label": "galeria7",
+      "type": "image",
+      "default": "/images/pareja/galeria7.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria8",
+      "label": "galeria8",
+      "type": "image",
+      "default": "/images/pareja/galeria8.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria9",
+      "label": "galeria9",
+      "type": "image",
+      "default": "/images/pareja/galeria9.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria10",
+      "label": "galeria10",
+      "type": "image",
+      "default": "/images/pareja/galeria10.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria11",
+      "label": "galeria11",
+      "type": "image",
+      "default": "/images/pareja/galeria11.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.galeria12",
+      "label": "galeria12",
+      "type": "image",
+      "default": "/images/pareja/galeria12.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "images.despedida",
+      "label": "Despedida",
+      "type": "image",
+      "default": "/images/pareja/despedida.webp",
+      "group": "Fotos"
+    },
+    {
+      "key": "sections.intro",
+      "label": "Introducción animada",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.story",
+      "label": "Historia",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.countdown",
+      "label": "Cuenta atrás",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.schedule",
+      "label": "Cronograma y lugares",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.faq",
+      "label": "Preguntas frecuentes",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.messages",
+      "label": "Mensajes",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.rsvp",
+      "label": "Confirmación RSVP",
+      "type": "boolean",
+      "default": true,
+      "group": "Secciones"
+    },
+    {
+      "key": "sections.cookies",
+      "label": "Aviso de cookies",
+      "type": "boolean",
+      "default": false,
+      "group": "Secciones"
+    },
+    {
+      "key": "schedule.ceremony",
+      "label": "Hora de ceremonia",
+      "type": "text",
+      "default": "12:00",
+      "group": "Horarios"
+    },
+    {
+      "key": "schedule.cocktail",
+      "label": "Hora del cóctel",
+      "type": "text",
+      "default": "13:30",
+      "group": "Horarios"
+    },
+    {
+      "key": "schedule.lunch",
+      "label": "Hora del banquete",
+      "type": "text",
+      "default": "15:00",
+      "group": "Horarios"
+    },
+    {
+      "key": "schedule.party",
+      "label": "Inicio de fiesta",
+      "type": "text",
+      "default": "17:00",
+      "group": "Horarios"
+    },
+    {
+      "key": "schedule.end",
+      "label": "Fin de fiesta",
+      "type": "text",
+      "default": "00:00",
+      "group": "Horarios"
+    },
+    {
+      "key": "faq.parkingQuestion",
+      "label": "Pregunta de aparcamiento",
+      "type": "text",
+      "default": "¿Hay sitio para aparcar?",
+      "group": "Preguntas frecuentes"
+    },
+    {
+      "key": "faq.parkingAnswer",
+      "label": "Respuesta de aparcamiento",
+      "type": "textarea",
+      "default": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema.",
+      "group": "Preguntas frecuentes"
+    },
+    {
+      "key": "faq.transportAnswer",
+      "label": "Información de transporte",
+      "type": "textarea",
+      "default": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados.",
+      "group": "Preguntas frecuentes"
+    }
+  ]
+}
