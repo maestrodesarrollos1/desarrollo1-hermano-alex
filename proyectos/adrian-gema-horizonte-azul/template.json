@@ -292,7 +292,7 @@
       "key": "images.despedida",
       "label": "Despedida",
       "type": "image",
-      "default": "/images/pareja/despedida.webp",
+      "default": "/images/pareja/galeria8.webp",
       "group": "Fotos"
     },
     {

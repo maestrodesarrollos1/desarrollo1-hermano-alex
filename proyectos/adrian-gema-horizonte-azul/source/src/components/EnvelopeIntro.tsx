@@ -7,16 +7,20 @@ export default function EnvelopeIntro({ onComplete }: { onComplete?: () => void 
   const enterRef = useRef<HTMLButtonElement>(null);
   useEffect(() => { if (opened) enterRef.current?.focus({preventScroll:true}); }, [opened]);
   return <section className={`az-intro${opened ? " is-open" : ""}`} aria-label="Invitación de Adrián y Gema">
-    <img className="az-intro-scene" src="/images/pareja/finca-ilustrada.webp" alt="Paisaje de finca ilustrado en acuarela" fetchPriority="high" />
+    <img className="az-intro-scene" src="/images/pareja/finca-ilustrada.webp" alt="Paisaje de finca ilustrado en acuarela" />
     {!opened ? <>
-      <p className="az-intro-top">Una invitación para vosotros</p>
+      <div className="az-intro-top" aria-label="Invitación de boda">
+        <span>Adrián &amp; Gema</span>
+        <i aria-hidden="true" />
+        <span>27 · 03 · 2027</span>
+      </div>
       <div className="az-intro-copy">
-        <p className="az-kicker">Nos casamos</p>
-        <h1>{v.couple.partner1} <em>&amp;</em> {v.couple.partner2}</h1>
-        <p className="az-intro-date">{v.event.dateLabel} · {v.event.venue}</p>
+        <p className="az-kicker">Una invitación para vosotros</p>
+        <h1 data-editor-key="hero.eyebrow">{v.hero.eyebrow}</h1>
+        <p className="az-intro-date"><span>Nos casamos</span>{v.event.dateLabel} · {v.event.venue}</p>
         <button className="az-button" onClick={() => setOpened(true)}>Descubrir la invitación <ArrowUpRight size={17}/></button>
       </div>
-      <p className="az-intro-foot">{v.hero.eyebrow}</p>
+      <p className="az-intro-foot">Nuestra siguiente aventura empieza aquí.</p>
     </> : <article className="az-invitation">
       <div className="az-invitation-illustration" aria-hidden="true" />
       <div className="az-invitation-paper">

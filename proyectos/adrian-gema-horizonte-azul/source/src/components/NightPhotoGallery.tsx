@@ -22,6 +22,7 @@ function createSheet(photo: AlbumPhoto, index: number) {
   image.alt = photo.alt;
   image.draggable = false;
   image.decoding = "async";
+  image.loading = "lazy";
   image.dataset.src = photo.src;
   mount.append(image);
   const caption = document.createElement("figcaption");
@@ -75,9 +76,9 @@ export default function NightPhotoGallery() {
           width: 430, height: 565, size: "stretch",
           minWidth: 270, maxWidth: 470, minHeight: 355, maxHeight: 618,
           showCover: false, usePortrait: true, autoSize: true,
-          drawShadow: true, maxShadowOpacity: 0.22, flippingTime: 850,
-          mobileScrollSupport: false, showPageCorners: false,
-          disableFlipByClick: true, swipeDistance: 35,
+          drawShadow: true, maxShadowOpacity: 0.42, flippingTime: 1120,
+          mobileScrollSupport: false, showPageCorners: true,
+          disableFlipByClick: true, swipeDistance: 28,
           useMouseEvents: !media.matches,
         });
         bookRef.current = instance;
@@ -139,7 +140,7 @@ export default function NightPhotoGallery() {
       <button className="az-text-button" onClick={event => { opener.current = event.currentTarget; setLightbox(index); }}><Expand size={16}/> Ampliar foto</button>
     </figure>)}</div> : <>
       <div className="nb-stage az-wrap">
-        <div className="nb-cover" role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
+        <div className={`nb-cover${turning ? " is-turning" : ""}${ready ? " is-ready" : ""}`} role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
           onKeyDown={event => {
             if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
               event.preventDefault();
@@ -152,9 +153,12 @@ export default function NightPhotoGallery() {
       </div>
       <div className="az-wrap nb-controls">
         <button className="az-icon" disabled={!ready || current === 0 || turning} onClick={() => next(-1)} aria-label="Página anterior" title="Página anterior"><ArrowLeft/></button>
-        <p id="nb-position" aria-live="polite" aria-atomic="true">
-          {ready ? `Recuerdo ${String(current + 1).padStart(2, "0")}${lastVisible !== current ? ` / ${String(lastVisible + 1).padStart(2, "0")}` : ""} de ${photos.length}` : "Nuestro álbum"}
-        </p>
+        <div className="nb-position">
+          <p id="nb-position" aria-live="polite" aria-atomic="true">
+            {ready ? `Recuerdo ${String(current + 1).padStart(2, "0")}${lastVisible !== current ? ` / ${String(lastVisible + 1).padStart(2, "0")}` : ""} de ${photos.length}` : "Nuestro álbum"}
+          </p>
+          <span className="nb-progress" aria-hidden="true"><i style={{ width: `${((lastVisible + 1) / photos.length) * 100}%` }}/></span>
+        </div>
         <button className="az-icon" disabled={!ready || lastVisible >= photos.length - 1 || turning} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
       </div>
       <div className="az-wrap nb-enlarge">{ready && visible.map((photo, offset) => <button key={photo.id} className="az-text-button"
