@@ -7,4 +7,4 @@
 **/__pycache__/
 **/*.py[cod]
 **/nupia-mark-source.png
-tmp/
+tmp/nupia_studio/.venv/
