@@ -1,7 +1,7 @@
 {
-  "id": "boda-elegante",
-  "name": "Boda elegante",
-  "description": "Invitación con introducción, historia, cuenta atrás, agenda, FAQ y RSVP.",
+  "id": "boda-horizonte-azul",
+  "name": "Boda Horizonte Azul",
+  "description": "Invitación mediterránea inspirada en una finca entre pinos, con entrada en acuarela, historia, cuenta atrás, agenda, FAQ y RSVP.",
   "source": "source",
   "previewPath": "/es",
   "valuesFile": "src/generated/template-values.json",
@@ -10,7 +10,7 @@
       "key": "couple.partner1",
       "label": "Nombre 1",
       "type": "text",
-      "default": "Nombre 1",
+      "default": "Clara",
       "group": "Datos básicos",
       "required": true
     },
@@ -18,7 +18,7 @@
       "key": "couple.partner2",
       "label": "Nombre 2",
       "type": "text",
-      "default": "Nombre 2",
+      "default": "Bruno",
       "group": "Datos básicos",
       "required": true
     },
@@ -26,28 +26,28 @@
       "key": "event.dateLabel",
       "label": "Fecha visible",
       "type": "text",
-      "default": "Fecha por definir",
+      "default": "20 de agosto de 2027",
       "group": "Datos básicos"
     },
     {
       "key": "event.dateIso",
       "label": "Fecha para la cuenta atrás",
       "type": "datetime",
-      "default": "2027-06-18T18:00",
+      "default": "2027-08-20T20:00",
       "group": "Datos básicos"
     },
     {
       "key": "event.city",
       "label": "Ciudad",
       "type": "text",
-      "default": "Ciudad",
+      "default": "Santander",
       "group": "Datos básicos"
     },
     {
       "key": "event.venue",
       "label": "Lugar del evento",
       "type": "text",
-      "default": "Lugar del evento",
+      "default": "Palacio del Mar",
       "group": "Datos básicos"
     },
     {
@@ -75,7 +75,7 @@
       "key": "hero.eyebrow",
       "label": "Frase de portada",
       "type": "text",
-      "default": "Plantilla de celebración",
+      "default": "Una noche bajo el cielo abierto",
       "group": "Textos"
     },
     {
@@ -131,42 +131,49 @@
       "key": "theme.primaryDark",
       "label": "Color oscuro",
       "type": "color",
-      "default": "#0F3D2E",
+      "default": "#637554",
       "group": "Diseño"
     },
     {
       "key": "theme.primary",
       "label": "Color principal",
       "type": "color",
-      "default": "#2E7D59",
+      "default": "#A96F4C",
       "group": "Diseño"
     },
     {
       "key": "theme.soft",
       "label": "Color suave",
       "type": "color",
-      "default": "#DDF0E1",
+      "default": "#D9C6A5",
       "group": "Diseño"
     },
     {
       "key": "theme.text",
       "label": "Color del texto",
       "type": "color",
-      "default": "#1F5E46",
+      "default": "#506242",
+      "group": "Diseño"
+    },
+    {
+      "key": "theme.radius",
+      "label": "Redondeado",
+      "type": "text",
+      "default": "8",
       "group": "Diseño"
     },
     {
       "key": "images.hero",
       "label": "Imagen de portada",
       "type": "image",
-      "default": "",
+      "default": "/images/azure/finca-acuarela.png",
       "group": "Imágenes"
     },
     {
       "key": "sections.intro",
       "label": "Introducción animada",
       "type": "boolean",
-      "default": false,
+      "default": true,
       "group": "Secciones"
     },
     {

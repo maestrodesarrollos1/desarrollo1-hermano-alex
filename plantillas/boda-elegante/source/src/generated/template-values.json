@@ -1,41 +1,59 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Adrián",
+    "partner2": "Gema"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
-    "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "dateLabel": "27 de marzo de 2027",
+    "dateIso": "2027-03-27T12:00",
+    "city": "Elche · Alicante",
+    "venue": "Finca Ronesa"
   },
   "contact": {
-    "email": "contacto@example.com",
-    "phone": "+34 600 000 000"
+    "email": "",
+    "phone": "Nereida · 619 544 090"
   },
   "rsvp": {
-    "url": "#",
-    "noteTitle": "Bloque personalizable",
-    "noteText": "Utiliza este espacio para una nota de agradecimiento, información sobre regalos o cualquier indicación adicional para las personas invitadas.",
-    "ctaTitle": "Celebremos juntos",
-    "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
+    "url": "",
+    "noteTitle": "Un detalle práctico",
+    "noteText": "Para dudas el día de la boda, podéis contactar con Nereida.",
+    "ctaTitle": "La celebración empieza aquí",
+    "ctaText": "La confirmación de asistencia se habilitará próximamente. Por ahora, guardad la fecha."
   },
   "hero": {
-    "eyebrow": "Plantilla de celebración"
+    "eyebrow": "Sigamos construyendo una vida juntos"
   },
   "story": {
-    "title": "Vuestras historias",
-    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
-    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+    "title": "Una celebración muy nuestra",
+    "paragraph1": "Adrián y Gema quieren reunir a quienes más quieren para celebrar una vida compartida, con una boda mediterránea, colorida y llena de personalidad.",
+    "paragraph2": "Una jornada tranquila en Finca Ronesa: tiempo para llegar, brindar, sentarse a la mesa y terminar bailando."
   },
+  "schedule": {
+    "eyebrow": "El día de la celebración",
+    "title": "Programa",
+    "items": [
+      { "time": "12:00", "title": "Ceremonia" },
+      { "time": "13:30", "title": "Cóctel" },
+      { "time": "15:00", "title": "Banquete" },
+      { "time": "17:00", "title": "Fiesta" }
+    ]
+  },
+  "faq": [
+    {
+      "id": "faq-aparcamiento",
+      "question": "¿Hay sitio para aparcar?",
+      "answer": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema."
+    }
+  ],
   "theme": {
-    "primaryDark": "#4A1F2A",
-    "primary": "#A7605F",
-    "soft": "#F1DDD5",
-    "text": "#63323B"
+    "primaryDark": "#637554",
+    "primary": "#A96F4C",
+    "soft": "#D9C6A5",
+    "text": "#506242",
+    "radius": "8"
   },
   "images": {
-    "hero": ""
+    "hero": "/images/azure/finca-acuarela.png"
   },
   "sections": {
     "intro": true,
@@ -45,6 +63,6 @@
     "faq": true,
     "messages": true,
     "rsvp": true,
-    "cookies": true
+    "cookies": false
   }
 }

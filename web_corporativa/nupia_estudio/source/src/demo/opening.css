@@ -1,0 +1,43 @@
+@font-face { font-family: "Felixti"; src: url("/fonts/Felixti.TTF") format("truetype"); font-display: swap; }
+@font-face { font-family: "Soho Pro"; src: url("/fonts/SohoPro-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+:root { --font-title: "Felixti"; --font-nav: "Soho Pro"; color: #f3efe4; background: #101c15; font-family: "Felixti", Georgia, serif; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button { cursor: pointer; }
+button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+img { display: block; max-width: 100%; }
+.opening-loading { display: grid; min-height: 100svh; place-items: center; margin: 0; font-family: "Soho Pro", Arial, sans-serif; }
+:root .jewel-intro__card, :root .rose-doors__invitation { max-height: calc(100svh - 32px); overflow: auto; }
+:root .jewel-intro__card:focus, :root .rose-doors__invitation:focus { outline: none; }
+:root .jewel-intro__control { min-height: 44px; }
+:root .rose-doors__prompt { min-height: 44px; border: 0; border-bottom: 1px solid currentColor; background: transparent; }
+.celebration-intro { position: relative; min-height: 100svh; isolation: isolate; color: #f7f1e5; background: #102017; }
+.celebration-intro > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 68% center; }
+.celebration-intro__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #051208e6, #06130933); }
+.celebration-intro--flores .celebration-intro__shade { background: linear-gradient(90deg, #492434e0, #49243422); }
+.celebration-intro::after { content: ""; position: absolute; inset: 20px; border: 1px solid #f7f1e54d; pointer-events: none; }
+.celebration-intro__content { display: flex; flex-direction: column; justify-content: space-between; min-height: 100svh; padding: 54px 60px; gap: 28px; }
+.celebration-intro__eyebrow { margin: 0; font-family: "Soho Pro", Arial, sans-serif; font-size: 10px; }
+.celebration-intro h1 { margin: 0; font-size: 88px; font-weight: 400; line-height: .9; outline: none; }
+.celebration-intro h1 em { display: block; margin-block: 18px; font-size: 36px; color: #dbc396; font-style: italic; }
+.celebration-intro__details { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid #f7f1e559; padding-top: 22px; font-family: "Soho Pro", Arial, sans-serif; font-size: 12px; line-height: 1.6; }
+.celebration-intro__details p { margin: 0; }
+@media (max-width: 640px) {
+  .celebration-intro__content { padding: 40px 30px; }
+  .celebration-intro h1 { font-size: 66px; }
+  .celebration-intro__details { display: block; font-size: 11px; }
+  .celebration-intro__details p:last-child { display: none; }
+}
+@media (max-height: 560px) {
+  :root .jewel-intro__masthead { top: 32px; }
+  :root .jewel-intro__names, :root .rose-doors__names { font-size: 46px; }
+  :root .rose-doors__heading { top: 32px; }
+  :root .jewel-intro__card, :root .rose-doors__invitation { padding: 30px; }
+  :root .jewel-intro__card h1, :root .rose-doors__paper h1 { font-size: 42px; margin-block: 18px; }
+  :root .jewel-intro__enter, :root .rose-doors__enter { margin-top: 22px; }
+  .celebration-intro__content { padding: 32px 40px; gap: 16px; }
+  .celebration-intro h1 { font-size: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}

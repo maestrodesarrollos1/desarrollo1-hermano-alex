@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+!.env.example
+*.log
+vite-dev*.out
+vite-dev*.err
+source/public/_messages/game-scores.json
+source/public/_messages/login-attempts.json

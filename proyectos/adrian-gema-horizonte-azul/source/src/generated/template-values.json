@@ -1,0 +1,97 @@
+{
+  "couple": {
+    "partner1": "Adrián",
+    "partner2": "Gema"
+  },
+  "event": {
+    "dateLabel": "27 de marzo de 2027",
+    "dateIso": "2027-03-27T12:00:00+01:00",
+    "city": "",
+    "venue": "Finca Ronesa"
+  },
+  "contact": {
+    "email": "",
+    "phone": "+34 619 544 090",
+    "name": "Nereida"
+  },
+  "rsvp": {
+    "url": "",
+    "noteTitle": "Nos vemos en la finca",
+    "noteText": "Para cualquier duda el día de la boda, podéis contactar con Nereida.",
+    "ctaTitle": "Guardadnos ese día.",
+    "ctaText": "Pronto podréis confirmar vuestra asistencia desde aquí. Mientras tanto, reservad el 27 de marzo."
+  },
+  "hero": {
+    "eyebrow": "Sigamos construyendo una vida juntos."
+  },
+  "story": {
+    "title": "La vida, contigo.",
+    "paragraph1": "De todos estos momentos nace el siguiente: nuestra boda. Nos hace mucha ilusión compartirlo con vosotros.",
+    "paragraph2": "El 27 de marzo nos vemos en Finca Ronesa. Habrá tiempo para brindar, sentarnos a la mesa y bailar hasta medianoche."
+  },
+  "theme": {
+    "primaryDark": "#344638",
+    "primary": "#80624D",
+    "soft": "#E8EBE1",
+    "text": "#41473F",
+    "radius": "3"
+  },
+  "images": {
+    "hero": "/images/pareja/portada-roma.webp",
+    "landing": "/images/pareja/portada-roma.webp",
+    "landingMobile": "/images/pareja/portada-roma-mobile.webp",
+    "historia1": "/images/pareja/historia1.webp",
+    "historia2": "/images/pareja/historia2.webp",
+    "galeria1": "/images/pareja/galeria1.webp",
+    "galeria2": "/images/pareja/galeria2.webp",
+    "galeria3": "/images/pareja/galeria3.webp",
+    "galeria4": "/images/pareja/galeria4.webp",
+    "galeria5": "/images/pareja/galeria5.webp",
+    "galeria6": "/images/pareja/galeria6.webp",
+    "galeria7": "/images/pareja/galeria7.webp",
+    "galeria8": "/images/pareja/galeria8.webp",
+    "galeria9": "/images/pareja/galeria9.webp",
+    "galeria10": "/images/pareja/galeria10.webp",
+    "galeria11": "/images/pareja/galeria11.webp",
+    "galeria12": "/images/pareja/galeria12.webp",
+    "despedida": "/images/pareja/galeria8.webp"
+  },
+  "album": {
+    "title": "Nuestra historia, hoja a hoja.",
+    "order": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6, galeria7, galeria8, galeria9, galeria10, galeria11, galeria12",
+    "caption1": "Con el mar de fondo", "date1": "",
+    "caption2": "En cualquier lugar", "date2": "",
+    "caption3": "Tú, siempre", "date3": "",
+    "caption4": "Los tres", "date4": "",
+    "caption5": "El próximo destino", "date5": "",
+    "caption6": "Sin prisa", "date6": "",
+    "caption7": "Otra aventura", "date7": "",
+    "caption8": "Nuestra compañía", "date8": "",
+    "caption9": "Una parada más", "date9": "",
+    "caption10": "A la misma orilla", "date10": "",
+    "caption11": "De celebración", "date11": "",
+    "caption12": "Todo lo que viene", "date12": ""
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": false
+  },
+  "schedule": {
+    "ceremony": "12:00",
+    "cocktail": "13:30",
+    "lunch": "15:00",
+    "party": "17:00",
+    "end": "00:00"
+  },
+  "faq": {
+    "parkingQuestion": "¿Hay sitio para aparcar?",
+    "parkingAnswer": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema.",
+    "transportAnswer": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados."
+  }
+}

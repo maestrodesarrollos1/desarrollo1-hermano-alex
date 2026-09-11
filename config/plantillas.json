@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "corporate": {
+    "name": "Nupia",
+    "path": "web_corporativa/nupia_estudio/source",
+    "port": 8084
+  },
+  "templates": [
+    { "id": "boda-horizonte-azul", "name": "Boda Horizonte Azul", "path": "plantillas/boda-elegante/source", "port": 8080 },
+    { "id": "boda-adrian-gema", "name": "Boda Adrian y Gema", "path": "plantillas/boda_ADRIAN_GEMA/source", "port": 8081 },
+    { "id": "boda-primos-carles", "name": "Boda Primos Carles", "path": "plantillas/boda_PRIMOS_CARLES/source", "port": 8082 },
+    { "id": "boda-anillo-verde", "name": "Boda Anillo Verde", "path": "plantillas/boda_ANILLO_VERDE/source", "port": 8083 },
+    { "id": "boda-puertas-rosa", "name": "Boda Puertas Rosa", "path": "plantillas/boda_PUERTAS_ROSA/source", "port": 8085 },
+    { "id": "boda-atlas-nocturno", "name": "Boda Atlas Nocturno", "path": "plantillas/boda_ATLAS_NOCTURNO/source", "port": 8086 },
+    { "id": "boda-nocturna-tinta", "name": "Boda Nocturna Tinta", "path": "plantillas/boda_NOCTURNA_TINTA/source", "port": 8087 },
+    { "id": "boda-hanami-pop", "name": "Boda Hanami Pop", "path": "plantillas/boda_HANAMI_POP/source", "port": 8088 }
+  ]
+}

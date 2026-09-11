@@ -5,32 +5,32 @@ const galleryItems = [
   {
     src: "/couple-gallery/photo-1.jpg",
     title: "Mirada",
-    fallback: "linear-gradient(135deg, #2b1119, #a7605f 48%, #f1ddd5)",
+    fallback: "linear-gradient(135deg, #637554, #87956b 48%, #d9c6a5)",
   },
   {
     src: "/couple-gallery/photo-2.jpg",
     title: "Brindis",
-    fallback: "linear-gradient(135deg, #4a1f2a, #c38a78 46%, #fff7f2)",
+    fallback: "linear-gradient(135deg, #506242, #a96f4c 46%, #eadabd)",
   },
   {
     src: "/couple-gallery/photo-3.jpg",
     title: "Baile",
-    fallback: "linear-gradient(135deg, #1f1720, #7b3f4a 52%, #f1ddd5)",
+    fallback: "linear-gradient(135deg, #4d6046, #7e8c66 52%, #d5be96)",
   },
   {
     src: "/couple-gallery/photo-4.jpg",
     title: "Detalle",
-    fallback: "linear-gradient(135deg, #4a1f2a, #b9856f 42%, #fffaf8)",
+    fallback: "linear-gradient(135deg, #637554, #bd8962 42%, #ebdcbe)",
   },
   {
     src: "/couple-gallery/photo-5.jpg",
     title: "Noche",
-    fallback: "linear-gradient(135deg, #24121a, #63323b 48%, #d8a898)",
+    fallback: "linear-gradient(135deg, #536547, #879064 48%, #c79266)",
   },
   {
     src: "/couple-gallery/photo-6.jpg",
     title: "Promesa",
-    fallback: "linear-gradient(135deg, #4a1f2a, #a7605f 45%, #f6e8df)",
+    fallback: "linear-gradient(135deg, #637554, #a96f4c 45%, #e7d4b2)",
   },
 ] as const;
 
@@ -76,7 +76,7 @@ const NightPhotoGallery = () => {
               clipPath: "polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%)",
             }}
           />
-          <div className="absolute inset-3 bg-[linear-gradient(180deg,transparent_35%,rgba(15,8,12,.66)_100%)]" />
+          <div className="absolute inset-3 bg-[linear-gradient(180deg,transparent_35%,rgba(64,79,53,.64)_100%)]" />
           <div className="absolute bottom-12 left-1/2 w-52 -translate-x-1/2 text-center text-white md:bottom-16">
             <p className="font-nav text-[10px] uppercase tracking-[0.3em] text-white/74">Galeria privada</p>
             <p className="mt-2 font-script text-4xl leading-none md:text-5xl">{activeItem.title}</p>

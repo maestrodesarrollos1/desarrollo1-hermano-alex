@@ -12,7 +12,7 @@ const AboutInfo = () => {
             <div className="absolute -left-16 -top-16 h-44 w-44 rounded-full border border-white/10" aria-hidden="true" />
             <div className="relative">
               <p className="font-nav text-xs uppercase tracking-[0.36em] text-white/54">Cuenta atras</p>
-              <h2 className="mt-4 font-script text-4xl leading-none md:text-5xl">La noche se acerca</h2>
+              <h2 className="mt-4 font-script text-4xl leading-none md:text-5xl">El día se acerca</h2>
             </div>
             <p className="relative mt-8 text-sm leading-7 text-white/70">
               <span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span>

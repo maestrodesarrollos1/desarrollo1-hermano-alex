@@ -1,0 +1,51 @@
+{
+  "couple": {
+    "partner1": "Alma",
+    "partner2": "Leo"
+  },
+  "event": {
+    "dateLabel": "16 de octubre de 2027",
+    "dateIso": "2027-10-16T21:00",
+    "city": "Valencia",
+    "venue": "La Fabrica de Noche"
+  },
+  "contact": {
+    "email": "contacto@example.com",
+    "phone": "+34 600 000 000"
+  },
+  "rsvp": {
+    "url": "#",
+    "noteTitle": "Bloque personalizable",
+    "noteText": "Utiliza este espacio para una nota de agradecimiento, información sobre regalos o cualquier indicación adicional para las personas invitadas.",
+    "ctaTitle": "Celebremos juntos",
+    "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
+  },
+  "hero": {
+    "eyebrow": "El rito comienza de noche"
+  },
+  "story": {
+    "title": "Vuestras historias",
+    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
+    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+  },
+  "theme": {
+    "primaryDark": "#101116",
+    "primary": "#83778D",
+    "soft": "#E5E1E8",
+    "text": "#D0CBD4",
+    "radius": "4"
+  },
+  "images": {
+    "hero": "/images/nocturna/black-lacquer-moon.png"
+  },
+  "sections": {
+    "intro": true,
+    "story": true,
+    "countdown": true,
+    "schedule": true,
+    "faq": true,
+    "messages": true,
+    "rsvp": true,
+    "cookies": true
+  }
+}
