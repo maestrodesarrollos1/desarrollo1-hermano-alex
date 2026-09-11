@@ -10,7 +10,6 @@ export default function WeddingDetails() {
     [v.faq.parkingQuestion,v.faq.parkingAnswer],
     ["¿A qué hora empieza la celebración?",`La ceremonia empieza a las ${v.schedule.ceremony} h en ${v.event.venue}.`],
     ["¿Habrá transporte?",v.faq.transportAnswer],
-    ["¿Con quién podemos contactar ese día?",`${v.contact.name} os atenderá en el ${v.contact.phone}.`],
   ];
   return <>
     {v.sections.countdown && <AboutInfo/>}
@@ -23,6 +22,7 @@ export default function WeddingDetails() {
         <div className="az-story-copy"><p className="az-kicker">Todo lo que nos trae hasta aquí</p><h2 data-editor-key="story.title">{v.story.title}</h2><p data-editor-key="story.paragraph1">{v.story.paragraph1}</p><p data-editor-key="story.paragraph2">{v.story.paragraph2}</p><span className="az-signature">A <i>&amp;</i> G</span></div>
       </section>
       <NightPhotoGallery/>
+      {v.sections.messages && <section id="mensajes" data-editor-component="messages" className="az-message-section az-message-section--album az-wrap"><LoveMessages/></section>}
     </>}
     {v.sections.schedule && <>
       <section id="cronograma" data-editor-component="schedule" className="az-day">
@@ -37,7 +37,6 @@ export default function WeddingDetails() {
       </section>
     </>}
     {v.sections.rsvp && <Contact/>}
-    {v.sections.messages && <section id="mensajes" data-editor-component="messages" className="az-message-section az-wrap"><div className="az-section-heading"><div><p className="az-kicker">Para leerlo una y otra vez</p><h2>Dejadnos <em>unas palabras.</em></h2></div><p>Un consejo, una anécdota,<br/>lo que os salga de dentro.</p></div><LoveMessages/></section>}
     {v.sections.faq && <section id="preguntas-frecuentes" data-editor-component="faq" className="az-faq az-wrap"><div><p className="az-kicker">Antes de vernos</p><h2>Las pequeñas<br/><em>grandes dudas.</em></h2></div><div>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={20}/></summary><p>{a}</p></details>)}</div></section>}
   </>;
 }

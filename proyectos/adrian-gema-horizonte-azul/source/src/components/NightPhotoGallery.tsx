@@ -4,11 +4,27 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowLeft, ArrowRight, Expand, X } from "lucide-react";
 import { templateValues } from "@/config/template-values";
 import { getAlbumPhotos, type AlbumPhoto } from "@/data/photo-album";
+import { fetchApprovedMessages, type MessageItem } from "@/lib/love-messages";
 import "@/notebook.css";
 
 const photos = getAlbumPhotos();
 
-function createSheet(photo: AlbumPhoto, index: number) {
+const noteColors = ["yellow", "pink", "blue"];
+const notePositions = ["top-left", "top-right", "bottom-left"];
+
+function distributeNotes(messages: MessageItem[]) {
+  const pages = Array.from({ length: photos.length }, () => [] as MessageItem[]);
+  const shuffled = [...messages].sort(() => Math.random() - .5);
+  const count = Math.ceil(Math.random() * Math.min(shuffled.length, photos.length * 3));
+  shuffled.slice(0, count).forEach((message, index) => {
+    const available = pages.map((notes, page) => notes.length < 3 ? page : -1).filter(page => page >= 0);
+    const page = available[Math.floor(Math.random() * available.length)];
+    pages[page].push(message);
+  });
+  return pages;
+}
+
+function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
   const page = document.createElement("div");
   page.className = "nb-page";
   const content = document.createElement("figure");
@@ -24,7 +40,24 @@ function createSheet(photo: AlbumPhoto, index: number) {
   image.decoding = "async";
   image.loading = "lazy";
   image.dataset.src = photo.src;
-  mount.append(image);
+  // The pins make each print feel placed on the page rather than painted into it.
+  const pinLeft = document.createElement("i");
+  pinLeft.className = "nb-pushpin nb-pushpin--left";
+  pinLeft.setAttribute("aria-hidden", "true");
+  const pinRight = document.createElement("i");
+  pinRight.className = "nb-pushpin nb-pushpin--right";
+  pinRight.setAttribute("aria-hidden", "true");
+  notes.forEach((message, noteIndex) => {
+    const note = document.createElement("aside");
+    note.className = `nb-postit nb-postit--${noteColors[(index + noteIndex) % noteColors.length]} nb-postit--${notePositions[noteIndex]}`;
+    const text = document.createElement("span");
+    text.textContent = message.message;
+    const author = document.createElement("small");
+    author.textContent = `— ${message.name}`;
+    note.append(text, author);
+    mount.append(note);
+  });
+  mount.prepend(image, pinLeft, pinRight);
   const caption = document.createElement("figcaption");
   const title = document.createElement("span");
   title.textContent = photo.caption;
@@ -48,8 +81,12 @@ export default function NightPhotoGallery() {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [turning, setTurning] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const reducedMotion = useRef(false);
+  const queuedDirection = useRef<-1 | 1 | null>(null);
+  const isTurning = useRef(false);
 
   useEffect(() => {
     const parent = host.current;
@@ -70,7 +107,11 @@ export default function NightPhotoGallery() {
         const element = document.createElement("div");
         element.className = "nb-engine";
         parent.append(element);
-        const sheets = photos.map(createSheet);
+        // Only messages approved in /moderation can become notes in the book.
+        const approvedMessages = await fetchApprovedMessages();
+        if (disposed) return;
+        const pageNotes = distributeNotes(approvedMessages);
+        const sheets = photos.map((photo, index) => createSheet(photo, index, pageNotes[index]));
         sheets.forEach(sheet => element.append(sheet));
         instance = new PageFlip(element, {
           width: 430, height: 565, size: "stretch",
@@ -82,6 +123,14 @@ export default function NightPhotoGallery() {
           useMouseEvents: !media.matches,
         });
         bookRef.current = instance;
+        const smoothCornerReturn = () => {
+          const controllableBook = instance as PageFlip & {
+            getState: () => string;
+            getFlipController: () => { stopMove: () => void };
+          };
+          if (controllableBook.getState() === "fold_corner") controllableBook.getFlipController().stopMove();
+        };
+        element.addEventListener("mouseleave", smoothCornerReturn);
         const sync = () => {
           if (disposed || !instance) return;
           const index = instance.getCurrentPageIndex();
@@ -96,7 +145,20 @@ export default function NightPhotoGallery() {
         instance.on("init", () => { sync(); if (!disposed) setReady(true); });
         instance.on("flip", sync);
         instance.on("changeOrientation", sync);
-        instance.on("changeState", event => { if (!disposed) setTurning(event.data !== "read"); });
+        instance.on("changeState", event => {
+          if (disposed) return;
+          const isReading = event.data === "read";
+          isTurning.current = !isReading;
+          setTurning(!isReading);
+          if (isReading && queuedDirection.current !== null) {
+            const direction = queuedDirection.current;
+            queuedDirection.current = null;
+            window.requestAnimationFrame(() => {
+              if (disposed || !instance) return;
+              if (direction > 0) instance.flipNext("bottom"); else instance.flipPrev("bottom");
+            });
+          }
+        });
         instance.loadFromHTML(sheets);
       } catch {
         if (!disposed) setFailed(true);
@@ -113,17 +175,49 @@ export default function NightPhotoGallery() {
     };
   }, []);
 
+  useEffect(() => {
+    const target = host.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(entries => {
+      setInView(entries[0]?.isIntersecting ?? false);
+    }, { threshold: .22 });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // Let the closed front board paint first.  Opening before PageFlip has
+    // mounted its spread makes the cover appear to be rendered over the photos.
+    if (!inView) {
+      setBookOpen(false);
+      return;
+    }
+    if (!ready || bookOpen) return;
+    let timer = 0;
+    const frame = window.requestAnimationFrame(() => {
+      timer = window.setTimeout(() => setBookOpen(true), 420);
+    });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
+  }, [ready, inView, bookOpen]);
+
   const lastVisible = Math.min(current + (portrait ? 0 : 1), photos.length - 1);
   const next = (direction: -1 | 1) => {
     const book = bookRef.current;
-    if (!book || turning) return;
+    if (!book) return;
     if (direction < 0 && current === 0) return;
     if (direction > 0 && lastVisible >= photos.length - 1) return;
+    if (isTurning.current) {
+      queuedDirection.current = direction;
+      return;
+    }
     if (reducedMotion.current) {
       if (direction > 0) book.turnToNextPage(); else book.turnToPrevPage();
-    } else {
-      if (direction > 0) book.flipNext("bottom"); else book.flipPrev("bottom");
+      return;
     }
+    if (direction > 0) book.flipNext("bottom"); else book.flipPrev("bottom");
   };
   const visible = photos.slice(current, lastVisible + 1);
   const movePhoto = (step: number) => setLightbox(index => index === null ? null : (index + step + photos.length) % photos.length);
@@ -140,7 +234,7 @@ export default function NightPhotoGallery() {
       <button className="az-text-button" onClick={event => { opener.current = event.currentTarget; setLightbox(index); }}><Expand size={16}/> Ampliar foto</button>
     </figure>)}</div> : <>
       <div className="nb-stage az-wrap">
-        <div className={`nb-cover${turning ? " is-turning" : ""}${ready ? " is-ready" : ""}`} role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
+        <div className={`nb-cover${turning ? " is-turning" : ""}${ready ? " is-ready" : ""}${bookOpen ? " is-open" : ""}`} role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
           onKeyDown={event => {
             if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
               event.preventDefault();
@@ -148,18 +242,22 @@ export default function NightPhotoGallery() {
             }
           }}>
           <div className="nb-host" ref={host} aria-hidden="true"/>
+          <div className="nb-book-lid" aria-hidden="true">
+            <i/>
+            <b><span>{templateValues.couple.partner1} <em>&amp;</em> {templateValues.couple.partner2}</span><small>Nuestro álbum</small></b>
+          </div>
           {!ready && <span className="nb-loading" role="status">Abriendo los recuerdos…</span>}
         </div>
       </div>
       <div className="az-wrap nb-controls">
-        <button className="az-icon" disabled={!ready || current === 0 || turning} onClick={() => next(-1)} aria-label="Página anterior" title="Página anterior"><ArrowLeft/></button>
+        <button className="az-icon" disabled={!ready || current === 0} onClick={() => next(-1)} aria-label="Página anterior" title="Página anterior"><ArrowLeft/></button>
         <div className="nb-position">
           <p id="nb-position" aria-live="polite" aria-atomic="true">
             {ready ? `Recuerdo ${String(current + 1).padStart(2, "0")}${lastVisible !== current ? ` / ${String(lastVisible + 1).padStart(2, "0")}` : ""} de ${photos.length}` : "Nuestro álbum"}
           </p>
           <span className="nb-progress" aria-hidden="true"><i style={{ width: `${((lastVisible + 1) / photos.length) * 100}%` }}/></span>
         </div>
-        <button className="az-icon" disabled={!ready || lastVisible >= photos.length - 1 || turning} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
+        <button className="az-icon" disabled={!ready || lastVisible >= photos.length - 1} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
       </div>
       <div className="az-wrap nb-enlarge">{ready && visible.map((photo, offset) => <button key={photo.id} className="az-text-button"
         onClick={event => { opener.current = event.currentTarget; setLightbox(current + offset); }}

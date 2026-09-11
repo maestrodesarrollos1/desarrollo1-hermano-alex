@@ -8,3 +8,4 @@
 **/*.py[cod]
 **/nupia-mark-source.png
 tmp/nupia_studio/.venv/
+nupia_studio/.venv/

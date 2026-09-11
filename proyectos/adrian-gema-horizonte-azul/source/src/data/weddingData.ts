@@ -20,7 +20,6 @@ export const weddingData = {
   },
   contact: {
     email: templateValues.contact.email,
-    phone: templateValues.contact.phone,
   },
   gallery: [],
   approvedMessages: [],

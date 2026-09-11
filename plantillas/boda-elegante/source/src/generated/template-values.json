@@ -28,23 +28,6 @@
     "paragraph1": "Adrián y Gema quieren reunir a quienes más quieren para celebrar una vida compartida, con una boda mediterránea, colorida y llena de personalidad.",
     "paragraph2": "Una jornada tranquila en Finca Ronesa: tiempo para llegar, brindar, sentarse a la mesa y terminar bailando."
   },
-  "schedule": {
-    "eyebrow": "El día de la celebración",
-    "title": "Programa",
-    "items": [
-      { "time": "12:00", "title": "Ceremonia" },
-      { "time": "13:30", "title": "Cóctel" },
-      { "time": "15:00", "title": "Banquete" },
-      { "time": "17:00", "title": "Fiesta" }
-    ]
-  },
-  "faq": [
-    {
-      "id": "faq-aparcamiento",
-      "question": "¿Hay sitio para aparcar?",
-      "answer": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema."
-    }
-  ],
   "theme": {
     "primaryDark": "#637554",
     "primary": "#A96F4C",
