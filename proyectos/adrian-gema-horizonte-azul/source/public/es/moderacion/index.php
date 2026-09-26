@@ -121,7 +121,7 @@ if (!wedding_template_is_authenticated()) {
     <main class="card">
       <p class="eyebrow">Moderación</p>
       <h1>Acceso privado</h1>
-      <p>Introduce la contraseña para revisar mensajes pendientes y borrar mensajes ya publicados.</p>
+      <p>Introduce la contraseña para consultar las confirmaciones y moderar los mensajes.</p>
       <form method="post" action="/es/moderacion">
         <input type="password" name="password" placeholder="Contraseña" autocomplete="current-password" />
         <button type="submit">Entrar</button>

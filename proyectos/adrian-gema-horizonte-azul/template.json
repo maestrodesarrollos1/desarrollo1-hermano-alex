@@ -72,13 +72,6 @@
       "group": "Contacto"
     },
     {
-      "key": "rsvp.url",
-      "label": "Enlace RSVP",
-      "type": "url",
-      "default": "",
-      "group": "Confirmaciones"
-    },
-    {
       "key": "rsvp.noteTitle",
       "label": "Título de la nota",
       "type": "text",
@@ -103,7 +96,7 @@
       "key": "rsvp.ctaText",
       "label": "Texto RSVP",
       "type": "textarea",
-      "default": "Pronto podréis confirmar vuestra asistencia desde aquí. Mientras tanto, reservad el 27 de marzo.",
+        "default": "Decidnos si nos acompañaréis el 27 de marzo. Así podremos preparar un lugar para cada uno de vosotros.",
       "group": "Confirmaciones"
     },
     {
@@ -173,35 +166,35 @@
       "key": "images.hero",
       "label": "Imagen de portada",
       "type": "image",
-      "default": "/images/pareja/portada-roma.webp",
+      "default": "/images/pareja/album/Principal.JPG",
       "group": "Fotos"
     },
     {
       "key": "images.landing",
       "label": "Portada",
       "type": "image",
-      "default": "/images/pareja/portada-roma.webp",
+      "default": "/images/pareja/album/Principal.JPG",
       "group": "Fotos"
     },
     {
       "key": "images.landingMobile",
       "label": "Portada móvil",
       "type": "image",
-      "default": "/images/pareja/portada-roma-mobile.webp",
+      "default": "/images/pareja/album/Principal.JPG",
       "group": "Fotos"
     },
     {
       "key": "images.historia1",
       "label": "Historia",
       "type": "image",
-      "default": "/images/pareja/historia1.webp",
+      "default": "/images/pareja/album/29.JPG",
       "group": "Fotos"
     },
     {
       "key": "images.historia2",
       "label": "Foto con Nala",
       "type": "image",
-      "default": "/images/pareja/historia2.webp",
+      "default": "/images/pareja/album/19.JPG",
       "group": "Fotos"
     },
     {
@@ -257,7 +250,7 @@
       "key": "images.galeria8",
       "label": "galeria8",
       "type": "image",
-      "default": "/images/pareja/galeria8.webp",
+      "default": "/images/pareja/album/Pie_pagina.JPG",
       "group": "Fotos"
     },
     {

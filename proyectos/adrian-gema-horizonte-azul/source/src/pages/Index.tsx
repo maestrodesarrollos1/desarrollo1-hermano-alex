@@ -8,7 +8,7 @@ import InstalledComponents from "@/components/InstalledComponents";
 import { templateValues } from "@/config/template-values";
 
 export default function Index() {
-  const [entered, setEntered] = useState(!templateValues.sections.intro);
+  const [entered, setEntered] = useState(() => !templateValues.sections.intro || sessionStorage.getItem("adrian-gema-invitation-entered") === "1");
   const mainRef = useRef<HTMLElement>(null);
   useEffect(() => {
     document.body.style.overflow = entered ? "" : "hidden";
@@ -16,6 +16,11 @@ export default function Index() {
   }, [entered]);
   useEffect(() => {
     if (entered) mainRef.current?.focus({ preventScroll: true });
+  }, [entered]);
+  useEffect(() => {
+    if (!entered || !window.location.hash) return;
+    const frame = requestAnimationFrame(() => document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView());
+    return () => cancelAnimationFrame(frame);
   }, [entered]);
   return <div className="azure-wedding">
     {entered ? <>
@@ -28,6 +33,6 @@ export default function Index() {
         <InstalledComponents slot="after-rsvp" />
       </main>
       <Footer />
-    </> : <EnvelopeIntro onComplete={() => { window.scrollTo(0, 0); setEntered(true); }} />}
+    </> : <EnvelopeIntro onComplete={() => { sessionStorage.setItem("adrian-gema-invitation-entered", "1"); window.scrollTo(0, 0); setEntered(true); }} />}
   </div>;
 }

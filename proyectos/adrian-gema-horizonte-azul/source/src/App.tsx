@@ -9,6 +9,7 @@ import LanguageRedirect from "@/components/LanguageRedirect";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Moderation from "./pages/Moderation";
+import RsvpPage from "./pages/RsvpPage";
 import NotFound from "./pages/NotFound";
 import WeddingGame from "./pages/WeddingGame";
 import { templateValues } from "@/config/template-values";
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/" element={<Navigate to="/es" replace />} />
               <Route path="/es" element={<Index />} />
               <Route path="/es/juego" element={<WeddingGame />} />
+              <Route path="/es/confirmar-asistencia" element={<RsvpPage />} />
               <Route path="/es/moderación" element={<Moderation />} />
               <Route path="/es/moderacion" element={<Moderation />} />
               <Route path="/moderation" element={<Moderation />} />

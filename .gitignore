@@ -1,6 +1,7 @@
 .tools/
 **/node_modules/
 **/dist/
+**/_private/
 **/vite-dev*.out
 **/vite-dev*.err
 **/.vite/

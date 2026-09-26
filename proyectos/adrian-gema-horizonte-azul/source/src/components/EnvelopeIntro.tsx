@@ -7,7 +7,7 @@ export default function EnvelopeIntro({ onComplete }: { onComplete?: () => void 
   const enterRef = useRef<HTMLButtonElement>(null);
   useEffect(() => { if (opened) enterRef.current?.focus({preventScroll:true}); }, [opened]);
   return <section className={`az-intro${opened ? " is-open" : ""}`} aria-label="Invitación de Adrián y Gema">
-    <img className="az-intro-scene" src="/images/pareja/finca-ilustrada.webp" alt="Paisaje de finca ilustrado en acuarela" />
+    <img className="az-intro-scene" src={v.images.landing || v.images.hero} alt="Adrián y Gema" />
     {!opened ? <>
       <div className="az-intro-top" aria-label="Invitación de boda">
         <span>Adrián &amp; Gema</span>

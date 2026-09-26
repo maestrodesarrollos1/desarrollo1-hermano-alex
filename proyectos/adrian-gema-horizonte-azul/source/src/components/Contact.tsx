@@ -1,13 +1,23 @@
-import { ArrowUpRight, CalendarPlus, Phone } from "lucide-react";
+import { ArrowRight, CalendarPlus } from "lucide-react";
+import { Link } from "react-router-dom";
 import { templateValues as v } from "@/config/template-values";
 import { downloadWeddingDate } from "@/lib/wedding-calendar";
+
 export default function Contact() {
-  const configured = /^https?:\/\//.test(v.rsvp.url);
   return <section id="confirmar-asistencia" data-editor-component="rsvp" className="az-contact">
     <div className="az-wrap az-contact-inner">
-      <div><p className="az-kicker">27 de marzo · {v.event.venue}</p><h2 data-editor-key="rsvp.ctaTitle">{v.rsvp.ctaTitle}</h2><p data-editor-key="rsvp.ctaText">{v.rsvp.ctaText}</p>
-      {configured ? <a className="az-button" href={v.rsvp.url} target="_blank" rel="noreferrer">Confirmar asistencia <ArrowUpRight size={17}/></a> : <button className="az-button" onClick={downloadWeddingDate}>Guardar en mi calendario <CalendarPlus size={17}/></button>}
+      <div className="az-contact-copy">
+        <p className="az-kicker">{v.event.dateLabel} · {v.event.venue}</p>
+        <h2 data-editor-key="rsvp.ctaTitle">{v.rsvp.ctaTitle}</h2>
+        <p data-editor-key="rsvp.ctaText">{v.rsvp.ctaText}</p>
+        <Link className="az-button az-contact-cta" to="/es/confirmar-asistencia">Confirma asistencia <ArrowRight size={17} aria-hidden="true"/></Link>
+        <button className="az-text-button" type="button" onClick={downloadWeddingDate}><CalendarPlus size={17} aria-hidden="true"/> Guardar la fecha</button>
       </div>
+      <div className="az-contact-art" aria-hidden="true">
+        <span className="az-contact-art-initials">A <i>&amp;</i> G</span>
+        <span className="az-contact-art-line"/>
+        <span className="az-contact-art-date">27 · 03 · 27</span>
       </div>
+    </div>
   </section>;
 }

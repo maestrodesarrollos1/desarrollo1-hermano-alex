@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Expand, X } from "lucide-react";
 import { templateValues } from "@/config/template-values";
 import { getAlbumPhotos, type AlbumPhoto } from "@/data/photo-album";
 import { fetchApprovedMessages, type MessageItem } from "@/lib/love-messages";
+import { bindAlbumMotion, turnAlbumPage } from "@/lib/album-binding";
 import "@/notebook.css";
 
 const photos = getAlbumPhotos();
@@ -22,6 +23,52 @@ function distributeNotes(messages: MessageItem[]) {
     pages[page].push(message);
   });
   return pages;
+}
+
+function createBoundCover(side: "front" | "back") {
+  const page = document.createElement("div");
+  page.className = `nb-page nb-bound-cover nb-bound-cover--${side}`;
+  page.dataset.density = "hard";
+  const inner = document.createElement("div");
+  inner.className = "nb-bound-cover-inner";
+  const names = `${templateValues.couple.partner1} & ${templateValues.couple.partner2}`;
+
+  if (side === "front") {
+    const eyebrow = document.createElement("span");
+    eyebrow.className = "nb-bound-cover-kicker";
+    eyebrow.textContent = "Nuestro álbum";
+    const title = document.createElement("strong");
+    title.className = "nb-bound-cover-title";
+    title.textContent = names;
+    const portrait = document.createElement("figure");
+    portrait.className = "nb-bound-cover-portrait";
+    const image = document.createElement("img");
+    image.src = templateValues.images.landing || templateValues.images.hero;
+    image.alt = "";
+    image.draggable = false;
+    image.decoding = "async";
+    portrait.append(image);
+    const details = document.createElement("small");
+    details.className = "nb-bound-cover-details";
+    details.textContent = `${templateValues.event.dateLabel} · ${templateValues.event.venue}`;
+    inner.append(eyebrow, title, portrait, details);
+  } else {
+    const monogram = document.createElement("span");
+    monogram.className = "nb-bound-cover-monogram";
+    monogram.textContent = `${templateValues.couple.partner1.charAt(0)}${templateValues.couple.partner2.charAt(0)}`;
+    const closing = document.createElement("strong");
+    closing.className = "nb-bound-cover-closing";
+    closing.textContent = templateValues.story.title;
+    const rule = document.createElement("i");
+    rule.setAttribute("aria-hidden", "true");
+    const details = document.createElement("small");
+    details.className = "nb-bound-cover-details";
+    details.textContent = `${names} · ${templateValues.event.dateLabel}`;
+    inner.append(monogram, closing, rule, details);
+  }
+
+  page.append(inner);
+  return page;
 }
 
 function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
@@ -58,17 +105,51 @@ function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
     mount.append(note);
   });
   mount.prepend(image, pinLeft, pinRight);
-  const caption = document.createElement("figcaption");
-  const title = document.createElement("span");
-  title.textContent = photo.caption;
-  const date = document.createElement("small");
-  date.textContent = photo.date;
-  caption.append(title, date);
   const number = document.createElement("span");
   number.className = "nb-page-number";
   number.textContent = String(index + 1).padStart(2, "0");
-  content.append(header, mount, caption, number);
+  if (photo.caption || photo.date) {
+    const caption = document.createElement("figcaption");
+    const title = document.createElement("span");
+    title.textContent = photo.caption;
+    const date = document.createElement("small");
+    date.textContent = photo.date;
+    caption.append(title, date);
+    content.append(header, mount, caption, number);
+  } else content.append(header, mount, number);
   page.append(content);
+  return page;
+}
+
+function createClosingSheet() {
+  const page = document.createElement("article");
+  page.className = "nb-page nb-closing-sheet";
+  const print = document.createElement("div");
+  print.className = "nb-closing-print";
+  const header = document.createElement("div");
+  header.className = "nb-closing-header";
+  const names = document.createElement("span");
+  names.textContent = `${templateValues.couple.partner1} & ${templateValues.couple.partner2}`;
+  const date = document.createElement("span");
+  date.textContent = templateValues.event.dateLabel;
+  header.append(names, date);
+  const message = document.createElement("div");
+  message.className = "nb-closing-message";
+  const eyebrow = document.createElement("span");
+  eyebrow.textContent = "Hasta aquí, nuestras fotos";
+  const title = document.createElement("strong");
+  title.textContent = "Lo siguiente";
+  const titleLine = document.createElement("span");
+  titleLine.textContent = "es con vosotros.";
+  title.append(titleLine);
+  const copy = document.createElement("p");
+  copy.textContent = `Nos falta una foto: la de todos juntos el ${templateValues.event.dateLabel} en ${templateValues.event.venue}.`;
+  message.append(eyebrow, title, copy);
+  const footer = document.createElement("div");
+  footer.className = "nb-closing-footer";
+  footer.textContent = "Nos vemos allí";
+  print.append(header, message, footer);
+  page.append(print);
   return page;
 }
 
@@ -81,11 +162,8 @@ export default function NightPhotoGallery() {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [turning, setTurning] = useState(false);
-  const [inView, setInView] = useState(false);
-  const [bookOpen, setBookOpen] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const reducedMotion = useRef(false);
-  const queuedDirection = useRef<-1 | 1 | null>(null);
   const isTurning = useRef(false);
 
   useEffect(() => {
@@ -93,6 +171,7 @@ export default function NightPhotoGallery() {
     if (!parent || !photos.length) return;
     let disposed = false;
     let instance: PageFlip | null = null;
+    let binding: ReturnType<typeof bindAlbumMotion> | null = null;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const motionChanged = () => { reducedMotion.current = media.matches; };
     motionChanged();
@@ -111,31 +190,26 @@ export default function NightPhotoGallery() {
         const approvedMessages = await fetchApprovedMessages();
         if (disposed) return;
         const pageNotes = distributeNotes(approvedMessages);
-        const sheets = photos.map((photo, index) => createSheet(photo, index, pageNotes[index]));
+        const photoSheets = photos.map((photo, index) => createSheet(photo, index, pageNotes[index]));
+        const sheets = [createBoundCover("front"), ...photoSheets, createClosingSheet(), createBoundCover("back")];
         sheets.forEach(sheet => element.append(sheet));
         instance = new PageFlip(element, {
           width: 430, height: 565, size: "stretch",
           minWidth: 270, maxWidth: 470, minHeight: 355, maxHeight: 618,
-          showCover: false, usePortrait: true, autoSize: true,
-          drawShadow: true, maxShadowOpacity: 0.42, flippingTime: 1120,
-          mobileScrollSupport: false, showPageCorners: true,
+          showCover: true, usePortrait: true, autoSize: true,
+          drawShadow: true, maxShadowOpacity: 0.32, flippingTime: 1450,
+          mobileScrollSupport: false, showPageCorners: false,
           disableFlipByClick: true, swipeDistance: 28,
           useMouseEvents: !media.matches,
         });
         bookRef.current = instance;
-        const smoothCornerReturn = () => {
-          const controllableBook = instance as PageFlip & {
-            getState: () => string;
-            getFlipController: () => { stopMove: () => void };
-          };
-          if (controllableBook.getState() === "fold_corner") controllableBook.getFlipController().stopMove();
-        };
-        element.addEventListener("mouseleave", smoothCornerReturn);
+        binding = bindAlbumMotion(instance, parent.parentElement!);
         const sync = () => {
           if (disposed || !instance) return;
           const index = instance.getCurrentPageIndex();
           setCurrent(index);
           setPortrait(instance.getOrientation() === "portrait");
+          binding?.sync();
           // Fetch the current spread and its neighbours before the next turn.
           sheets.slice(Math.max(0, index - 2), index + 5).forEach(sheet => {
             const img = sheet.querySelector("img");
@@ -150,14 +224,7 @@ export default function NightPhotoGallery() {
           const isReading = event.data === "read";
           isTurning.current = !isReading;
           setTurning(!isReading);
-          if (isReading && queuedDirection.current !== null) {
-            const direction = queuedDirection.current;
-            queuedDirection.current = null;
-            window.requestAnimationFrame(() => {
-              if (disposed || !instance) return;
-              if (direction > 0) instance.flipNext("bottom"); else instance.flipPrev("bottom");
-            });
-          }
+          binding?.state(event.data);
         });
         instance.loadFromHTML(sheets);
       } catch {
@@ -169,57 +236,32 @@ export default function NightPhotoGallery() {
       disposed = true;
       observer.disconnect();
       media.removeEventListener("change", motionChanged);
+      binding?.destroy();
       instance?.destroy();
       bookRef.current = null;
       parent.replaceChildren();
     };
   }, []);
 
-  useEffect(() => {
-    const target = host.current;
-    if (!target) return;
-    const observer = new IntersectionObserver(entries => {
-      setInView(entries[0]?.isIntersecting ?? false);
-    }, { threshold: .22 });
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    // Let the closed front board paint first.  Opening before PageFlip has
-    // mounted its spread makes the cover appear to be rendered over the photos.
-    if (!inView) {
-      setBookOpen(false);
-      return;
-    }
-    if (!ready || bookOpen) return;
-    let timer = 0;
-    const frame = window.requestAnimationFrame(() => {
-      timer = window.setTimeout(() => setBookOpen(true), 420);
-    });
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(timer);
-    };
-  }, [ready, inView, bookOpen]);
-
-  const lastVisible = Math.min(current + (portrait ? 0 : 1), photos.length - 1);
+  const lastPage = photos.length + 2;
+  const onFrontCover = current === 0;
+  const onClosingPage = current === photos.length + 1 || (!portrait && current === photos.length);
+  const onBackCover = current >= lastPage;
+  const firstVisiblePhoto = onFrontCover || onClosingPage || onBackCover ? -1 : Math.max(0, current - 1);
+  const lastVisiblePhoto = firstVisiblePhoto < 0 ? -1 : Math.min(firstVisiblePhoto + (portrait ? 0 : 1), photos.length - 1);
   const next = (direction: -1 | 1) => {
     const book = bookRef.current;
     if (!book) return;
     if (direction < 0 && current === 0) return;
-    if (direction > 0 && lastVisible >= photos.length - 1) return;
-    if (isTurning.current) {
-      queuedDirection.current = direction;
-      return;
-    }
+    if (direction > 0 && onBackCover) return;
+    if (isTurning.current) return;
     if (reducedMotion.current) {
       if (direction > 0) book.turnToNextPage(); else book.turnToPrevPage();
       return;
     }
-    if (direction > 0) book.flipNext("bottom"); else book.flipPrev("bottom");
+    turnAlbumPage(book, direction);
   };
-  const visible = photos.slice(current, lastVisible + 1);
+  const visible = firstVisiblePhoto < 0 ? [] : photos.slice(firstVisiblePhoto, lastVisiblePhoto + 1);
   const movePhoto = (step: number) => setLightbox(index => index === null ? null : (index + step + photos.length) % photos.length);
   if (!photos.length) return null;
 
@@ -230,11 +272,11 @@ export default function NightPhotoGallery() {
       <p>Los viajes. Lo cotidiano. Y todo lo que nos queda.</p>
     </div>
     {failed ? <div className="az-wrap nb-fallback">{photos.map((photo, index) => <figure key={photo.id}>
-      <img src={photo.src} alt={photo.alt} loading="lazy"/><figcaption>{photo.caption}{photo.date && ` · ${photo.date}`}</figcaption>
+      <img src={photo.src} alt={photo.alt} loading="lazy"/>{(photo.caption || photo.date) && <figcaption>{photo.caption}{photo.date && ` · ${photo.date}`}</figcaption>}
       <button className="az-text-button" onClick={event => { opener.current = event.currentTarget; setLightbox(index); }}><Expand size={16}/> Ampliar foto</button>
     </figure>)}</div> : <>
       <div className="nb-stage az-wrap">
-        <div className={`nb-cover${turning ? " is-turning" : ""}${ready ? " is-ready" : ""}${bookOpen ? " is-open" : ""}`} role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
+        <div className={`nb-cover${ready ? " is-ready" : ""}`} role="group" aria-label="Libreta de recuerdos" aria-describedby="nb-position" tabIndex={0}
           onKeyDown={event => {
             if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
               event.preventDefault();
@@ -242,25 +284,21 @@ export default function NightPhotoGallery() {
             }
           }}>
           <div className="nb-host" ref={host} aria-hidden="true"/>
-          <div className="nb-book-lid" aria-hidden="true">
-            <i/>
-            <b><span>{templateValues.couple.partner1} <em>&amp;</em> {templateValues.couple.partner2}</span><small>Nuestro álbum</small></b>
-          </div>
           {!ready && <span className="nb-loading" role="status">Abriendo los recuerdos…</span>}
         </div>
       </div>
       <div className="az-wrap nb-controls">
-        <button className="az-icon" disabled={!ready || current === 0} onClick={() => next(-1)} aria-label="Página anterior" title="Página anterior"><ArrowLeft/></button>
+        <button className="az-icon" disabled={!ready || current === 0 || turning} onClick={() => next(-1)} aria-label="Página anterior" title="Página anterior"><ArrowLeft/></button>
         <div className="nb-position">
           <p id="nb-position" aria-live="polite" aria-atomic="true">
-            {ready ? `Recuerdo ${String(current + 1).padStart(2, "0")}${lastVisible !== current ? ` / ${String(lastVisible + 1).padStart(2, "0")}` : ""} de ${photos.length}` : "Nuestro álbum"}
+            {ready ? onFrontCover ? "Portada" : onClosingPage ? "Lo siguiente, con vosotros" : onBackCover ? "Contraportada" : `${String(firstVisiblePhoto + 1).padStart(2, "0")}${lastVisiblePhoto !== firstVisiblePhoto ? ` / ${String(lastVisiblePhoto + 1).padStart(2, "0")}` : ""} · ${photos.length}` : "Nuestro álbum"}
           </p>
-          <span className="nb-progress" aria-hidden="true"><i style={{ width: `${((lastVisible + 1) / photos.length) * 100}%` }}/></span>
+          <span className="nb-progress" aria-hidden="true"><i style={{ width: `${(current / lastPage) * 100}%` }}/></span>
         </div>
-        <button className="az-icon" disabled={!ready || lastVisible >= photos.length - 1} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
+        <button className="az-icon" disabled={!ready || onBackCover || turning} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
       </div>
-      <div className="az-wrap nb-enlarge">{ready && visible.map((photo, offset) => <button key={photo.id} className="az-text-button"
-        onClick={event => { opener.current = event.currentTarget; setLightbox(current + offset); }}
+      <div className="az-wrap nb-enlarge">{ready && visible.filter(photo => photo.caption).map((photo, offset) => <button key={photo.id} className="az-text-button"
+        onClick={event => { opener.current = event.currentTarget; setLightbox(firstVisiblePhoto + offset); }}
         aria-label={`Ampliar foto: ${photo.caption}`} title={`Ver completa: ${photo.caption}`}>
         <Expand size={15}/><span>{photo.caption}</span>
       </button>)}</div>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import RsvpAdminSection from "@/components/RsvpAdminSection";
 import {
   approvePendingMessage,
   deleteApprovedMessage,
@@ -166,8 +167,7 @@ const Moderation = () => {
                   Acceso privado
                 </h1>
                 <p className="mt-6 text-base leading-8 text-[#1F5E46]">
-                  Introduce la contraseña para revisar mensajes pendientes y borrar mensajes ya
-                  publicados.
+                  Introduce la contraseña para revisar las confirmaciones y los mensajes.
                 </p>
                 <form onSubmit={handleUnlock} className="mt-8 space-y-4">
                   <input
@@ -196,10 +196,10 @@ const Moderation = () => {
                   <div>
                     <p className="text-xs uppercase tracking-[0.36em] text-[#7FAF8E]">Moderación</p>
                     <h1 className="mt-4 font-script text-5xl text-[#0F3D2E] md:text-6xl">
-                      Mensajes bonitos
+                      Mensajes y asistencia
                     </h1>
                     <p className="mt-4 text-base leading-8 text-[#1F5E46]">
-                      Desde aquí puedes aprobar mensajes pendientes y borrar los ya publicados.
+                      Desde aquí puedes consultar las respuestas y moderar los mensajes.
                     </p>
                   </div>
                   <button
@@ -218,6 +218,7 @@ const Moderation = () => {
                   </div>
                 ) : null}
 
+                <RsvpAdminSection csrfToken={csrfToken}/>
                 <div className="grid gap-8 lg:grid-cols-2">
                   <section className="border border-[#DDECE0] bg-white p-6 shadow-[0_16px_40px_rgba(15,61,46,0.06)] md:p-8">
                     <p className="text-xs uppercase tracking-[0.36em] text-[#7FAF8E]">
