@@ -9,6 +9,7 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", close);
   }, []);
   const items = [
+    {href:"kahoot", label:"Kahoot"},
     ...(v.sections.story ? [{href:"sobre-nosotros", label:"Nosotros"}] : []),
     ...(v.sections.schedule ? [{href:"cronograma", label:"El gran día"}] : []),
     ...(v.sections.faq ? [{href:"preguntas-frecuentes", label:"Vuestras dudas"}] : []),

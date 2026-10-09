@@ -30,10 +30,10 @@
     "paragraph2": "El 27 de marzo nos vemos en Finca Ronesa. Habrá tiempo para brindar, sentarnos a la mesa y bailar hasta medianoche."
   },
   "theme": {
-    "primaryDark": "#344638",
-    "primary": "#80624D",
-    "soft": "#E8EBE1",
-    "text": "#41473F",
+    "primaryDark": "#414735",
+    "primary": "#A56552",
+    "soft": "#EFE5D6",
+    "text": "#49483F",
     "radius": "3"
   },
   "images": {

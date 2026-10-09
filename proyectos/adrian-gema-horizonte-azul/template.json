@@ -131,28 +131,28 @@
       "key": "theme.primaryDark",
       "label": "Color oscuro",
       "type": "color",
-      "default": "#344638",
+      "default": "#414735",
       "group": "Diseño"
     },
     {
       "key": "theme.primary",
       "label": "Color principal",
       "type": "color",
-      "default": "#80624D",
+      "default": "#A56552",
       "group": "Diseño"
     },
     {
       "key": "theme.soft",
       "label": "Color suave",
       "type": "color",
-      "default": "#E8EBE1",
+      "default": "#EFE5D6",
       "group": "Diseño"
     },
     {
       "key": "theme.text",
       "label": "Color del texto",
       "type": "color",
-      "default": "#41473F",
+      "default": "#49483F",
       "group": "Diseño"
     },
     {

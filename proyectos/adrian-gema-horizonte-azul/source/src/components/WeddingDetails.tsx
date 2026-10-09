@@ -36,6 +36,10 @@ export default function WeddingDetails() {
         <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.event.venue)}`} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca.</p></div>
       </section>
     </>}
+    <section id="kahoot" className="az-quiz az-wrap" aria-labelledby="kahoot-title">
+      <div><p className="az-kicker">Un reto para nuestros invitados</p><h2 id="kahoot-title">¿Cuánto sabes<br/><em>de nosotros?</em></h2></div>
+      <div><p>Hemos preparado un Kahoot sobre Adrián y Gema. Abre el cuestionario y descubre cuánto nos conoces.</p><a className="az-button" href="https://create.kahoot.it/share/adrian-y-gema/f54f6498-5308-4f1b-a781-e8f1a942360e" target="_blank" rel="noopener noreferrer">Abrir Kahoot <ArrowUpRight size={17} aria-hidden="true"/><span className="sr-only"> (se abre en otra pestaña)</span></a></div>
+    </section>
     {v.sections.rsvp && <Contact/>}
     {v.sections.faq && <section id="preguntas-frecuentes" data-editor-component="faq" className="az-faq az-wrap"><div><p className="az-kicker">Antes de vernos</p><h2>Las pequeñas<br/><em>grandes dudas.</em></h2></div><div>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={20}/></summary><p>{a}</p></details>)}</div></section>}
   </>;
