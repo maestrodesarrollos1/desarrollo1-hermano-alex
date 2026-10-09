@@ -87,13 +87,6 @@ function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
   image.decoding = "async";
   image.loading = "lazy";
   image.dataset.src = photo.src;
-  // The pins make each print feel placed on the page rather than painted into it.
-  const pinLeft = document.createElement("i");
-  pinLeft.className = "nb-pushpin nb-pushpin--left";
-  pinLeft.setAttribute("aria-hidden", "true");
-  const pinRight = document.createElement("i");
-  pinRight.className = "nb-pushpin nb-pushpin--right";
-  pinRight.setAttribute("aria-hidden", "true");
   notes.forEach((message, noteIndex) => {
     const note = document.createElement("aside");
     note.className = `nb-postit nb-postit--${noteColors[(index + noteIndex) % noteColors.length]} nb-postit--${notePositions[noteIndex]}`;
@@ -104,7 +97,7 @@ function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
     note.append(text, author);
     mount.append(note);
   });
-  mount.prepend(image, pinLeft, pinRight);
+  mount.prepend(image);
   const number = document.createElement("span");
   number.className = "nb-page-number";
   number.textContent = String(index + 1).padStart(2, "0");
@@ -297,10 +290,10 @@ export default function NightPhotoGallery() {
         </div>
         <button className="az-icon" disabled={!ready || onBackCover || turning} onClick={() => next(1)} aria-label="Página siguiente" title="Página siguiente"><ArrowRight/></button>
       </div>
-      <div className="az-wrap nb-enlarge">{ready && visible.filter(photo => photo.caption).map((photo, offset) => <button key={photo.id} className="az-text-button"
+      <div className="az-wrap nb-enlarge">{ready && visible.map((photo, offset) => <button key={photo.id} className="az-text-button"
         onClick={event => { opener.current = event.currentTarget; setLightbox(firstVisiblePhoto + offset); }}
-        aria-label={`Ampliar foto: ${photo.caption}`} title={`Ver completa: ${photo.caption}`}>
-        <Expand size={15}/><span>{photo.caption}</span>
+        aria-label={`Ampliar fotografía ${firstVisiblePhoto + offset + 1}`} title={`Ver completa la fotografía ${firstVisiblePhoto + offset + 1}`}>
+        <Expand size={15}/><span>{photo.caption || (portrait ? "Ver en grande" : offset === 0 ? "Ampliar izquierda" : "Ampliar derecha")}</span>
       </button>)}</div>
     </>}
     <Dialog.Root open={lightbox !== null} onOpenChange={open => { if (!open) setLightbox(null); }}>

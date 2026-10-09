@@ -16,6 +16,7 @@ try {
     $name = isset($input['name']) && is_string($input['name']) ? trim($input['name']) : '';
     $phone = isset($input['phone']) && is_string($input['phone']) ? trim($input['phone']) : '';
     $attendance = isset($input['attendance']) && is_string($input['attendance']) ? $input['attendance'] : '';
+    $comment = isset($input['comment']) && is_string($input['comment']) ? trim($input['comment']) : '';
     $companions = $input['companions'] ?? [];
 
     if (wedding_template_string_length($name) < 2 || wedding_template_string_length($name) > 100) {
@@ -27,6 +28,9 @@ try {
     }
     if ($attendance !== 'yes' && $attendance !== 'no') {
         wedding_template_fail('Indica si asistirás.', 422);
+    }
+    if (wedding_template_string_length($comment) > 500) {
+        wedding_template_fail('El comentario no puede superar los 500 caracteres.', 422);
     }
     if (!is_array($companions) || count($companions) > 5 || ($attendance === 'no' && $companions !== [])) {
         wedding_template_fail('Revisa los acompañantes.', 422);
@@ -58,7 +62,7 @@ try {
         wedding_template_fail('Espera unos segundos antes de enviar otra respuesta.', 429);
     }
 
-    wedding_rsvp_with_store(true, static function (array &$entries) use ($name, $phone, $attendance, $dietary, $cleanCompanions, $hasDietaryDetails): void {
+    wedding_rsvp_with_store(true, static function (array &$entries) use ($name, $phone, $attendance, $dietary, $cleanCompanions, $comment, $hasDietaryDetails): void {
         array_unshift($entries, [
             'id' => bin2hex(random_bytes(12)),
             'name' => $name,
@@ -66,6 +70,8 @@ try {
             'attendance' => $attendance,
             'dietary' => $dietary,
             'companions' => $cleanCompanions,
+            'comment' => $comment,
+            'reviewStatus' => 'pending',
             'dietaryConsent' => $hasDietaryDetails,
             'submittedAt' => gmdate('c'),
         ]);

@@ -11,6 +11,7 @@ export default function RsvpForm() {
   const [attendance, setAttendance] = useState<RsvpAttendance | "">("");
   const [dietary, setDietary] = useState<RsvpDietary>(emptyDietary);
   const [companions, setCompanions] = useState<FormCompanion[]>([]);
+  const [comment, setComment] = useState("");
   const [dietaryConsent, setDietaryConsent] = useState(false);
   const [website, setWebsite] = useState("");
   const [sending, setSending] = useState(false);
@@ -23,7 +24,7 @@ export default function RsvpForm() {
     setSending(true);
     setError("");
     try {
-      await submitRsvp({ name, phone, attendance, dietary, companions, dietaryConsent, website });
+      await submitRsvp({ name, phone, attendance, dietary, companions, comment, dietaryConsent, website });
       setSaved(true);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "No se pudo enviar la respuesta. Inténtalo de nuevo.");
@@ -38,7 +39,7 @@ export default function RsvpForm() {
       <span className="az-rsvp-success-mark" aria-hidden="true">✓</span>
       <h2>{attendance === "yes" ? "Qué alegría contar contigo." : "Gracias por avisarnos."}</h2>
       <p>{isRsvpPreview ? "Prueba guardada solo en este navegador. No se ha enviado a los novios." : "Hemos guardado tu respuesta. Si necesitas cambiarla, escríbenos antes de la boda."}</p>
-      <button type="button" className="az-text-button" onClick={() => { setName(""); setPhone(""); setAttendance(""); setDietary(emptyDietary()); setCompanions([]); setDietaryConsent(false); setSaved(false); }}>Enviar otra respuesta <ArrowRight size={16} aria-hidden="true"/></button>
+      <button type="button" className="az-text-button" onClick={() => { setName(""); setPhone(""); setAttendance(""); setDietary(emptyDietary()); setCompanions([]); setComment(""); setDietaryConsent(false); setSaved(false); }}>Enviar otra respuesta <ArrowRight size={16} aria-hidden="true"/></button>
     </div> : <form className="az-rsvp-form" onSubmit={(event) => { void handleSubmit(event); }}>
       <p className="az-rsvp-form-intro">Reservamos un lugar para vosotros. Decidnos si vendréis.</p>
       <fieldset className="az-rsvp-choice">
@@ -64,6 +65,7 @@ export default function RsvpForm() {
         </div>)}
         {companions.length < 5 && <button className="az-rsvp-add" type="button" onClick={() => setCompanions((current) => [...current, { id: crypto.randomUUID(), name: "", dietary: emptyDietary() }])}><Plus size={17} aria-hidden="true"/> Añadir acompañante</button>}
       </div>}
+      <label className="az-rsvp-comment" htmlFor="rsvp-comment">¿Queréis contarnos algo más?<span>Opcional · cambios, dudas o cualquier detalle que debamos tener en cuenta.</span><textarea id="rsvp-comment" rows={4} maxLength={500} value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Escribe aquí vuestro comentario"/><small>{comment.length}/500</small></label>
       <div className="az-rsvp-honeypot" aria-hidden="true"><label htmlFor="rsvp-website">Sitio web</label><input id="rsvp-website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)}/></div>
       {attendance === "yes" && [dietary, ...companions.map((person) => person.dietary)].some(dietaryHasDetails) && <label className="az-rsvp-consent"><input type="checkbox" required checked={dietaryConsent} onChange={(event) => setDietaryConsent(event.target.checked)}/><span>Confirmo que puedo compartir estas necesidades de menú, también las de mis acompañantes. Se usarán solo para organizar la comida de la boda.</span></label>}
       <p className="az-rsvp-privacy">El teléfono es solo para contactar sobre la boda. Las necesidades de menú son opcionales y el registro requiere acceso privado.</p>

@@ -8,17 +8,19 @@ export type RsvpDietary = {
   pregnant: boolean;
 };
 export type RsvpGuest = { name: string; dietary: RsvpDietary };
+export type RsvpReviewStatus = "pending" | "accepted";
 export type RsvpInput = {
   name: string;
   phone: string;
   attendance: RsvpAttendance;
   dietary: RsvpDietary;
   companions: RsvpGuest[];
+  comment: string;
   dietaryConsent: boolean;
   website?: string;
 };
-export type RsvpEntry = RsvpInput & { id: string; submittedAt: string; email?: string };
-export type RsvpSummary = { yes: number; no: number; guests: number };
+export type RsvpEntry = RsvpInput & { id: string; submittedAt: string; reviewStatus: RsvpReviewStatus; email?: string };
+export type RsvpSummary = { yes: number; no: number; guests: number; pending: number; accepted: number };
 
 const PUBLIC_ENDPOINT = "/api/rsvp-public.php";
 const ADMIN_ENDPOINT = "/api/rsvp-admin.php";
@@ -60,6 +62,8 @@ const normalizeEntry = (value: unknown): RsvpEntry | null => {
     id: source.id, name: source.name, phone: typeof source.phone === "string" ? source.phone : "",
     email: typeof source.email === "string" ? source.email : undefined,
     attendance: source.attendance, dietary: normalizeDietary(source.dietary),
+    comment: typeof source.comment === "string" ? source.comment : "",
+    reviewStatus: source.reviewStatus === "accepted" ? "accepted" : "pending",
     dietaryConsent: source.dietaryConsent === true,
     companions: Array.isArray(source.companions) ? source.companions.flatMap((person) => {
       if (typeof person === "string") return [{ name: person, dietary: emptyDietary() }];
@@ -104,6 +108,8 @@ const summaryOf = (entries: RsvpEntry[]): RsvpSummary => ({
   yes: entries.filter((entry) => entry.attendance === "yes").length,
   no: entries.filter((entry) => entry.attendance === "no").length,
   guests: entries.reduce((total, entry) => total + (entry.attendance === "yes" ? 1 + entry.companions.length : 0), 0),
+  pending: entries.filter((entry) => entry.reviewStatus === "pending").length,
+  accepted: entries.filter((entry) => entry.reviewStatus === "accepted").length,
 });
 
 const cleanDietary = (dietary: RsvpDietary): RsvpDietary => ({
@@ -120,6 +126,7 @@ export const submitRsvp = async (input: RsvpInput) => {
     name: input.name.trim(), phone: input.phone.trim(), attendance: input.attendance,
     dietary: input.attendance === "yes" ? cleanDietary(input.dietary) : emptyDietary(),
     companions: input.attendance === "yes" ? input.companions.map((person) => ({ name: person.name.trim(), dietary: cleanDietary(person.dietary) })) : [],
+    comment: input.comment.trim(),
     dietaryConsent: input.dietaryConsent,
     website: input.website ?? "",
   };
@@ -136,8 +143,9 @@ export const submitRsvp = async (input: RsvpInput) => {
   if (payload.attendance === "yes" && [payload.dietary, ...payload.companions.map((person) => person.dietary)].some(dietaryHasDetails) && !payload.dietaryConsent) {
     throw new Error("Confirma que puedes compartir los datos de menú indicados.");
   }
+  if (payload.comment.length > 500) throw new Error("El comentario no puede superar los 500 caracteres.");
   if (isRsvpPreview) {
-    writeLocal([{ ...payload, id: crypto.randomUUID(), submittedAt: new Date().toISOString() }, ...readLocal()]);
+    writeLocal([{ ...payload, id: crypto.randomUUID(), submittedAt: new Date().toISOString(), reviewStatus: "pending" }, ...readLocal()]);
     return;
   }
   await requestJson(PUBLIC_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
@@ -163,6 +171,17 @@ export const deleteRsvp = async (id: string, csrfToken: string) => {
   });
 };
 
+export const updateRsvpStatus = async (id: string, reviewStatus: RsvpReviewStatus, csrfToken: string) => {
+  if (isRsvpPreview) {
+    writeLocal(readLocal().map((entry) => entry.id === id ? { ...entry, reviewStatus } : entry));
+    return;
+  }
+  await requestJson(ADMIN_ENDPOINT, {
+    method: "POST", headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
+    body: JSON.stringify({ action: "set-status", id, reviewStatus, csrfToken }),
+  });
+};
+
 const saveCsv = (blob: Blob) => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -183,13 +202,13 @@ export const downloadRsvpCsv = async () => {
   }
   const cell = (value: string) => `"${(/^[\s]*[=+\-@]/u.test(value) ? "'" : "") + value.replace(/"/g, '""')}"`;
   const rows = [
-    ["Fecha", "Contacto", "Teléfono", "Asistencia", "Persona", "Tipo", "Alergias", "Intolerancias", "Vegano/a", "Embarazada"],
+    ["Fecha", "Estado", "Contacto", "Teléfono", "Asistencia", "Persona", "Tipo", "Alergias", "Intolerancias", "Vegano/a", "Embarazada", "Comentario"],
     ...readLocal().flatMap((entry) => {
       const people = [{ name: entry.name, dietary: entry.dietary, role: "Titular" },
         ...(entry.attendance === "yes" ? entry.companions.map((person) => ({ ...person, role: "Acompañante" })) : [])];
-      return people.map((person) => [entry.submittedAt, entry.name, entry.phone || entry.email || "", entry.attendance === "yes" ? "Sí" : "No", person.name, person.role,
+      return people.map((person) => [entry.submittedAt, entry.reviewStatus === "accepted" ? "Aceptada" : "Pendiente", entry.name, entry.phone || entry.email || "", entry.attendance === "yes" ? "Sí" : "No", person.name, person.role,
         person.dietary.allergies ? person.dietary.allergyDetails : "", person.dietary.intolerances ? person.dietary.intoleranceDetails : "",
-        person.dietary.vegan ? "Sí" : "No", person.dietary.pregnant ? "Sí" : "No"]);
+        person.dietary.vegan ? "Sí" : "No", person.dietary.pregnant ? "Sí" : "No", entry.comment]);
     }),
   ];
   saveCsv(new Blob(["\uFEFF", rows.map((row) => row.map(cell).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" }));

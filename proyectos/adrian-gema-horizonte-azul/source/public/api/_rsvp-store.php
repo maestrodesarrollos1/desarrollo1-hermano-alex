@@ -90,6 +90,8 @@ function wedding_rsvp_summary(array $entries): array
     $yes = 0;
     $no = 0;
     $guests = 0;
+    $pending = 0;
+    $accepted = 0;
     foreach ($entries as $entry) {
         if (($entry['attendance'] ?? '') === 'yes') {
             $yes++;
@@ -97,6 +99,11 @@ function wedding_rsvp_summary(array $entries): array
         } else {
             $no++;
         }
+        if (($entry['reviewStatus'] ?? 'pending') === 'accepted') {
+            $accepted++;
+        } else {
+            $pending++;
+        }
     }
-    return ['yes' => $yes, 'no' => $no, 'guests' => $guests];
+    return ['yes' => $yes, 'no' => $no, 'guests' => $guests, 'pending' => $pending, 'accepted' => $accepted];
 }

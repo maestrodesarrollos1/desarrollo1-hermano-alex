@@ -37,8 +37,13 @@ export default function WeddingDetails() {
       </section>
     </>}
     <section id="kahoot" className="az-quiz az-wrap" aria-labelledby="kahoot-title">
-      <div><p className="az-kicker">Un reto para nuestros invitados</p><h2 id="kahoot-title">¿Cuánto sabes<br/><em>de nosotros?</em></h2></div>
-      <div><p>Hemos preparado un Kahoot sobre Adrián y Gema. Abre el cuestionario y descubre cuánto nos conoces.</p><a className="az-button" href="https://create.kahoot.it/share/adrian-y-gema/f54f6498-5308-4f1b-a781-e8f1a942360e" target="_blank" rel="noopener noreferrer">Abrir Kahoot <ArrowUpRight size={17} aria-hidden="true"/><span className="sr-only"> (se abre en otra pestaña)</span></a></div>
+      <div className="az-quiz-copy">
+        <p className="az-kicker">Un juego para nuestros invitados</p>
+        <h2 id="kahoot-title">¿Cuánto sabes<br/><em>de nosotros?</em></h2>
+        <p>De nuestra primera cita a los viajes que no olvidamos. ¿Cuántas acertarás?</p>
+        <a className="az-button" href="https://create.kahoot.it/solo?quizId=f54f6498-5308-4f1b-a781-e8f1a942360e" target="_blank" rel="noopener noreferrer">Jugar al Kahoot <ArrowUpRight size={17} aria-hidden="true"/><span className="sr-only"> (se abre en otra pestaña)</span></a>
+      </div>
+      <figure className="az-quiz-photo"><img src={v.images.galeria8} alt="Adrián y Gema juntos durante un viaje" loading="lazy" width="2048" height="1536"/></figure>
     </section>
     {v.sections.rsvp && <Contact/>}
     {v.sections.faq && <section id="preguntas-frecuentes" data-editor-component="faq" className="az-faq az-wrap"><div><p className="az-kicker">Antes de vernos</p><h2>Las pequeñas<br/><em>grandes dudas.</em></h2></div><div>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={20}/></summary><p>{a}</p></details>)}</div></section>}

@@ -13,11 +13,10 @@ export default function Contact() {
         <Link className="az-button az-contact-cta" to="/es/confirmar-asistencia">Confirma asistencia <ArrowRight size={17} aria-hidden="true"/></Link>
         <button className="az-text-button" type="button" onClick={downloadWeddingDate}><CalendarPlus size={17} aria-hidden="true"/> Guardar la fecha</button>
       </div>
-      <div className="az-contact-art" aria-hidden="true">
-        <span className="az-contact-art-initials">A <i>&amp;</i> G</span>
-        <span className="az-contact-art-line"/>
-        <span className="az-contact-art-date">27 · 03 · 27</span>
-      </div>
+      <figure className="az-contact-art">
+        <img src={v.images.galeria19} alt="Adrián y Gema con Nala" loading="lazy" width="1536" height="2048"/>
+        <figcaption><span>Adrián, Gema y Nala</span><span>27 · 03 · 2027</span></figcaption>
+      </figure>
     </div>
   </section>;
 }
