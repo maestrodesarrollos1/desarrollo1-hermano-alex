@@ -24,6 +24,9 @@ export default function Index() {
   }, [entered]);
   return <div className="azure-wedding">
     {entered ? <>
+      <div className="az-watercolor" aria-hidden="true">
+        {Array.from({ length: 6 }, (_, index) => <span key={index} />)}
+      </div>
       <a className="az-skip" href="#contenido">Saltar al contenido</a>
       <Navbar />
       <main id="contenido" ref={mainRef} tabIndex={-1}>

@@ -131,21 +131,21 @@
       "key": "theme.primaryDark",
       "label": "Color oscuro",
       "type": "color",
-      "default": "#4F684C",
+      "default": "#355F43",
       "group": "Diseño"
     },
     {
       "key": "theme.primary",
       "label": "Color principal",
       "type": "color",
-      "default": "#B97E89",
+      "default": "#B9501C",
       "group": "Diseño"
     },
     {
       "key": "theme.soft",
       "label": "Color suave",
       "type": "color",
-      "default": "#F0E5DA",
+      "default": "#FFF3D6",
       "group": "Diseño"
     },
     {
