@@ -167,16 +167,10 @@ body::before { display: none; }
 .az-rsvp-companion-row { display:grid; grid-template-columns:minmax(0,1fr) 44px; align-items:end; gap:8px; }
 .az-rsvp-companion-row > button { display:grid; place-items:center; width:44px; height:48px; border:1px solid var(--template-border); background:transparent; color:var(--az-ink); cursor:pointer; }
 .az-rsvp-companion-row > button:hover { color:#8f4637; border-color:#8f4637; }
-.az-rsvp-dietary { margin-top:18px; border-block:1px solid var(--template-border); color:var(--az-ink); }
-.az-rsvp-companion .az-rsvp-dietary { margin-top:13px; border-top:0; border-bottom:0; }
-.az-rsvp-dietary summary { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:58px; cursor:pointer; list-style:none; }
-.az-rsvp-dietary summary::-webkit-details-marker { display:none; }
-.az-rsvp-dietary summary > span { min-width:0; display:grid; gap:3px; }
-.az-rsvp-dietary summary strong { font:13px var(--font-nav); }
-.az-rsvp-dietary summary small { color:var(--az-olive); font:11px/1.45 var(--font-nav); overflow-wrap:anywhere; }
-.az-rsvp-dietary summary svg { flex-shrink:0; transition:transform .2s; }
-.az-rsvp-dietary[open] summary svg { transform:rotate(180deg); }
-.az-rsvp-dietary-body { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 16px; padding:0 0 20px; }
+.az-rsvp-dietary { min-width:0; margin:22px 0 0; padding:18px 0 20px; border:1px solid var(--template-border); color:var(--az-ink); }
+.az-rsvp-companion .az-rsvp-dietary { margin-top:16px; padding:16px 0 0; border-inline:0; border-bottom:0; }
+.az-rsvp-dietary legend { padding:0 14px; color:var(--az-ink); font:13px var(--font-nav); }
+.az-rsvp-dietary-body { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; padding:0 18px; }
 .az-rsvp-dietary-body > p { grid-column:1/-1; margin:0 0 8px !important; color:var(--az-olive); font:12px/1.5 var(--font-nav); }
 .az-rsvp-dietary-option { display:flex; align-items:center; gap:9px; min-height:40px; color:var(--az-ink); font:13px/1.3 var(--font-nav); cursor:pointer; }
 .az-rsvp-dietary-option input,.az-rsvp-consent input { width:18px; height:18px; flex-shrink:0; accent-color:var(--az-ink); }
@@ -456,6 +450,8 @@ body::before { display: none; }
   .az-rsvp-paper { padding:28px 24px; }
   .az-rsvp-paper-head { font-size:9px; }
   .az-rsvp-form-intro { font-size:22px; }
+  .az-rsvp-dietary-body { grid-template-columns:1fr; gap:7px; }
+  .az-rsvp-dietary-option { min-height:44px; font-size:14px; }
   .az-contact aside { padding:30px 0 0; border-left:0; border-top:1px solid var(--template-border); }
   .az-contact-number { font-size:80px; }
   .az-message-section { padding-block:65px 40px; }

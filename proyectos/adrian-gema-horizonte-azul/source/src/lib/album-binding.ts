@@ -1,11 +1,16 @@
 import type { PageFlip } from "page-flip";
 
 export function turnAlbumPage(book: PageFlip, direction: -1 | 1) {
+  // page-flip calculates the forward outer corner correctly. Its flipPrev()
+  // uses a viewport-relative x=10, which misses the book on narrow layouts.
+  if (direction > 0) {
+    book.flipNext("bottom");
+    return;
+  }
+
   const rect = book.getRender().getRect();
-  // page-flip's flipPrev uses x=10, outside the corner hit area in portrait.
-  // Use book-relative corners for toolbar and keyboard turns in both layouts.
   book.getFlipController().flip({
-    x: rect.left + (direction > 0 ? rect.width - 10 : 10),
+    x: rect.left + 10,
     y: rect.top + rect.height - 2,
   });
 }

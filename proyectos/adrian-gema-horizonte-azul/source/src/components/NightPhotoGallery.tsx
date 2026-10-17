@@ -13,6 +13,26 @@ const photos = getAlbumPhotos();
 const noteColors = ["yellow", "pink", "blue"];
 const notePositions = ["top-left", "top-right", "bottom-left"];
 
+function previewSrc(src: string) {
+  const match = src.match(/\/images\/pareja\/album\/([^/]+)\.(?:jpe?g|png|webp)$/i);
+  return match ? `/images/pareja/album/previews/${encodeURIComponent(match[1])}.webp` : src;
+}
+
+function fetchAlbumNotes() {
+  return new Promise<MessageItem[]>(resolve => {
+    const timeout = window.setTimeout(() => resolve([]), 400);
+    void fetchApprovedMessages()
+      .then(messages => {
+        window.clearTimeout(timeout);
+        resolve(messages);
+      })
+      .catch(() => {
+        window.clearTimeout(timeout);
+        resolve([]);
+      });
+  });
+}
+
 function distributeNotes(messages: MessageItem[]) {
   const pages = Array.from({ length: photos.length }, () => [] as MessageItem[]);
   const shuffled = [...messages].sort(() => Math.random() - .5);
@@ -85,8 +105,14 @@ function createSheet(photo: AlbumPhoto, index: number, notes: MessageItem[]) {
   image.alt = photo.alt;
   image.draggable = false;
   image.decoding = "async";
-  image.loading = "lazy";
-  image.dataset.src = photo.src;
+  image.loading = "eager";
+  image.dataset.src = previewSrc(photo.src);
+  image.dataset.fullSrc = photo.src;
+  image.addEventListener("error", () => {
+    if (image.dataset.usedFullImage === "true") return;
+    image.dataset.usedFullImage = "true";
+    image.src = photo.src;
+  });
   notes.forEach((message, noteIndex) => {
     const note = document.createElement("aside");
     note.className = `nb-postit nb-postit--${noteColors[(index + noteIndex) % noteColors.length]} nb-postit--${notePositions[noteIndex]}`;
@@ -179,8 +205,8 @@ export default function NightPhotoGallery() {
         const element = document.createElement("div");
         element.className = "nb-engine";
         parent.append(element);
-        // Only messages approved in /moderation can become notes in the book.
-        const approvedMessages = await fetchApprovedMessages();
+        // Notes are decorative, so a slow request must never delay the album.
+        const approvedMessages = await fetchAlbumNotes();
         if (disposed) return;
         const pageNotes = distributeNotes(approvedMessages);
         const photoSheets = photos.map((photo, index) => createSheet(photo, index, pageNotes[index]));
@@ -203,8 +229,8 @@ export default function NightPhotoGallery() {
           setCurrent(index);
           setPortrait(instance.getOrientation() === "portrait");
           binding?.sync();
-          // Fetch the current spread and its neighbours before the next turn.
-          sheets.slice(Math.max(0, index - 2), index + 5).forEach(sheet => {
+          // Fetch the current spread and upcoming lightweight previews before a turn.
+          sheets.slice(Math.max(0, index - 2), index + 6).forEach(sheet => {
             const img = sheet.querySelector("img");
             if (img && !img.getAttribute("src")) img.src = img.dataset.src!;
           });

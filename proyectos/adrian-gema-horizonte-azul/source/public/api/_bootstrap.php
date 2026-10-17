@@ -1,9 +1,15 @@
 <?php
 declare(strict_types=1);
 
-const WEDDING_TEMPLATE_MESSAGES_PATH = __DIR__ . '/../_messages/messages.json';
-const WEDDING_TEMPLATE_GAME_PATH = __DIR__ . '/../_messages/game-scores.json';
-const WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH = __DIR__ . '/../_messages/login-attempts.json';
+// Dynamic data stays outside the published web directory. This keeps it safe
+// when a new dist/ is uploaded over SFTP.
+const WEDDING_TEMPLATE_PRIVATE_DATA_DIR = __DIR__ . '/../../_private';
+const WEDDING_TEMPLATE_MESSAGES_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/messages.json';
+const WEDDING_TEMPLATE_GAME_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/game-scores.json';
+const WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/login-attempts.json';
+const WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH = __DIR__ . '/../_messages/messages.json';
+const WEDDING_TEMPLATE_LEGACY_GAME_PATH = __DIR__ . '/../_messages/game-scores.json';
+const WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH = __DIR__ . '/../_messages/login-attempts.json';
 const WEDDING_TEMPLATE_SESSION_AUTH_KEY = 'wedding_template_moderation_authenticated';
 const WEDDING_TEMPLATE_SESSION_CSRF_KEY = 'wedding_template_moderation_csrf';
 const WEDDING_TEMPLATE_LOGIN_WINDOW_SECONDS = 900;
@@ -131,6 +137,12 @@ function wedding_template_ensure_store(): void
         mkdir($directoryPath, 0775, true);
     }
 
+    if (!is_file(WEDDING_TEMPLATE_MESSAGES_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH)) {
+        if (!copy(WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH, WEDDING_TEMPLATE_MESSAGES_PATH)) {
+            throw new RuntimeException('No se pudo migrar el almacén de mensajes al directorio privado.');
+        }
+    }
+
     if (!is_file(WEDDING_TEMPLATE_MESSAGES_PATH)) {
         file_put_contents(
             WEDDING_TEMPLATE_MESSAGES_PATH,
@@ -146,6 +158,12 @@ function wedding_template_ensure_login_attempt_store(): void
 
     if (!is_dir($directoryPath)) {
         mkdir($directoryPath, 0775, true);
+    }
+
+    if (!is_file(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH)) {
+        if (!copy(WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH, WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH)) {
+            throw new RuntimeException('No se pudo migrar el registro de acceso al directorio privado.');
+        }
     }
 
     if (!is_file(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH)) {
@@ -247,6 +265,12 @@ function wedding_template_ensure_game_store(): void
 
     if (!is_dir($directoryPath)) {
         mkdir($directoryPath, 0775, true);
+    }
+
+    if (!is_file(WEDDING_TEMPLATE_GAME_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_GAME_PATH)) {
+        if (!copy(WEDDING_TEMPLATE_LEGACY_GAME_PATH, WEDDING_TEMPLATE_GAME_PATH)) {
+            throw new RuntimeException('No se pudo migrar el ranking al directorio privado.');
+        }
     }
 
     if (!is_file(WEDDING_TEMPLATE_GAME_PATH)) {
