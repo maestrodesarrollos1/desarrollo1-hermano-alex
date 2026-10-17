@@ -20,6 +20,6 @@ export default function RsvpPage() {
         <RsvpForm/>
       </div>
     </main>
-    <footer className="az-rsvp-page-footer"><span>{v.couple.partner1} &amp; {v.couple.partner2}</span><span>{v.event.dateLabel}</span></footer>
+    <footer className="az-rsvp-page-footer"><span>{v.couple.partner1} &amp; {v.couple.partner2}</span><Link to="/es/privacidad">Privacidad y cookies</Link><span>{v.event.dateLabel}</span></footer>
   </div>;
 }
