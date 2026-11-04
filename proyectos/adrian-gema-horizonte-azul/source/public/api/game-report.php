@@ -17,7 +17,7 @@ try {
     }
 
     $store = wedding_template_read_game_store();
-    $ranking = wedding_template_build_private_game_ranking($store['scores']);
+    $ranking = wedding_template_build_private_game_ranking($store['scores'], null);
     $lines = [
         'Ranking del juego de la boda',
         '',

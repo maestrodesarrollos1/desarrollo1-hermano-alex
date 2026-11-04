@@ -18,6 +18,7 @@ try {
     $attendance = isset($input['attendance']) && is_string($input['attendance']) ? $input['attendance'] : '';
     $comment = isset($input['comment']) && is_string($input['comment']) ? trim($input['comment']) : '';
     $companions = $input['companions'] ?? [];
+    $privacyConsent = ($input['privacyConsent'] ?? false) === true;
 
     if (wedding_template_string_length($name) < 2 || wedding_template_string_length($name) > 100) {
         wedding_template_fail('Escribe tu nombre completo (entre 2 y 100 caracteres).', 422);
@@ -28,6 +29,9 @@ try {
     }
     if ($attendance !== 'yes' && $attendance !== 'no') {
         wedding_template_fail('Indica si asistirás.', 422);
+    }
+    if (!$privacyConsent) {
+        wedding_template_fail('Lee y acepta la política de privacidad para enviar la respuesta.', 422);
     }
     if (wedding_template_string_length($comment) > 500) {
         wedding_template_fail('El comentario no puede superar los 500 caracteres.', 422);
@@ -62,7 +66,7 @@ try {
         wedding_template_fail('Espera unos segundos antes de enviar otra respuesta.', 429);
     }
 
-    wedding_rsvp_with_store(true, static function (array &$entries) use ($name, $phone, $attendance, $dietary, $cleanCompanions, $comment, $hasDietaryDetails): void {
+    wedding_rsvp_with_store(true, static function (array &$entries) use ($name, $phone, $attendance, $dietary, $cleanCompanions, $comment, $hasDietaryDetails, $privacyConsent): void {
         array_unshift($entries, [
             'id' => bin2hex(random_bytes(12)),
             'name' => $name,
@@ -72,6 +76,7 @@ try {
             'companions' => $cleanCompanions,
             'comment' => $comment,
             'reviewStatus' => 'pending',
+            'privacyConsent' => $privacyConsent,
             'dietaryConsent' => $hasDietaryDetails,
             'submittedAt' => gmdate('c'),
         ]);

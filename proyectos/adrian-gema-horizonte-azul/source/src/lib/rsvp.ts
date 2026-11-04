@@ -16,6 +16,7 @@ export type RsvpInput = {
   dietary: RsvpDietary;
   companions: RsvpGuest[];
   comment: string;
+  privacyConsent: boolean;
   dietaryConsent: boolean;
   website?: string;
 };
@@ -63,6 +64,7 @@ const normalizeEntry = (value: unknown): RsvpEntry | null => {
     email: typeof source.email === "string" ? source.email : undefined,
     attendance: source.attendance, dietary: normalizeDietary(source.dietary),
     comment: typeof source.comment === "string" ? source.comment : "",
+    privacyConsent: source.privacyConsent === true,
     reviewStatus: source.reviewStatus === "accepted" ? "accepted" : "pending",
     dietaryConsent: source.dietaryConsent === true,
     companions: Array.isArray(source.companions) ? source.companions.flatMap((person) => {
@@ -127,6 +129,7 @@ export const submitRsvp = async (input: RsvpInput) => {
     dietary: input.attendance === "yes" ? cleanDietary(input.dietary) : emptyDietary(),
     companions: input.attendance === "yes" ? input.companions.map((person) => ({ name: person.name.trim(), dietary: cleanDietary(person.dietary) })) : [],
     comment: input.comment.trim(),
+    privacyConsent: input.privacyConsent,
     dietaryConsent: input.dietaryConsent,
     website: input.website ?? "",
   };
@@ -134,6 +137,7 @@ export const submitRsvp = async (input: RsvpInput) => {
   if (!/^\+?[0-9\s().-]{9,24}$/.test(payload.phone) || digits.length < 9 || digits.length > 15) {
     throw new Error("Escribe un teléfono de contacto válido.");
   }
+  if (!payload.privacyConsent) throw new Error("Lee y acepta la política de privacidad para enviar la respuesta.");
   if (payload.attendance === "yes") {
     for (const person of [{ name: payload.name, dietary: payload.dietary }, ...payload.companions]) {
       if (person.dietary.allergies && !person.dietary.allergyDetails) throw new Error(`Concreta las alergias de ${person.name}.`);

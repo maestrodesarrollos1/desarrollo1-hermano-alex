@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Gamepad2, Menu, X } from "lucide-react";
 import { templateValues as v } from "@/config/template-values";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -9,7 +9,6 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", close);
   }, []);
   const items = [
-    {href:"kahoot", label:"Kahoot"},
     ...(v.sections.story ? [{href:"sobre-nosotros", label:"Nosotros"}] : []),
     ...(v.sections.schedule ? [{href:"cronograma", label:"El gran día"}] : []),
     ...(v.sections.faq ? [{href:"preguntas-frecuentes", label:"Vuestras dudas"}] : []),
@@ -21,6 +20,7 @@ export default function Navbar() {
     <button className="az-icon az-nav-toggle" aria-label={open ? "Cerrar menú" : "Abrir menú"} aria-expanded={open} aria-controls="az-menu" onClick={() => setOpen(!open)}>{open ? <X/> : <Menu/>}</button>
     <nav id="az-menu" className={open ? "is-open" : ""} aria-label="Navegación principal">
       {items.map(item => <a key={item.href} href={`/es#${item.href}`} onClick={() => setOpen(false)}>{item.label}</a>)}
+      <a className="az-nav-game" href="/es/juego" onClick={() => setOpen(false)}><Gamepad2 size={15} aria-hidden="true"/> Reto 20 s</a>
     </nav>
   </header>;
 }

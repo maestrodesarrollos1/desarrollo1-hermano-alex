@@ -5,6 +5,8 @@ export type GameRankingEntry = {
   lastPlayedAt: string;
 };
 
+export type GameAdminEntry = GameRankingEntry & { email: string };
+
 export type GameScoreSubmission = {
   name: string;
   email: string;
@@ -13,6 +15,7 @@ export type GameScoreSubmission = {
 
 const LOCAL_STORAGE_KEY = "wedding-speed-game-ranking-v2";
 const PUBLIC_GAME_ENDPOINT = "/api/game-public.php";
+const ADMIN_GAME_ENDPOINT = "/api/game-admin.php";
 
 const canUseStorage = () =>
   typeof window !== "undefined" && typeof window.localStorage !== "undefined";
@@ -44,6 +47,13 @@ const normalizeRankingEntry = (value: unknown): GameRankingEntry | null => {
   };
 };
 
+const normalizeAdminEntry = (value: unknown): GameAdminEntry | null => {
+  const entry = normalizeRankingEntry(value);
+  const candidate = value as Record<string, unknown> | null;
+  if (!entry || typeof candidate?.email !== "string") return null;
+  return { ...entry, email: candidate.email };
+};
+
 const normalizeRanking = (value: unknown): GameRankingEntry[] => {
   if (!Array.isArray(value)) return [];
 
@@ -52,6 +62,14 @@ const normalizeRanking = (value: unknown): GameRankingEntry[] => {
     .filter((item): item is GameRankingEntry => item !== null)
     .sort((a, b) => b.score - a.score || a.attempts - b.attempts)
     .slice(0, 10);
+};
+
+const normalizeAdminRanking = (value: unknown): GameAdminEntry[] => {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => normalizeAdminEntry(item))
+    .filter((item): item is GameAdminEntry => item !== null)
+    .sort((a, b) => b.score - a.score || a.attempts - b.attempts);
 };
 
 const parseJsonResponse = async <T,>(response: Response) => {
@@ -95,7 +113,11 @@ const writeLocalStore = (entries: unknown[]) => {
 };
 
 const buildLocalRanking = () => {
-  const bestByEmail = new Map<string, GameRankingEntry>();
+  return buildLocalAdminRanking().map(({ email: _email, ...entry }) => entry).slice(0, 10);
+};
+
+const buildLocalAdminRanking = (): GameAdminEntry[] => {
+  const bestByEmail = new Map<string, GameAdminEntry>();
 
   readLocalStore().forEach((entry) => {
     if (!entry || typeof entry !== "object") return;
@@ -120,6 +142,7 @@ const buildLocalRanking = () => {
     if (!current || candidate.score > current.score) {
       bestByEmail.set(email, {
         name: candidate.name,
+        email,
         score: candidate.score,
         attempts,
         lastPlayedAt: candidate.createdAt,
@@ -132,7 +155,7 @@ const buildLocalRanking = () => {
     }
   });
 
-  return normalizeRanking([...bestByEmail.values()]);
+  return normalizeAdminRanking([...bestByEmail.values()]);
 };
 
 export const fetchGameRanking = async () => {
@@ -205,4 +228,57 @@ export const submitGameScore = async (submission: GameScoreSubmission) => {
       }).length,
     };
   }
+};
+
+export const isGamePreview = canUseLocalhostFallback();
+
+const saveCsv = (blob: Blob, filename: string) => {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+
+const csvCell = (value: string | number) => {
+  const text = String(value);
+  return `"${(/^[\s]*[=+\-@]/u.test(text) ? "'" : "") + text.replace(/"/g, '""')}"`;
+};
+
+export const fetchGameAdminRanking = async (): Promise<GameAdminEntry[]> => {
+  if (isGamePreview) return buildLocalAdminRanking();
+
+  const { response, data } = await fetchJson<{ ranking?: unknown }>(ADMIN_GAME_ENDPOINT);
+  if (!response.ok) throw new Error(`Game administration request failed with ${response.status}`);
+  return normalizeAdminRanking(data.ranking);
+};
+
+export const downloadGameCsv = async () => {
+  if (!isGamePreview) {
+    const response = await fetch(`${ADMIN_GAME_ENDPOINT}?format=csv`, {
+      credentials: "same-origin",
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error("No se pudo descargar el CSV del reto.");
+    saveCsv(await response.blob(), "ranking-reto-boda.csv");
+    return;
+  }
+
+  const rows = [
+    ["Posición", "Nombre", "Correo", "Puntos", "Intentos", "Última participación"],
+    ...buildLocalAdminRanking().map((entry, index) => [
+      index + 1,
+      entry.name,
+      entry.email,
+      entry.score,
+      entry.attempts,
+      new Date(entry.lastPlayedAt).toLocaleString("es-ES"),
+    ]),
+  ];
+  saveCsv(new Blob(["\uFEFF", rows.map((row) => row.map(csvCell).join(";")).join("\r\n")], {
+    type: "text/csv;charset=utf-8",
+  }), "ranking-reto-boda.csv");
 };

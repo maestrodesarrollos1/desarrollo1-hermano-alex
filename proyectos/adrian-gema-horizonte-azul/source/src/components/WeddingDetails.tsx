@@ -8,10 +8,22 @@ export default function WeddingDetails() {
   const agenda=[["01",v.schedule.ceremony,"El sí, quiero","Ceremonia"],["02",v.schedule.cocktail,"El primer brindis","Cóctel"],["03",v.schedule.lunch,"Todos a la mesa","Banquete"],["04",v.schedule.party,"Que siga la fiesta",`Hasta las ${v.schedule.end} h`]];
   const questions=[
     [v.faq.parkingQuestion,v.faq.parkingAnswer],
-    ["¿A qué hora empieza la celebración?",`La ceremonia empieza a las ${v.schedule.ceremony} h en ${v.event.venue}.`],
-    ["¿Habrá transporte?",v.faq.transportAnswer],
+    [v.faq.flowersQuestion,v.faq.flowersAnswer],
   ];
+  const scheduleSection = v.sections.schedule && <>
+    <section id="cronograma" data-editor-component="schedule" className="az-day">
+      <div className="az-wrap">
+        <div className="az-section-heading"><div><p className="az-kicker">Sábado, 27 de marzo</p><h2>Un día para <em>quedarse.</em></h2></div><p>De las doce<br/>a las mil historias.</p></div>
+        <ol className="az-agenda">{agenda.map(([number,time,title,note])=><li key={number}><span className="az-agenda-number">{number}</span><strong>{time}<small>h</small></strong><h3>{title}</h3><p>{note}</p></li>)}</ol>
+      </div>
+    </section>
+    <section className="az-venue az-wrap">
+      <figure><img src="/images/pareja/finca-ilustrada.webp" alt="Ilustración mediterránea de una finca entre árboles" loading="lazy" width="1000" height="650"/><figcaption>Un paisaje para imaginar el día.</figcaption></figure>
+      <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.event.venue)}`} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca.</p></div>
+    </section>
+  </>;
   return <>
+    {scheduleSection}
     {v.sections.countdown && <AboutInfo/>}
     {v.sections.story && <>
       <section id="sobre-nosotros" data-editor-component="story" className="az-story az-wrap">
@@ -24,27 +36,6 @@ export default function WeddingDetails() {
       <NightPhotoGallery/>
       {v.sections.messages && <section id="mensajes" data-editor-component="messages" className="az-message-section az-message-section--album az-wrap"><LoveMessages/></section>}
     </>}
-    {v.sections.schedule && <>
-      <section id="cronograma" data-editor-component="schedule" className="az-day">
-        <div className="az-wrap">
-          <div className="az-section-heading"><div><p className="az-kicker">Sábado, 27 de marzo</p><h2>Un día para <em>quedarse.</em></h2></div><p>De las doce<br/>a las mil historias.</p></div>
-          <ol className="az-agenda">{agenda.map(([number,time,title,note])=><li key={number}><span className="az-agenda-number">{number}</span><strong>{time}<small>h</small></strong><h3>{title}</h3><p>{note}</p></li>)}</ol>
-        </div>
-      </section>
-      <section className="az-venue az-wrap">
-        <figure><img src="/images/pareja/finca-ilustrada.webp" alt="Ilustración mediterránea de una finca entre árboles" loading="lazy" width="1000" height="650"/><figcaption>Un paisaje para imaginar el día.</figcaption></figure>
-        <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.event.venue)}`} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca.</p></div>
-      </section>
-    </>}
-    <section id="kahoot" className="az-quiz az-wrap" aria-labelledby="kahoot-title">
-      <div className="az-quiz-copy">
-        <p className="az-kicker">Un juego para nuestros invitados</p>
-        <h2 id="kahoot-title">¿Cuánto sabes<br/><em>de nosotros?</em></h2>
-        <p>De nuestra primera cita a los viajes que no olvidamos. ¿Cuántas acertarás?</p>
-        <a className="az-button" href="https://create.kahoot.it/solo?quizId=f54f6498-5308-4f1b-a781-e8f1a942360e" target="_blank" rel="noopener noreferrer">Jugar al Kahoot <ArrowUpRight size={17} aria-hidden="true"/><span className="sr-only"> (se abre en otra pestaña)</span></a>
-      </div>
-      <figure className="az-quiz-photo"><img src={v.images.galeria8} alt="Adrián y Gema juntos durante un viaje" loading="lazy" width="2048" height="1536"/></figure>
-    </section>
     {v.sections.rsvp && <Contact/>}
     {v.sections.faq && <section id="preguntas-frecuentes" data-editor-component="faq" className="az-faq az-wrap"><div><p className="az-kicker">Antes de vernos</p><h2>Las pequeñas<br/><em>grandes dudas.</em></h2></div><div>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={20}/></summary><p>{a}</p></details>)}</div></section>}
   </>;

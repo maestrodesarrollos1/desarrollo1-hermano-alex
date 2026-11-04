@@ -15,6 +15,7 @@ const WEDDING_TEMPLATE_SESSION_CSRF_KEY = 'wedding_template_moderation_csrf';
 const WEDDING_TEMPLATE_LOGIN_WINDOW_SECONDS = 900;
 const WEDDING_TEMPLATE_LOGIN_BLOCK_SECONDS = 900;
 const WEDDING_TEMPLATE_LOGIN_MAX_ATTEMPTS = 8;
+const WEDDING_TEMPLATE_GAME_DEFAULT_CUTOFF_AT = '2027-03-13T23:59:59+01:00';
 
 function wedding_template_seed_store(): array
 {
@@ -335,7 +336,13 @@ function wedding_template_write_game_store(array $store): void
     }
 }
 
-function wedding_template_build_private_game_ranking(array $scores): array
+function wedding_template_game_cutoff_at(): ?string
+{
+    return wedding_template_read_environment_value('WEDDING_GAME_CUTOFF_AT')
+        ?? WEDDING_TEMPLATE_GAME_DEFAULT_CUTOFF_AT;
+}
+
+function wedding_template_build_private_game_ranking(array $scores, ?int $limit = 10): array
 {
     $grouped = [];
 
@@ -368,7 +375,7 @@ function wedding_template_build_private_game_ranking(array $scores): array
     $ranking = array_values($grouped);
     usort($ranking, static fn(array $a, array $b): int => ($b['score'] <=> $a['score']) ?: ($a['attempts'] <=> $b['attempts']));
 
-    return array_slice($ranking, 0, 10);
+    return $limit === null ? $ranking : array_slice($ranking, 0, $limit);
 }
 
 function wedding_template_build_public_game_ranking(array $scores): array

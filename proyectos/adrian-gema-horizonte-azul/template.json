@@ -576,10 +576,17 @@
       "group": "Preguntas frecuentes"
     },
     {
-      "key": "faq.transportAnswer",
-      "label": "Información de transporte",
+      "key": "faq.flowersQuestion",
+      "label": "Pregunta sobre las flores",
+      "type": "text",
+      "default": "¿Podemos llevarnos las flores?",
+      "group": "Preguntas frecuentes"
+    },
+    {
+      "key": "faq.flowersAnswer",
+      "label": "Respuesta sobre las flores",
       "type": "textarea",
-      "default": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados.",
+      "default": "Claro. Al terminar habrá bolsitas para que podáis llevaros algunas flores a casa. Los jarrones se quedan en la finca, pero las flores pueden seguir la fiesta con vosotros.",
       "group": "Preguntas frecuentes"
     }
   ]

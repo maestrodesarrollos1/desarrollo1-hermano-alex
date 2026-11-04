@@ -21,7 +21,7 @@ Tambien puede iniciarse desde `source` con `npm run dev -- --host 127.0.0.1 --po
 
 Formulario RSVP y fecha limite, ubicacion exacta/enlace de acceso, transporte desde Elche o Alicante, historia personal definitiva y posibles instrucciones sobre regalos. No se publica ciudad: el Word menciona Elche/Alicante en transporte, no como ubicacion de la finca.
 
-El quiz personalizado enlaza al Kahoot de Adrián y Gema facilitado por la pareja. El enlace abre el cuestionario compartido en otra pestaña; la disponibilidad y el modo de juego dependen de Kahoot. Ranking y premios siguen pendientes de condiciones. La ruta de juego de velocidad heredada sigue en el codigo para compatibilidad, sin enlace en la invitacion.
+El enlace superior `Reto 20 s` abre el minijuego de velocidad de la invitación. Cada persona dispone de 20 segundos para conseguir la máxima puntuación; el ranking guarda la mejor marca y el número de intentos para que la pareja pueda decidir los premios el día de la boda. En el servidor publicado utiliza el endpoint privado de juego existente; en localhost funciona como vista de prueba local.
 
 En localhost los mensajes se guardan solo en el navegador y asi se indica en el formulario. Para compartirlos entre invitados, desplegar y configurar el backend PHP existente, la moderacion y su almacenamiento. No se ha publicado la web ni enviado ningun mensaje externo.
 
