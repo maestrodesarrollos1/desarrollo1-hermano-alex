@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Footer from "@/components/Footer";
+import GameAdminSection from "@/components/GameAdminSection";
 import Navbar from "@/components/Navbar";
 import RsvpAdminSection from "@/components/RsvpAdminSection";
 import {
@@ -219,6 +220,7 @@ const Moderation = () => {
                 ) : null}
 
                 <RsvpAdminSection csrfToken={csrfToken}/>
+                <GameAdminSection />
                 <div className="grid gap-8 lg:grid-cols-2">
                   <section className="border border-[#DDECE0] bg-white p-6 shadow-[0_16px_40px_rgba(15,61,46,0.06)] md:p-8">
                     <p className="text-xs uppercase tracking-[0.36em] text-[#7FAF8E]">

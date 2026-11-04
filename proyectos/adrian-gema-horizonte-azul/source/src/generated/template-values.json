@@ -87,7 +87,7 @@
   },
   "album": {
     "title": "Nuestra historia, hoja a hoja.",
-    "order": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6, galeria7, galeria8, galeria9, galeria10, galeria11, galeria13, galeria14, galeria15, galeria16, galeria18, galeria19, galeria20, galeria21, galeria22, galeria23, galeria24, galeria25, galeria26, galeria28, galeria29, galeria30, galeria31, galeria32, galeria33, galeria34, galeria35, galeria36, galeria37, galeria38, galeria39, galeria40, galeria41, galeria42, galeria43, galeria44"
+    "order": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6, galeria7, galeria8, galeria9, galeria10, galeria11, galeria13, galeria14, galeria41, galeria15, galeria42, galeria43, galeria44, galeria16, galeria18, galeria19, galeria20, galeria21, galeria22, galeria23, galeria24, galeria25, galeria26, galeria28, galeria29, galeria30, galeria31, galeria32, galeria33, galeria34, galeria35, galeria36, galeria37, galeria38, galeria39, galeria40"
   },
   "sections": {
     "intro": true,
@@ -109,6 +109,8 @@
   "faq": {
     "parkingQuestion": "¿Hay sitio para aparcar?",
     "parkingAnswer": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema.",
+    "flowersQuestion": "¿Podemos llevarnos las flores?",
+    "flowersAnswer": "Claro. Al terminar habrá bolsitas para que podáis llevaros algunas flores a casa. Los jarrones se quedan en la finca, pero las flores pueden seguir la fiesta con vosotros.",
     "transportAnswer": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados."
   }
 }

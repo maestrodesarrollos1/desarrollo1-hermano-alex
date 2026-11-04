@@ -13,7 +13,7 @@ const TILE_COUNT = 9;
 const getGameDeadline = () => {
   const eventDate = new Date(templateValues.event.dateIso);
   if (Number.isNaN(eventDate.getTime())) return null;
-  eventDate.setDate(eventDate.getDate() - 1);
+  eventDate.setDate(eventDate.getDate() - 14);
   eventDate.setHours(23, 59, 59, 999);
   return eventDate;
 };

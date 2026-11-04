@@ -11,6 +11,6 @@ export default function Hero() {
       <h1><span data-editor-key="couple.partner1">{v.couple.partner1}</span><em>&amp;</em><span data-editor-key="couple.partner2">{v.couple.partner2}</span></h1>
     </div>
     <p className="az-hero-vow" data-editor-key="hero.eyebrow">{v.hero.eyebrow}</p>
-    <div className="az-hero-bottom"><span data-editor-key="event.dateLabel">Sábado, {v.event.dateLabel}</span><a href="#countdown" aria-label="Descubrir el día de la boda"><ArrowDown size={20}/></a></div>
+    <div className="az-hero-bottom"><span data-editor-key="event.dateLabel">Sábado, {v.event.dateLabel}</span><a href="#cronograma" aria-label="Ver el itinerario del día"><ArrowDown size={20}/></a></div>
   </section>;
 }

@@ -14,7 +14,7 @@ try {
     }
 
     if ($method === 'POST') {
-        $cutoff = wedding_template_read_environment_value('WEDDING_GAME_CUTOFF_AT');
+        $cutoff = wedding_template_game_cutoff_at();
         if ($cutoff !== null) {
             $cutoffTimestamp = strtotime($cutoff);
             if ($cutoffTimestamp !== false && time() > $cutoffTimestamp) {
