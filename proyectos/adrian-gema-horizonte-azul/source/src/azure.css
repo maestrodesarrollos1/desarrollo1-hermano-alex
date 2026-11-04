@@ -349,9 +349,11 @@ body::before { display: none; }
 .az-footer-bottom>p { font: 25px var(--az-serif); color:var(--az-ink); }
 .az-footer-bottom>span { font: 12px var(--font-nav); }
 .az-intro { position:fixed; inset:0; z-index:100; isolation:isolate; overflow-y:auto; background:var(--az-soft); color:var(--az-ink); }
-.az-intro-scene { position:absolute; inset:0; height:100%; width:100%; object-fit:cover; object-position:center 54%; border-radius:0!important; z-index:-2; filter:saturate(.9); transform:scale(1.02); animation:az-landscape-in 1.8s cubic-bezier(.2,.65,.28,1) both; }
-.az-intro::before { content:''; position:fixed; inset:0; background:linear-gradient(90deg, #f5f1e5f5 0%, #f5f1e5dc 29%, #f5f1e59c 49%, #f5f1e51a 78%),linear-gradient(0deg, #f5f1e5c9 0%, transparent 45%),linear-gradient(180deg, #f5f1e55c, transparent 30%); z-index:-1; }
-.az-intro::after { content:''; position:fixed; inset:20px; border:1px solid #fffdf2cc; box-shadow:inset 0 0 0 1px rgb(52 70 56 / .08); pointer-events:none; }
+/* Keep the animated image below the wash in Safari's compositing layers. */
+.az-intro-scene { position:absolute; inset:0; height:100%; width:100%; object-fit:cover; object-position:center 54%; border-radius:0!important; z-index:0; filter:saturate(.9); transform:scale(1.02); animation:az-landscape-in 1.8s cubic-bezier(.2,.65,.28,1) both; }
+.az-intro::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg, #f5f1e5f5 0%, #f5f1e5dc 29%, #f5f1e59c 49%, #f5f1e51a 78%),linear-gradient(0deg, #f5f1e5c9 0%, transparent 45%),linear-gradient(180deg, #f5f1e55c, transparent 30%); z-index:1; pointer-events:none; }
+.az-intro::after { content:''; position:fixed; inset:20px; border:1px solid #fffdf2cc; box-shadow:inset 0 0 0 1px rgb(52 70 56 / .08); z-index:3; pointer-events:none; }
+.az-intro-top, .az-intro-copy, .az-intro-foot, .az-intro > .az-invitation { z-index:2; }
 .az-intro-top { position:absolute; top:48px; left:5.5%; display:flex; align-items:center; gap:18px; width:min(460px,42vw); color:var(--az-ink); font:600 10px var(--font-nav); text-transform:uppercase; }
 .az-intro-top span { flex-shrink:0; }
 .az-intro-top i { height:1px; flex:1; background:currentColor; opacity:.65; }
