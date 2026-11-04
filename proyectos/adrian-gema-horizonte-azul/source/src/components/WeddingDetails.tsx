@@ -9,6 +9,9 @@ export default function WeddingDetails() {
   const questions=[
     [v.faq.parkingQuestion,v.faq.parkingAnswer],
     [v.faq.flowersQuestion,v.faq.flowersAnswer],
+    ["¿Cómo podemos vestir?",v.faq.dressAnswer],
+    ["¿La finca es accesible?",v.faq.accessibilityAnswer],
+    ["¿Habrá autobús?",v.faq.transportAnswer + " Indicad en la confirmación si lo necesitaríais, cuántas personas y si saldríais desde Elche o Alicante."],
   ];
   const scheduleSection = v.sections.schedule && <>
     <section id="cronograma" data-editor-component="schedule" className="az-day">
@@ -19,8 +22,9 @@ export default function WeddingDetails() {
     </section>
     <section className="az-venue az-wrap">
       <figure><img src="/images/pareja/finca-ilustrada.webp" alt="Ilustración mediterránea de una finca entre árboles" loading="lazy" width="1000" height="650"/><figcaption>Un paisaje para imaginar el día.</figcaption></figure>
-      <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.event.venue)}`} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca.</p></div>
+      <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={v.event.mapUrl} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca y ascensores interiores.</p></div>
     </section>
+
   </>;
   return <>
     {scheduleSection}
@@ -36,7 +40,14 @@ export default function WeddingDetails() {
       <NightPhotoGallery/>
       {v.sections.messages && <section id="mensajes" data-editor-component="messages" className="az-message-section az-message-section--album az-wrap"><LoveMessages/></section>}
     </>}
-    {v.sections.rsvp && <Contact/>}
     {v.sections.faq && <section id="preguntas-frecuentes" data-editor-component="faq" className="az-faq az-wrap"><div><p className="az-kicker">Antes de vernos</p><h2>Las pequeñas<br/><em>grandes dudas.</em></h2></div><div>{questions.map(([q,a])=><details key={q}><summary>{q}<Plus size={20}/></summary><p>{a}</p></details>)}</div></section>}
+    <section id="regalos" className="az-gifts az-wrap">
+      <div className="az-gift-paper">
+      <h2>El mejor regalo, <em>vosotros.</em></h2>
+      <p>{v.gifts.text}</p>
+      <p className="az-gifts-account"><span>Número de cuenta:</span><strong>{v.gifts.iban}</strong></p>
+      </div>
+    </section>
+    {v.sections.rsvp && <Contact/>}
   </>;
 }

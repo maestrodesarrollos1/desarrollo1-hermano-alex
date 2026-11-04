@@ -11,6 +11,7 @@ export default function Navbar() {
   const items = [
     ...(v.sections.story ? [{href:"sobre-nosotros", label:"Nosotros"}] : []),
     ...(v.sections.schedule ? [{href:"cronograma", label:"El gran día"}] : []),
+    {href:"regalos", label:"Regalos"},
     ...(v.sections.faq ? [{href:"preguntas-frecuentes", label:"Vuestras dudas"}] : []),
     ...(v.sections.rsvp ? [{href:"confirmar-asistencia", label:"Nos vemos allí"}] : []),
   ];

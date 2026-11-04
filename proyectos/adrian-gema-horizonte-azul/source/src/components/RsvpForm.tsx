@@ -12,6 +12,10 @@ export default function RsvpForm() {
   const [attendance, setAttendance] = useState<RsvpAttendance | "">("");
   const [dietary, setDietary] = useState<RsvpDietary>(emptyDietary);
   const [companions, setCompanions] = useState<FormCompanion[]>([]);
+  const [song, setSong] = useState("");
+  const [bus, setBus] = useState("");
+  const [busPeople, setBusPeople] = useState(1);
+  const [busOrigin, setBusOrigin] = useState("");
   const [comment, setComment] = useState("");
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [dietaryConsent, setDietaryConsent] = useState(false);
@@ -26,7 +30,8 @@ export default function RsvpForm() {
     setSending(true);
     setError("");
     try {
-      await submitRsvp({ name, phone, attendance, dietary, companions, comment, privacyConsent, dietaryConsent, website });
+      const preferences = attendance === "yes" ? [song.trim() ? `Canción: ${song.trim()}` : "", bus === "yes" ? `Autobús: sí · ${busPeople} persona(s) · salida: ${busOrigin}` : bus === "no" ? "Autobús: no" : ""] : [];
+      await submitRsvp({ name, phone, attendance, dietary, companions, comment: [...preferences, comment.trim()].filter(Boolean).join("\n"), privacyConsent, dietaryConsent, website });
       setSaved(true);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "No se pudo enviar la respuesta. Inténtalo de nuevo.");
@@ -41,7 +46,7 @@ export default function RsvpForm() {
       <span className="az-rsvp-success-mark" aria-hidden="true">✓</span>
       <h2>{attendance === "yes" ? "Qué alegría contar contigo." : "Gracias por avisarnos."}</h2>
       <p>{isRsvpPreview ? "Prueba guardada solo en este navegador. No se ha enviado a los novios." : "Hemos guardado tu respuesta. Si necesitas cambiarla, escríbenos antes de la boda."}</p>
-      <button type="button" className="az-text-button" onClick={() => { setName(""); setPhone(""); setAttendance(""); setDietary(emptyDietary()); setCompanions([]); setComment(""); setPrivacyConsent(false); setDietaryConsent(false); setSaved(false); }}>Enviar otra respuesta <ArrowRight size={16} aria-hidden="true"/></button>
+      <button type="button" className="az-text-button" onClick={() => { setName(""); setPhone(""); setAttendance(""); setDietary(emptyDietary()); setCompanions([]); setComment(""); setSong(""); setBus(""); setBusPeople(1); setBusOrigin(""); setPrivacyConsent(false); setDietaryConsent(false); setSaved(false); }}>Enviar otra respuesta <ArrowRight size={16} aria-hidden="true"/></button>
     </div> : <form className="az-rsvp-form" onSubmit={(event) => { void handleSubmit(event); }}>
       <p className="az-rsvp-form-intro">Reservamos un lugar para vosotros. Decidnos si vendréis.</p>
       <fieldset className="az-rsvp-choice">
@@ -67,7 +72,12 @@ export default function RsvpForm() {
         </div>)}
         {companions.length < 5 && <button className="az-rsvp-add" type="button" onClick={() => setCompanions((current) => [...current, { id: crypto.randomUUID(), name: "", dietary: emptyDietary() }])}><Plus size={17} aria-hidden="true"/> Añadir acompañante</button>}
       </div>}
-      <label className="az-rsvp-comment" htmlFor="rsvp-comment">¿Queréis contarnos algo más?<span>Opcional · cambios, dudas o cualquier detalle que debamos tener en cuenta.</span><textarea id="rsvp-comment" rows={4} maxLength={500} value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Escribe aquí vuestro comentario"/><small>{comment.length}/500</small></label>
+      {attendance === "yes" && <>
+        <fieldset className="az-rsvp-choice"><legend>¿Necesitaríais autobús?</legend><p>Estamos valorando el servicio desde Elche y Alicante.</p><div>{[["yes", "Sí"], ["no", "No"]].map(([value, label]) => <label key={value} className={bus === value ? "is-selected" : ""}><input type="radio" name="bus" required checked={bus === value} onChange={() => setBus(value)}/>{label}</label>)}</div></fieldset>
+        {bus === "yes" && <><div className="az-rsvp-fields"><label htmlFor="rsvp-bus-people">Personas que necesitarían autobús<input id="rsvp-bus-people" type="number" required min={1} max={1 + companions.length} value={busPeople} onChange={(event) => setBusPeople(Number(event.target.value))}/></label></div><fieldset className="az-rsvp-choice"><legend>Lugar de salida</legend><div>{["Elche", "Alicante"].map((origin) => <label key={origin} className={busOrigin === origin ? "is-selected" : ""}><input type="radio" name="bus-origin" required checked={busOrigin === origin} onChange={() => setBusOrigin(origin)}/>{origin}</label>)}</div></fieldset></>}
+        <div className="az-rsvp-fields"><label htmlFor="rsvp-song">¿Qué canción no puede faltar?<input id="rsvp-song" maxLength={100} value={song} onChange={(event) => setSong(event.target.value)} placeholder="Canción y artista · opcional"/></label></div>
+      </>}
+      <label className="az-rsvp-comment" htmlFor="rsvp-comment">¿Queréis contarnos algo más?<span>Opcional · cambios, dudas o cualquier detalle que debamos tener en cuenta.</span><textarea id="rsvp-comment" rows={4} maxLength={300} value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Escribe aquí vuestro comentario"/><small>{comment.length}/300</small></label>
       <div className="az-rsvp-honeypot" aria-hidden="true"><label htmlFor="rsvp-website">Sitio web</label><input id="rsvp-website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)}/></div>
       {attendance === "yes" && [dietary, ...companions.map((person) => person.dietary)].some(dietaryHasDetails) && <label className="az-rsvp-consent"><input type="checkbox" required checked={dietaryConsent} onChange={(event) => setDietaryConsent(event.target.checked)}/><span>Consiento expresamente el tratamiento de los datos de salud y necesidades alimentarias indicados, propios y de los acompañantes respecto de los que actúo, exclusivamente para organizar el menú.</span></label>}
       <label className="az-rsvp-consent az-rsvp-privacy-consent"><input type="checkbox" required checked={privacyConsent} onChange={(event) => setPrivacyConsent(event.target.checked)}/><span>He leído la <Link to="/es/privacidad">Política de privacidad y cookies</Link> y consiento el tratamiento de mis datos para gestionar esta confirmación.</span></label>

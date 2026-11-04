@@ -15,7 +15,7 @@ export default function RsvpPage() {
           <p className="az-kicker">{v.event.dateLabel} · {v.event.venue}</p>
           <h1>Nos vemos <em>allí.</em></h1>
           <p>Nos hace ilusión saber si compartiréis este día con nosotros. Contadnos quiénes venís para guardaros vuestro sitio.</p>
-          <span className="az-rsvp-page-signature">{v.couple.partner1} <i>&amp;</i> {v.couple.partner2}</span>
+          <p>Confirmad antes del <strong>{v.rsvp.deadlineLabel}</strong>.</p><span className="az-rsvp-page-signature">{v.couple.partner1} <i>&amp;</i> {v.couple.partner2}</span>
         </div>
         <RsvpForm/>
       </div>

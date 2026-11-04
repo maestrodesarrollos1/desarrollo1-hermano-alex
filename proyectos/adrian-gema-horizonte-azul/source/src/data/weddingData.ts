@@ -4,7 +4,7 @@ export const weddingData = {
   couple: {
     partner1: templateValues.couple.partner1,
     partner2: templateValues.couple.partner2,
-    display: `${templateValues.couple.partner1} y ${templateValues.couple.partner2}`,
+    display: `${templateValues.couple.partner1} & ${templateValues.couple.partner2}`,
     short: `${templateValues.couple.partner1.charAt(0) || "N"} y ${templateValues.couple.partner2.charAt(0) || "N"}`,
   },
   event: {
@@ -14,9 +14,9 @@ export const weddingData = {
     dateLabel: templateValues.event.dateLabel,
     city: templateValues.event.city,
     venue: templateValues.event.venue,
-    mapUrl: "#",
+    mapUrl: templateValues.event.mapUrl,
     mapEmbedQuery: "",
-    sender: "Plantilla de evento",
+    sender: `${templateValues.couple.partner1} & ${templateValues.couple.partner2}`,
   },
   contact: {
     email: templateValues.contact.email,

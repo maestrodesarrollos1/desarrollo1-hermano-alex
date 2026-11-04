@@ -83,9 +83,17 @@ try {
     });
     $_SESSION['wedding_rsvp_last_submit'] = $now;
 
-    $notify = wedding_template_read_environment_value('WEDDING_RSVP_NOTIFY_EMAIL');
+    $notify = wedding_template_read_environment_value('WEDDING_RSVP_NOTIFY_EMAIL') ?? 'gema.mari98@gmail.com';
     if ($notify !== null && filter_var($notify, FILTER_VALIDATE_EMAIL)) {
-        @mail($notify, 'Nueva respuesta a la invitación', 'Hay una nueva respuesta de asistencia. Revísala en /es/moderacion.');
+        $notification = "Nueva confirmación para la boda de Adrián & Gema\n\n"
+            . "Nombre: " . $name . "\n"
+            . "Asistencia: " . ($attendance === 'yes' ? 'Sí' : 'No') . "\n"
+            . "Teléfono: " . $phone . "\n"
+            . "Acompañantes: " . count($cleanCompanions) . "\n\n"
+            . "Revisa la respuesta completa en el panel privado /es/moderacion de la web de la boda.";
+        if (!function_exists('mail') || !mail($notify, 'Nueva confirmación de asistencia', $notification, "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8")) {
+            error_log('Wedding RSVP: no se pudo enviar la notificación por correo. La respuesta está guardada en el panel privado.');
+        }
     }
 
     wedding_template_send_json(['ok' => true], 201);

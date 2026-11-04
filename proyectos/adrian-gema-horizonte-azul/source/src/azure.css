@@ -567,3 +567,14 @@ body::before { display: none; }
 .az-intro-copy .az-button { text-shadow: none; }
 .az-hero-copy, .az-hero-vow, .az-hero-bottom { text-shadow: 0 2px 5px rgb(20 27 20 / .7), 0 4px 22px rgb(20 27 20 / .5); }
 .az-hero::after { background: linear-gradient(180deg, rgb(46 54 42 / .38), rgb(46 54 42 / .2) 30%, rgb(46 54 42 / .04) 52%, rgb(46 54 42 / .34)); }
+
+.az-gifts { padding-top: 80px; padding-bottom: 80px; text-align: center; }
+.az-gifts h2 { font-size: clamp(2rem, 5vw, 3.7rem); margin: 8px 0 40px; }
+.az-gift-paper { position: relative; width: min(760px, 100%); margin-inline: auto; padding: 44px clamp(20px, 5vw, 60px); border: 1px solid color-mix(in srgb, var(--az-accent) 26%, #fbf8ef); background: repeating-linear-gradient(0deg, transparent 0 29px, rgb(93 76 47 / .06) 29px 30px), #fbf8ef; box-shadow: 0 16px 34px rgb(55 43 24 / .12), inset 0 0 0 4px rgb(255 255 255 / .5); }
+.az-gift-paper > p { max-width: 620px; margin-left: auto; margin-right: auto; }
+.az-gift-paper > .az-gifts-account { margin-top: 40px; margin-bottom: 0; padding: 26px 16px; border: 1px solid color-mix(in srgb, var(--az-accent) 26%, #fbf8ef); border-radius: 2px; background: rgb(255 253 247 / .86); color: var(--az-ink); }
+.az-gifts-account span { display: block; margin-bottom: 14px; font-size: .9rem; font-weight: 600; }
+.az-gifts-account strong { display: block; font-size: clamp(.95rem, 3.7vw, 1.5rem); user-select: all; overflow-wrap: anywhere; }
+.az-story-copy > p:not(.az-kicker) { max-width: 440px; font-family: var(--az-serif); font-size: 16px; line-height: 1.8; text-align: justify; hyphens: auto; text-wrap: pretty; }
+.az-contact-copy > .az-song-reminder { margin-block: 0 12px; padding: 12px 16px; border-left: 2px solid var(--az-accent); background: var(--az-sand-wash); font-style: italic; }
+@media (max-width: 1050px) { .az-nav nav { gap: 18px; } }

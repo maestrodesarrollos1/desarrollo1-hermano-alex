@@ -10,7 +10,8 @@ export default function Contact() {
         <p className="az-kicker">{v.event.dateLabel} · {v.event.venue}</p>
         <h2 data-editor-key="rsvp.ctaTitle">{v.rsvp.ctaTitle}</h2>
         <p data-editor-key="rsvp.ctaText">{v.rsvp.ctaText}</p>
-        <Link className="az-button az-contact-cta" to="/es/confirmar-asistencia">Confirma asistencia <ArrowRight size={17} aria-hidden="true"/></Link>
+        <p className="az-song-reminder">No olvides sugerir una canción <span role="img" aria-label="música">🎵</span></p>
+        <p>Confirmad antes del <strong>{v.rsvp.deadlineLabel}</strong>.</p><Link className="az-button az-contact-cta" to="/es/confirmar-asistencia">Confirma asistencia <ArrowRight size={17} aria-hidden="true"/></Link>
         <button className="az-text-button" type="button" onClick={downloadWeddingDate}><CalendarPlus size={17} aria-hidden="true"/> Guardar la fecha</button>
       </div>
       <figure className="az-contact-art">

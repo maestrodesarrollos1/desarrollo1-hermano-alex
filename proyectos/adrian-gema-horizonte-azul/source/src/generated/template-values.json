@@ -7,7 +7,8 @@
     "dateLabel": "27 de marzo de 2027",
     "dateIso": "2027-03-27T12:00:00+01:00",
     "city": "",
-    "venue": "Finca Ronesa"
+    "venue": "Finca Ronesa",
+    "mapUrl": "https://share.google/JX8Kj5etF1pVQZjfO"
   },
   "contact": {
     "email": "",
@@ -19,15 +20,16 @@
     "noteTitle": "Nos vemos en la finca",
     "noteText": "Para cualquier duda el día de la boda, podéis contactar con Nereida.",
     "ctaTitle": "Guardadnos ese día.",
-    "ctaText": "Decidnos si nos acompañaréis el 27 de marzo. Así podremos preparar un lugar para cada uno de vosotros."
+    "ctaText": "Decidnos si nos acompañaréis el 27 de marzo. Así podremos preparar un lugar para cada uno de vosotros.",
+    "deadlineLabel": "10 de febrero de 2027"
   },
   "hero": {
     "eyebrow": "Sigamos construyendo una vida juntos."
   },
   "story": {
     "title": "La vida, contigo.",
-    "paragraph1": "De todos estos momentos nace el siguiente: nuestra boda. Nos hace mucha ilusión compartirlo con vosotros.",
-    "paragraph2": "El 27 de marzo nos vemos en Finca Ronesa. Habrá tiempo para brindar, sentarnos a la mesa y bailar hasta medianoche."
+    "paragraph1": "Bienvenidos a un día que llevamos mucho tiempo soñando. Queremos compartirlo con vosotros y celebrar juntos todo lo vivido, todo lo que somos y todo lo que todavía nos queda por construir.",
+    "paragraph2": "Todo empezó con un flechazo en una bolera. Después llegaron los viajes, una vida compartida y Nala. En Roma llegó el «sí». Hoy queremos celebrar con vosotros nuestra siguiente aventura."
   },
   "theme": {
     "primaryDark": "#355F43",
@@ -111,6 +113,12 @@
     "parkingAnswer": "Sí. Hay dos zonas de aparcamiento en el interior de la finca, así que no será un problema.",
     "flowersQuestion": "¿Podemos llevarnos las flores?",
     "flowersAnswer": "Claro. Al terminar habrá bolsitas para que podáis llevaros algunas flores a casa. Los jarrones se quedan en la finca, pero las flores pueden seguir la fiesta con vosotros.",
-    "transportAnswer": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados."
+    "transportAnswer": "Estamos concretando las opciones desde Elche o Alicante. Compartiremos los detalles cuando estén confirmados.",
+    "dressAnswer": "Siéntete libre de vestir como mejor te sientas para un día tan especial, eligiendo cualquier color de la paleta evitando el blanco, el crema o colores demasiado claros.",
+    "accessibilityAnswer": "La finca cuenta con dos zonas de aparcamiento en el interior y ascensores interiores."
+  },
+  "gifts": {
+    "text": "Nuestra mayor ilusión es poder compartir con vosotros este día. Si queréis ayudarnos en nuestro viaje más especial, os lo agradeceremos enormemente.",
+    "iban": "ES54 1586 0001 4747 9129 5911"
   }
 }
