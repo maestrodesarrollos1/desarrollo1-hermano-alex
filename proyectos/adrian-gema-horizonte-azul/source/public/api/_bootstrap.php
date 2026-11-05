@@ -238,26 +238,53 @@ function wedding_template_normalize_game_scores($value): array
     foreach ($value as $item) {
         if (
             !is_array($item) ||
-            !isset($item['id'], $item['name'], $item['email'], $item['score'], $item['createdAt']) ||
+            !isset($item['id'], $item['name'], $item['score'], $item['createdAt']) ||
             !is_string($item['id']) ||
             !is_string($item['name']) ||
-            !is_string($item['email']) ||
             !is_int($item['score']) ||
-            !is_string($item['createdAt'])
+            !is_string($item['createdAt']) ||
+            (!isset($item['phone']) && !isset($item['email']) && !isset($item['legacyEmail']))
         ) {
+            continue;
+        }
+
+        $phone = isset($item['phone']) && is_string($item['phone'])
+            ? wedding_template_normalize_game_phone($item['phone'])
+            : null;
+        $legacyEmailSource = isset($item['email']) && is_string($item['email'])
+            ? $item['email']
+            : (isset($item['legacyEmail']) && is_string($item['legacyEmail']) ? $item['legacyEmail'] : '');
+        $legacyEmail = $legacyEmailSource !== ''
+            ? strtolower($legacyEmailSource)
+            : '';
+
+        if ($phone === null && $legacyEmail === '') {
             continue;
         }
 
         $scores[] = [
             'id' => $item['id'],
             'name' => $item['name'],
-            'email' => strtolower($item['email']),
+            'phone' => $phone ?? '',
+            'legacyEmail' => $legacyEmail,
             'score' => $item['score'],
             'createdAt' => $item['createdAt'],
         ];
     }
 
     return $scores;
+}
+
+function wedding_template_normalize_game_phone(string $value): ?string
+{
+    $value = trim($value);
+    $normalized = preg_replace('/[\s().-]/u', '', $value);
+
+    if (!is_string($normalized) || preg_match('/^\+?\d{7,15}$/', $normalized) !== 1) {
+        return null;
+    }
+
+    return $normalized;
 }
 
 function wedding_template_ensure_game_store(): void
@@ -347,13 +374,14 @@ function wedding_template_build_private_game_ranking(array $scores, ?int $limit 
     $grouped = [];
 
     foreach (wedding_template_normalize_game_scores($scores) as $score) {
-        $email = $score['email'];
-        $current = $grouped[$email] ?? null;
+        $identifier = $score['phone'] !== '' ? 'phone:' . $score['phone'] : 'legacy:' . $score['legacyEmail'];
+        $current = $grouped[$identifier] ?? null;
 
         if ($current === null) {
-            $grouped[$email] = [
+            $grouped[$identifier] = [
                 'name' => $score['name'],
-                'email' => $email,
+                'phone' => $score['phone'],
+                'legacyEmail' => $score['legacyEmail'],
                 'score' => $score['score'],
                 'attempts' => 1,
                 'lastPlayedAt' => $score['createdAt'],
@@ -369,7 +397,7 @@ function wedding_template_build_private_game_ranking(array $scores, ?int $limit 
             $current['score'] = $score['score'];
         }
 
-        $grouped[$email] = $current;
+        $grouped[$identifier] = $current;
     }
 
     $ranking = array_values($grouped);

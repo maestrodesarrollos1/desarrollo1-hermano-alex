@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Play, RotateCcw, Trophy } from "lucide-react";
+import { ArrowLeft, Play, RotateCcw } from "lucide-react";
 import { weddingData } from "@/data/weddingData";
 import { templateValues } from "@/config/template-values";
-import { fetchGameRanking, submitGameScore } from "@/lib/wedding-game";
-import type { GameRankingEntry } from "@/lib/wedding-game";
+import { submitGameScore } from "@/lib/wedding-game";
 
 type GameStatus = "idle" | "playing" | "finished";
 const GAME_SECONDS = 20;
@@ -24,18 +23,13 @@ const WeddingGame = () => {
   const [score, setScore] = useState(0);
   const [activeTile, setActiveTile] = useState(4);
   const [playerName, setPlayerName] = useState("");
-  const [playerEmail, setPlayerEmail] = useState("");
-  const [ranking, setRanking] = useState<GameRankingEntry[]>([]);
+  const [playerPhone, setPlayerPhone] = useState("");
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [attemptNumber, setAttemptNumber] = useState<number | null>(null);
   const lastTile = useRef(activeTile);
   const gameDeadline = useMemo(() => getGameDeadline(), []);
   const gameClosed = gameDeadline ? Date.now() > gameDeadline.getTime() : false;
-
-  useEffect(() => {
-    void fetchGameRanking().then(setRanking).catch(() => setRanking([]));
-  }, []);
 
   useEffect(() => {
     if (status !== "playing") return;
@@ -97,13 +91,12 @@ const WeddingGame = () => {
 
   const saveScore = async () => {
     const name = playerName.trim();
-    const email = playerEmail.trim();
-    if (!name || !email || saved || status !== "finished" || gameClosed) return;
+    const phone = playerPhone.trim();
+    if (!name || !phone || saved || status !== "finished" || gameClosed) return;
 
     try {
       setSaveError("");
-      const result = await submitGameScore({ name, email, score });
-      setRanking(result.ranking);
+      const result = await submitGameScore({ name, phone, score });
       setAttemptNumber(result.attemptNumber);
       setSaved(true);
     } catch {
@@ -126,7 +119,7 @@ const WeddingGame = () => {
         </p>
       </div>
 
-      <section className="mx-auto grid max-w-6xl gap-8 pb-12 pt-10 lg:grid-cols-[1fr_0.74fr] lg:items-start">
+      <section className="mx-auto max-w-3xl pb-12 pt-10">
         <div className="relative overflow-hidden border border-white/18 bg-white/[0.06] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-md md:p-8">
           <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full border border-white/10" aria-hidden="true" />
           <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full border border-white/10" aria-hidden="true" />
@@ -144,7 +137,7 @@ const WeddingGame = () => {
             ) : null}
             {gameClosed ? (
               <p className="mt-5 border border-white/16 bg-white/8 p-4 text-sm leading-7 text-white/76">
-                El juego ya esta cerrado. El ranking queda listo para revisar ganadores.
+                El juego ya está cerrado. El resultado se desvelará el día de la boda.
               </p>
             ) : null}
 
@@ -217,7 +210,7 @@ const WeddingGame = () => {
                 <div className="border-b border-white/12 px-5 py-4">
                   <p className="font-nav text-xs uppercase tracking-[0.26em] text-white/58">Guardar marca</p>
                   <p className="mt-3 text-sm leading-6 text-white/72">
-                    Puedes participar varias veces. El ranking guarda tu mejor puntuacion y cuenta tus intentos.
+                    Puedes participar varias veces. Para optar a los premios, guarda la marca con tu nombre y teléfono reales. El resultado seguirá siendo sorpresa hasta la boda.
                   </p>
                 </div>
 
@@ -231,21 +224,26 @@ const WeddingGame = () => {
                         value={playerName}
                         onChange={(event) => setPlayerName(event.target.value)}
                         maxLength={28}
-                        placeholder="Tu nombre"
+                        required
+                        autoComplete="name"
+                        placeholder="Tu nombre y apellidos"
                         className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#0F3D2E] outline-none"
                       />
                     </label>
 
                     <label className="block min-w-0">
                       <span className="mb-2 block font-nav text-[10px] uppercase tracking-[0.22em] text-white/48">
-                        Email
+                        Teléfono
                       </span>
                       <input
-                        value={playerEmail}
-                        onChange={(event) => setPlayerEmail(event.target.value)}
-                        maxLength={120}
-                        type="email"
-                        placeholder="tu@email.com"
+                        value={playerPhone}
+                        onChange={(event) => setPlayerPhone(event.target.value)}
+                        maxLength={24}
+                        type="tel"
+                        inputMode="tel"
+                        autoComplete="tel"
+                        required
+                        placeholder="Tu número de teléfono"
                         className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#0F3D2E] outline-none"
                       />
                     </label>
@@ -254,15 +252,15 @@ const WeddingGame = () => {
                   <button
                     type="button"
                     onClick={saveScore}
-                    disabled={!playerName.trim() || !playerEmail.trim() || saved}
+                    disabled={!playerName.trim() || !playerPhone.trim() || saved}
                     className="font-nav flex min-h-12 w-full items-center justify-center border border-[#F1DDD5] bg-[#F1DDD5] px-5 text-xs uppercase tracking-[0.22em] text-[#4A1F2A] transition hover:border-white hover:bg-white disabled:opacity-45"
                   >
-                    {saved ? "Guardado" : "Guardar en ranking"}
+                    {saved ? "Guardado" : "Guardar mi marca"}
                   </button>
                 </div>
                 {attemptNumber ? (
                   <p className="px-5 pb-5 text-sm text-white/70">
-                    Intento registrado: #{attemptNumber}. Tu mejor marca entra en el ranking.
+                    Intento registrado: #{attemptNumber}. Tu marca queda guardada para la sorpresa del día.
                   </p>
                 ) : null}
                 {saveError ? <p className="px-5 pb-5 text-sm text-[#F1DDD5]">{saveError}</p> : null}
@@ -271,34 +269,6 @@ const WeddingGame = () => {
           </div>
         </div>
 
-        <aside className="border border-[#DDECE0] bg-white p-5 text-[#0F3D2E] shadow-[0_24px_64px_rgba(15,61,46,0.1)] md:p-7">
-          <div className="flex items-center gap-3">
-            <Trophy className="h-5 w-5 text-[#A7605F]" aria-hidden="true" />
-            <p className="font-nav text-xs uppercase tracking-[0.3em] text-[#7FAF8E]">Ranking</p>
-          </div>
-          <h2 className="mt-4 font-script text-4xl">Mesa de honor</h2>
-
-          <div className="mt-6 space-y-3">
-            {ranking.length ? (
-              ranking.map((entry, index) => (
-                <div key={`${entry.name}-${entry.lastPlayedAt}`} className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 border border-[#EAF6EC] bg-[#FBFEFB] px-4 py-3">
-                  <span className="font-script text-2xl text-[#A7605F]">{index + 1}</span>
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm text-[#1F5E46]">{entry.name}</span>
-                    <span className="font-nav mt-1 block text-[10px] uppercase tracking-[0.2em] text-[#7FAF8E]">
-                      {entry.attempts} intento{entry.attempts === 1 ? "" : "s"}
-                    </span>
-                  </span>
-                  <span className="font-nav text-sm font-semibold tabular-nums text-[#0F3D2E]">{entry.score}</span>
-                </div>
-              ))
-            ) : (
-              <p className="border border-[#EAF6EC] bg-[#FBFEFB] p-4 text-sm leading-7 text-[#1F5E46]">
-                Aun no hay participantes. La primera puntuacion marcara el liston.
-              </p>
-            )}
-          </div>
-        </aside>
       </section>
     </main>
   );

@@ -7,9 +7,8 @@ try {
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
     if ($method === 'GET') {
-        $store = wedding_template_read_game_store();
         wedding_template_send_json([
-            'ranking' => wedding_template_build_public_game_ranking($store['scores']),
+            'message' => 'El resultado se desvelará el día de la boda.',
         ]);
     }
 
@@ -24,10 +23,11 @@ try {
 
         $input = wedding_template_read_json_input();
         $name = isset($input['name']) && is_string($input['name']) ? trim($input['name']) : '';
-        $email = isset($input['email']) && is_string($input['email']) ? strtolower(trim($input['email'])) : '';
+        $rawPhone = isset($input['phone']) && is_string($input['phone']) ? $input['phone'] : '';
+        $phone = wedding_template_normalize_game_phone($rawPhone);
         $score = isset($input['score']) && is_int($input['score']) ? $input['score'] : -1;
 
-        if ($name === '' || $email === '' || $score < 0) {
+        if ($name === '' || $rawPhone === '' || $score < 0) {
             wedding_template_fail('Faltan datos obligatorios.', 422);
         }
 
@@ -35,8 +35,8 @@ try {
             wedding_template_fail('El nombre debe tener entre 2 y 50 caracteres.', 422);
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || wedding_template_string_length($email) > 120) {
-            wedding_template_fail('El email no es valido.', 422);
+        if ($phone === null) {
+            wedding_template_fail('El teléfono no es válido.', 422);
         }
 
         if ($score > 999) {
@@ -47,7 +47,7 @@ try {
         $attemptNumber = 1;
 
         foreach ($store['scores'] as $item) {
-            if (isset($item['email']) && $item['email'] === $email) {
+            if (isset($item['phone']) && $item['phone'] === $phone) {
                 $attemptNumber++;
             }
         }
@@ -55,7 +55,7 @@ try {
         $store['scores'][] = [
             'id' => bin2hex(random_bytes(12)),
             'name' => $name,
-            'email' => $email,
+            'phone' => $phone,
             'score' => $score,
             'createdAt' => gmdate('c'),
         ];
@@ -64,7 +64,6 @@ try {
         wedding_template_send_json([
             'ok' => true,
             'attemptNumber' => $attemptNumber,
-            'ranking' => wedding_template_build_public_game_ranking($store['scores']),
         ], 201);
     }
 

@@ -20,7 +20,6 @@ export default function EnvelopeIntro({ onComplete }: { onComplete?: () => void 
         <p className="az-intro-date"><span>Nos casamos</span>{v.event.dateLabel} · {v.event.venue}</p>
         <button className="az-button" onClick={() => setOpened(true)}>Descubrir la invitación <ArrowUpRight size={17}/></button>
       </div>
-      <p className="az-intro-foot">Nuestra siguiente aventura empieza aquí.</p>
     </> : <article className="az-invitation">
       <div className="az-invitation-illustration" aria-hidden="true" />
       <div className="az-invitation-paper">

@@ -11,7 +11,7 @@ export default function WeddingDetails() {
     [v.faq.flowersQuestion,v.faq.flowersAnswer],
     ["¿Cómo podemos vestir?",v.faq.dressAnswer],
     ["¿La finca es accesible?",v.faq.accessibilityAnswer],
-    ["¿Habrá autobús?",v.faq.transportAnswer + " Indicad en la confirmación si lo necesitaríais, cuántas personas y si saldríais desde Elche o Alicante."],
+    ["¿Queréis participar en los premios?", "Descubrid el easter egg escondido en la página y superad el reto. Si queréis optar a los premios, guardad vuestra marca con vuestro nombre y teléfono reales. Solo contarán las participaciones que podamos identificar."],
   ];
   const scheduleSection = v.sections.schedule && <>
     <section id="cronograma" data-editor-component="schedule" className="az-day">

@@ -40,14 +40,14 @@ try {
         header('Content-Disposition: attachment; filename="ranking-reto-boda.csv"');
         echo "\xEF\xBB\xBF";
         echo implode(';', array_map('wedding_template_game_csv_cell', [
-            'Posición', 'Nombre', 'Correo', 'Puntos', 'Intentos', 'Última participación',
+            'Posición', 'Nombre', 'Teléfono', 'Puntos', 'Intentos', 'Última participación',
         ])) . "\r\n";
 
         foreach ($ranking as $index => $entry) {
             echo implode(';', array_map('wedding_template_game_csv_cell', [
                 (string) ($index + 1),
                 $entry['name'],
-                $entry['email'],
+                $entry['phone'] !== '' ? $entry['phone'] : ($entry['legacyEmail'] ?? ''),
                 (string) $entry['score'],
                 (string) $entry['attempts'],
                 wedding_template_game_display_date($entry['lastPlayedAt']),

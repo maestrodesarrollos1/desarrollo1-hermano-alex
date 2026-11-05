@@ -53,17 +53,17 @@ export default function GameAdminSection() {
     {error ? <p className="az-rsvp-admin-error" role="alert">{error}</p> : null}
     {loading ? <p className="az-rsvp-admin-empty">Cargando ranking…</p> : ranking.length === 0 ? <p className="az-rsvp-admin-empty">Todavía no hay participantes. En cuanto alguien complete el reto aparecerá aquí.</p> : <div className="az-game-admin-table-wrap">
       <table className="az-game-admin-table">
-        <thead><tr><th>Pos.</th><th>Participante</th><th>Correo</th><th>Puntos</th><th>Intentos</th><th>Última partida</th></tr></thead>
-        <tbody>{ranking.map((entry, index) => <tr key={entry.email}>
+        <thead><tr><th>Pos.</th><th>Participante</th><th>Teléfono</th><th>Puntos</th><th>Intentos</th><th>Última partida</th></tr></thead>
+        <tbody>{ranking.map((entry, index) => <tr key={`${entry.phone}-${index}`}>
           <td><span className="az-game-admin-rank">{index + 1}</span></td>
           <td>{entry.name}</td>
-          <td><a href={`mailto:${entry.email}`}>{entry.email}</a></td>
+          <td>{entry.phone ? <a href={`tel:${entry.phone}`}>{entry.phone}</a> : entry.legacyEmail || "Registro anterior sin teléfono"}</td>
           <td><strong>{entry.score}</strong></td>
           <td>{entry.attempts}</td>
           <td>{formatDate(entry.lastPlayedAt)}</td>
         </tr>)}</tbody>
       </table>
     </div>}
-    <p className="az-game-admin-note"><Trophy size={16} aria-hidden="true"/> Se agrupan los intentos por correo: cada persona aparece una sola vez con su mejor puntuación.</p>
+    <p className="az-game-admin-note"><Trophy size={16} aria-hidden="true"/> Se agrupan los intentos por teléfono: cada persona aparece una sola vez con su mejor puntuación.</p>
   </section>;
 }

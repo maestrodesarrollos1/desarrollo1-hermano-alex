@@ -362,7 +362,6 @@ body::before { display: none; }
 .az-intro h1 { max-width:10ch; margin:0; font:400 clamp(58px,6.2vw,88px)/.78 var(--az-display); text-wrap:balance; color:var(--az-ink); }
 .az-intro-date { display:flex; align-items:center; gap:14px; font:13px var(--font-nav); margin:28px 0 23px; }
 .az-intro-date span { padding-right:14px; border-right:1px solid color-mix(in srgb,var(--az-ink) 30%,transparent); font-weight:600; text-transform:uppercase; }
-.az-intro-foot { position:absolute; right:5.5%; bottom:42px; padding-inline:26px; color:var(--az-ink); font:italic 15px var(--az-serif); text-shadow:0 1px 12px #f5f1e5; }
 .az-intro.is-open { display:grid; place-items:center; padding:24px; }
 .az-intro.is-open::before { background:color-mix(in srgb, #e8e4d6 54%, transparent); backdrop-filter:blur(2px); }
 .az-intro.is-open .az-intro-scene { filter:blur(1px) saturate(.78); }
@@ -432,7 +431,6 @@ body::before { display: none; }
   .az-intro-top { left:7%; width:86%; color:var(--az-ink); text-shadow:0 1px 14px #f5f1e5; }
   .az-intro-copy { left:8%; bottom:10%; width:84%; }
   .az-intro h1 { font-size:clamp(58px,9vw,72px); max-width:9ch; }
-  .az-intro-foot { display:none; }
   .az-invitation h1 { font-size:60px; }
 }
 @media(max-width:600px) {

@@ -1,19 +1,19 @@
-export type GameRankingEntry = {
+export type GameAdminEntry = {
   name: string;
+  phone: string;
+  legacyEmail?: string;
   score: number;
   attempts: number;
   lastPlayedAt: string;
 };
 
-export type GameAdminEntry = GameRankingEntry & { email: string };
-
 export type GameScoreSubmission = {
   name: string;
-  email: string;
+  phone: string;
   score: number;
 };
 
-const LOCAL_STORAGE_KEY = "wedding-speed-game-ranking-v2";
+const LOCAL_STORAGE_KEY = "wedding-speed-game-ranking-v3";
 const PUBLIC_GAME_ENDPOINT = "/api/game-public.php";
 const ADMIN_GAME_ENDPOINT = "/api/game-admin.php";
 
@@ -24,14 +24,15 @@ const canUseLocalhostFallback = () =>
   typeof window !== "undefined" &&
   (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
-const normalizeEmail = (email: string) => email.trim().toLowerCase();
+const normalizePhone = (phone: string) => phone.trim().replace(/[\s().-]/g, "");
 
-const normalizeRankingEntry = (value: unknown): GameRankingEntry | null => {
+const normalizeAdminEntry = (value: unknown): GameAdminEntry | null => {
   if (!value || typeof value !== "object") return null;
   const candidate = value as Record<string, unknown>;
 
   if (
     typeof candidate.name !== "string" ||
+    typeof candidate.phone !== "string" ||
     typeof candidate.score !== "number" ||
     typeof candidate.attempts !== "number" ||
     typeof candidate.lastPlayedAt !== "string"
@@ -41,27 +42,12 @@ const normalizeRankingEntry = (value: unknown): GameRankingEntry | null => {
 
   return {
     name: candidate.name,
+    phone: candidate.phone,
+    legacyEmail: typeof candidate.legacyEmail === "string" ? candidate.legacyEmail : undefined,
     score: candidate.score,
     attempts: candidate.attempts,
     lastPlayedAt: candidate.lastPlayedAt,
   };
-};
-
-const normalizeAdminEntry = (value: unknown): GameAdminEntry | null => {
-  const entry = normalizeRankingEntry(value);
-  const candidate = value as Record<string, unknown> | null;
-  if (!entry || typeof candidate?.email !== "string") return null;
-  return { ...entry, email: candidate.email };
-};
-
-const normalizeRanking = (value: unknown): GameRankingEntry[] => {
-  if (!Array.isArray(value)) return [];
-
-  return value
-    .map((item) => normalizeRankingEntry(item))
-    .filter((item): item is GameRankingEntry => item !== null)
-    .sort((a, b) => b.score - a.score || a.attempts - b.attempts)
-    .slice(0, 10);
 };
 
 const normalizeAdminRanking = (value: unknown): GameAdminEntry[] => {
@@ -112,78 +98,57 @@ const writeLocalStore = (entries: unknown[]) => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(entries));
 };
 
-const buildLocalRanking = () => {
-  return buildLocalAdminRanking().map(({ email: _email, ...entry }) => entry).slice(0, 10);
-};
-
 const buildLocalAdminRanking = (): GameAdminEntry[] => {
-  const bestByEmail = new Map<string, GameAdminEntry>();
+  const bestByPhone = new Map<string, GameAdminEntry>();
 
   readLocalStore().forEach((entry) => {
     if (!entry || typeof entry !== "object") return;
     const candidate = entry as Record<string, unknown>;
     if (
       typeof candidate.name !== "string" ||
-      typeof candidate.email !== "string" ||
+      typeof candidate.phone !== "string" ||
       typeof candidate.score !== "number" ||
       typeof candidate.createdAt !== "string"
     ) {
       return;
     }
 
-    const email = normalizeEmail(candidate.email);
-    const current = bestByEmail.get(email);
+    const phone = normalizePhone(candidate.phone);
+    const current = bestByPhone.get(phone);
     const attempts = readLocalStore().filter((item) => {
       if (!item || typeof item !== "object") return false;
       const attempt = item as Record<string, unknown>;
-      return typeof attempt.email === "string" && normalizeEmail(attempt.email) === email;
+      return typeof attempt.phone === "string" && normalizePhone(attempt.phone) === phone;
     }).length;
 
     if (!current || candidate.score > current.score) {
-      bestByEmail.set(email, {
+      bestByPhone.set(phone, {
         name: candidate.name,
-        email,
+        phone,
         score: candidate.score,
         attempts,
         lastPlayedAt: candidate.createdAt,
       });
     } else {
-      bestByEmail.set(email, {
+      bestByPhone.set(phone, {
         ...current,
         attempts,
       });
     }
   });
 
-  return normalizeAdminRanking([...bestByEmail.values()]);
-};
-
-export const fetchGameRanking = async () => {
-  try {
-    const { response, data } = await fetchJson<{ ranking?: unknown }>(PUBLIC_GAME_ENDPOINT);
-    if (!response.ok) {
-      throw new Error(`Game ranking request failed with ${response.status}`);
-    }
-
-    return normalizeRanking(data.ranking);
-  } catch (error) {
-    if (!isRemoteUnavailable(error) || !canUseLocalhostFallback()) {
-      throw error;
-    }
-
-    return buildLocalRanking();
-  }
+  return normalizeAdminRanking([...bestByPhone.values()]);
 };
 
 export const submitGameScore = async (submission: GameScoreSubmission) => {
   const payload = {
     name: submission.name.trim(),
-    email: normalizeEmail(submission.email),
+    phone: normalizePhone(submission.phone),
     score: submission.score,
   };
 
   try {
-    const { response, data } = await fetchJson<{ ranking?: unknown; attemptNumber?: unknown }>(
+    const { response, data } = await fetchJson<{ attemptNumber?: unknown }>(
       PUBLIC_GAME_ENDPOINT,
       {
         method: "POST",
@@ -199,7 +164,6 @@ export const submitGameScore = async (submission: GameScoreSubmission) => {
     }
 
     return {
-      ranking: normalizeRanking(data.ranking),
       attemptNumber: typeof data.attemptNumber === "number" ? data.attemptNumber : 1,
     };
   } catch (error) {
@@ -220,11 +184,10 @@ export const submitGameScore = async (submission: GameScoreSubmission) => {
     writeLocalStore(nextStore);
 
     return {
-      ranking: buildLocalRanking(),
       attemptNumber: nextStore.filter((entry) => {
         if (!entry || typeof entry !== "object") return false;
         const candidate = entry as Record<string, unknown>;
-        return typeof candidate.email === "string" && normalizeEmail(candidate.email) === payload.email;
+        return typeof candidate.phone === "string" && normalizePhone(candidate.phone) === payload.phone;
       }).length,
     };
   }
@@ -268,11 +231,11 @@ export const downloadGameCsv = async () => {
   }
 
   const rows = [
-    ["Posición", "Nombre", "Correo", "Puntos", "Intentos", "Última participación"],
+    ["Posición", "Nombre", "Teléfono", "Puntos", "Intentos", "Última participación"],
     ...buildLocalAdminRanking().map((entry, index) => [
       index + 1,
       entry.name,
-      entry.email,
+      entry.phone,
       entry.score,
       entry.attempts,
       new Date(entry.lastPlayedAt).toLocaleString("es-ES"),
