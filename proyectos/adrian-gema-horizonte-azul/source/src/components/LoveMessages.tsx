@@ -1,4 +1,5 @@
 import { lazy, Suspense, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Check, SmilePlus, X } from "lucide-react";
 import { submitPendingMessage } from "@/lib/love-messages";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -59,7 +60,7 @@ export default function LoveMessages() {
         <small>{message.length}/150</small>
       </div>
     </div>
-    <div className="az-message-bottom"><p>{["localhost", "127.0.0.1"].includes(window.location.hostname) ? "Vista previa: el mensaje de prueba se guarda solo en este navegador." : "Lo leeremos antes de compartirlo en el libro de recuerdos."}</p><button className="az-button" type="submit" disabled={status === "sending"}>{status === "sending" ? "Enviando…" : "Enviar"}</button></div>
+    <div className="az-message-bottom"><p>{["localhost", "127.0.0.1"].includes(window.location.hostname) ? "Vista previa: el mensaje de prueba se guarda solo en este navegador." : <>Lo leeremos antes de compartirlo en el libro de recuerdos. Consulta la <Link to="/es/privacidad">información de privacidad</Link>.</>}</p><button className="az-button" type="submit" disabled={status === "sending"}>{status === "sending" ? "Enviando…" : "Enviar"}</button></div>
     <p className="az-form-status" role="status">{status === "success" ? <><Check size={18}/> Guardado. Gracias por dejarnos este recuerdo.</> : status === "error" ? "No se ha podido enviar. El mensaje sigue aquí para que puedas intentarlo de nuevo." : ""}</p>
   </form>;
 }

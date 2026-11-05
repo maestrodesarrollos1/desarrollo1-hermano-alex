@@ -14,6 +14,7 @@ try {
     }
 
     if ($method === 'POST') {
+        wedding_template_require_json_post_request();
         $input = wedding_template_read_json_input();
         $name = isset($input['name']) && is_string($input['name']) ? trim($input['name']) : '';
         $message = isset($input['message']) && is_string($input['message']) ? trim($input['message']) : '';
@@ -30,6 +31,7 @@ try {
             wedding_template_fail('El mensaje debe tener entre 1 y 150 caracteres.', 422);
         }
 
+        wedding_template_limit_public_submission('messages', 5, 3600);
         $store = wedding_template_read_store();
         array_unshift($store['pendingMessages'], [
             'id' => bin2hex(random_bytes(12)),

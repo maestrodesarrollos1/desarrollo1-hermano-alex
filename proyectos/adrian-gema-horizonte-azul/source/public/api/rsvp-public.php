@@ -8,6 +8,7 @@ try {
         wedding_template_fail('Método no permitido.', 405);
     }
 
+    wedding_template_require_json_post_request();
     $input = wedding_template_read_json_input();
     if (!empty($input['website'])) {
         wedding_template_send_json(['ok' => true], 201);
@@ -60,6 +61,7 @@ try {
         wedding_template_fail('Confirma que puedes compartir las necesidades de menú indicadas.', 422);
     }
 
+    wedding_template_limit_public_submission('rsvp', 5, 900);
     wedding_template_start_session();
     $now = time();
     if ($now - (int) ($_SESSION['wedding_rsvp_last_submit'] ?? 0) < 15) {
@@ -78,12 +80,13 @@ try {
             'reviewStatus' => 'pending',
             'privacyConsent' => $privacyConsent,
             'dietaryConsent' => $hasDietaryDetails,
+            'privacyNoticeVersion' => WEDDING_TEMPLATE_PRIVACY_NOTICE_VERSION,
             'submittedAt' => gmdate('c'),
         ]);
     });
     $_SESSION['wedding_rsvp_last_submit'] = $now;
 
-    $notify = wedding_template_read_environment_value('WEDDING_RSVP_NOTIFY_EMAIL') ?? 'gema.mari98@gmail.com';
+    $notify = wedding_template_read_environment_value('WEDDING_RSVP_NOTIFY_EMAIL');
     if ($notify !== null && filter_var($notify, FILTER_VALIDATE_EMAIL)) {
         $notification = "Nueva confirmación para la boda de Adrián & Gema\n\n"
             . "Nombre: " . $name . "\n"

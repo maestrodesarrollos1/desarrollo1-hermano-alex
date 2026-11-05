@@ -24,6 +24,7 @@ const WeddingGame = () => {
   const [activeTile, setActiveTile] = useState(4);
   const [playerName, setPlayerName] = useState("");
   const [playerPhone, setPlayerPhone] = useState("");
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [attemptNumber, setAttemptNumber] = useState<number | null>(null);
@@ -92,11 +93,11 @@ const WeddingGame = () => {
   const saveScore = async () => {
     const name = playerName.trim();
     const phone = playerPhone.trim();
-    if (!name || !phone || saved || status !== "finished" || gameClosed) return;
+    if (!name || !phone || !privacyConsent || saved || status !== "finished" || gameClosed) return;
 
     try {
       setSaveError("");
-      const result = await submitGameScore({ name, phone, score });
+      const result = await submitGameScore({ name, phone, score, privacyConsent });
       setAttemptNumber(result.attemptNumber);
       setSaved(true);
     } catch {
@@ -249,10 +250,21 @@ const WeddingGame = () => {
                     </label>
                   </div>
 
+                  <label className="flex items-start gap-3 text-sm leading-6 text-white/70">
+                    <input
+                      type="checkbox"
+                      checked={privacyConsent}
+                      onChange={(event) => setPrivacyConsent(event.target.checked)}
+                      required
+                      className="mt-1 h-4 w-4 accent-[#F1DDD5]"
+                    />
+                    <span>He leído la <Link to="/es/privacidad" className="underline decoration-white/45 underline-offset-4 hover:text-white">información de privacidad</Link> y acepto el uso de mis datos para gestionar el reto y los premios.</span>
+                  </label>
+
                   <button
                     type="button"
                     onClick={saveScore}
-                    disabled={!playerName.trim() || !playerPhone.trim() || saved}
+                    disabled={!playerName.trim() || !playerPhone.trim() || !privacyConsent || saved}
                     className="font-nav flex min-h-12 w-full items-center justify-center border border-[#F1DDD5] bg-[#F1DDD5] px-5 text-xs uppercase tracking-[0.22em] text-[#4A1F2A] transition hover:border-white hover:bg-white disabled:opacity-45"
                   >
                     {saved ? "Guardado" : "Guardar mi marca"}

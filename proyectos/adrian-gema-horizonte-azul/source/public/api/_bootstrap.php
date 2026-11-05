@@ -7,14 +7,19 @@ const WEDDING_TEMPLATE_PRIVATE_DATA_DIR = __DIR__ . '/../../_private';
 const WEDDING_TEMPLATE_MESSAGES_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/messages.json';
 const WEDDING_TEMPLATE_GAME_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/game-scores.json';
 const WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/login-attempts.json';
+const WEDDING_TEMPLATE_PUBLIC_RATE_LIMIT_PATH = WEDDING_TEMPLATE_PRIVATE_DATA_DIR . '/public-rate-limits.json';
 const WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH = __DIR__ . '/../_messages/messages.json';
 const WEDDING_TEMPLATE_LEGACY_GAME_PATH = __DIR__ . '/../_messages/game-scores.json';
 const WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH = __DIR__ . '/../_messages/login-attempts.json';
 const WEDDING_TEMPLATE_SESSION_AUTH_KEY = 'wedding_template_moderation_authenticated';
 const WEDDING_TEMPLATE_SESSION_CSRF_KEY = 'wedding_template_moderation_csrf';
+const WEDDING_TEMPLATE_SESSION_LAST_ACTIVITY_KEY = 'wedding_template_moderation_last_activity';
 const WEDDING_TEMPLATE_LOGIN_WINDOW_SECONDS = 900;
 const WEDDING_TEMPLATE_LOGIN_BLOCK_SECONDS = 900;
 const WEDDING_TEMPLATE_LOGIN_MAX_ATTEMPTS = 8;
+const WEDDING_TEMPLATE_SESSION_IDLE_TIMEOUT_SECONDS = 1800;
+const WEDDING_TEMPLATE_MAX_JSON_REQUEST_BYTES = 32768;
+const WEDDING_TEMPLATE_PRIVACY_NOTICE_VERSION = '2026-11-05';
 const WEDDING_TEMPLATE_GAME_DEFAULT_CUTOFF_AT = '2027-03-13T23:59:59+01:00';
 
 function wedding_template_seed_store(): array
@@ -38,8 +43,7 @@ function wedding_template_start_session(): void
         return;
     }
 
-    $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (isset($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443');
+    $isSecure = wedding_template_is_secure_request();
 
     ini_set('session.use_only_cookies', '1');
     ini_set('session.use_strict_mode', '1');
@@ -53,6 +57,17 @@ function wedding_template_start_session(): void
     ]);
 
     session_start();
+}
+
+function wedding_template_is_secure_request(): bool
+{
+    $forwardedProto = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && is_string($_SERVER['HTTP_X_FORWARDED_PROTO'])
+        ? strtolower(trim(explode(',', $_SERVER['HTTP_X_FORWARDED_PROTO'])[0]))
+        : '';
+
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (string) $_SERVER['SERVER_PORT'] === '443')
+        || $forwardedProto === 'https';
 }
 
 function wedding_template_send_security_headers(): void
@@ -87,13 +102,68 @@ function wedding_template_fail(string $message, int $status)
 
 function wedding_template_read_json_input(): array
 {
+    $contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (int) $_SERVER['CONTENT_LENGTH'] : 0;
+    if ($contentLength > WEDDING_TEMPLATE_MAX_JSON_REQUEST_BYTES) {
+        wedding_template_fail('La solicitud es demasiado grande.', 413);
+    }
+
     $rawBody = file_get_contents('php://input');
+    if (is_string($rawBody) && strlen($rawBody) > WEDDING_TEMPLATE_MAX_JSON_REQUEST_BYTES) {
+        wedding_template_fail('La solicitud es demasiado grande.', 413);
+    }
     if (!is_string($rawBody) || trim($rawBody) === '') {
         return [];
     }
 
     $decoded = json_decode($rawBody, true);
     return is_array($decoded) ? $decoded : [];
+}
+
+function wedding_template_require_json_post_request(): void
+{
+    $contentType = isset($_SERVER['CONTENT_TYPE']) && is_string($_SERVER['CONTENT_TYPE'])
+        ? strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'])[0]))
+        : '';
+
+    if ($contentType !== 'application/json') {
+        wedding_template_fail('El formato de la solicitud no es válido.', 415);
+    }
+
+    $fetchSite = isset($_SERVER['HTTP_SEC_FETCH_SITE']) && is_string($_SERVER['HTTP_SEC_FETCH_SITE'])
+        ? strtolower($_SERVER['HTTP_SEC_FETCH_SITE'])
+        : '';
+    if ($fetchSite === 'cross-site') {
+        wedding_template_fail('Origen de solicitud no permitido.', 403);
+    }
+
+    $origin = isset($_SERVER['HTTP_ORIGIN']) && is_string($_SERVER['HTTP_ORIGIN'])
+        ? rtrim(strtolower($_SERVER['HTTP_ORIGIN']), '/')
+        : '';
+    if ($origin === '') {
+        return;
+    }
+
+    $host = isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST'])
+        ? strtolower($_SERVER['HTTP_HOST'])
+        : '';
+    $expectedOrigin = (wedding_template_is_secure_request() ? 'https' : 'http') . '://' . $host;
+    if ($host === '' || !hash_equals($expectedOrigin, $origin)) {
+        wedding_template_fail('Origen de solicitud no permitido.', 403);
+    }
+}
+
+function wedding_template_ensure_private_data_directory(): void
+{
+    if (!is_dir(WEDDING_TEMPLATE_PRIVATE_DATA_DIR) && !mkdir(WEDDING_TEMPLATE_PRIVATE_DATA_DIR, 0700, true) && !is_dir(WEDDING_TEMPLATE_PRIVATE_DATA_DIR)) {
+        throw new RuntimeException('No se pudo crear el directorio privado.');
+    }
+
+    @chmod(WEDDING_TEMPLATE_PRIVATE_DATA_DIR, 0700);
+}
+
+function wedding_template_restrict_private_file(string $path): void
+{
+    @chmod($path, 0600);
 }
 
 function wedding_template_string_length(string $value): int
@@ -132,11 +202,7 @@ function wedding_template_normalize_messages($value): array
 
 function wedding_template_ensure_store(): void
 {
-    $directoryPath = dirname(WEDDING_TEMPLATE_MESSAGES_PATH);
-
-    if (!is_dir($directoryPath)) {
-        mkdir($directoryPath, 0775, true);
-    }
+    wedding_template_ensure_private_data_directory();
 
     if (!is_file(WEDDING_TEMPLATE_MESSAGES_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH)) {
         if (!copy(WEDDING_TEMPLATE_LEGACY_MESSAGES_PATH, WEDDING_TEMPLATE_MESSAGES_PATH)) {
@@ -151,15 +217,13 @@ function wedding_template_ensure_store(): void
             LOCK_EX
         );
     }
+
+    wedding_template_restrict_private_file(WEDDING_TEMPLATE_MESSAGES_PATH);
 }
 
 function wedding_template_ensure_login_attempt_store(): void
 {
-    $directoryPath = dirname(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH);
-
-    if (!is_dir($directoryPath)) {
-        mkdir($directoryPath, 0775, true);
-    }
+    wedding_template_ensure_private_data_directory();
 
     if (!is_file(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH)) {
         if (!copy(WEDDING_TEMPLATE_LEGACY_LOGIN_ATTEMPTS_PATH, WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH)) {
@@ -170,6 +234,8 @@ function wedding_template_ensure_login_attempt_store(): void
     if (!is_file(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH)) {
         file_put_contents(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH, '{}', LOCK_EX);
     }
+
+    wedding_template_restrict_private_file(WEDDING_TEMPLATE_LOGIN_ATTEMPTS_PATH);
 }
 
 function wedding_template_read_store(): array
@@ -268,6 +334,10 @@ function wedding_template_normalize_game_scores($value): array
             'phone' => $phone ?? '',
             'legacyEmail' => $legacyEmail,
             'score' => $item['score'],
+            'privacyConsent' => ($item['privacyConsent'] ?? false) === true,
+            'privacyNoticeVersion' => isset($item['privacyNoticeVersion']) && is_string($item['privacyNoticeVersion'])
+                ? $item['privacyNoticeVersion']
+                : '',
             'createdAt' => $item['createdAt'],
         ];
     }
@@ -289,11 +359,7 @@ function wedding_template_normalize_game_phone(string $value): ?string
 
 function wedding_template_ensure_game_store(): void
 {
-    $directoryPath = dirname(WEDDING_TEMPLATE_GAME_PATH);
-
-    if (!is_dir($directoryPath)) {
-        mkdir($directoryPath, 0775, true);
-    }
+    wedding_template_ensure_private_data_directory();
 
     if (!is_file(WEDDING_TEMPLATE_GAME_PATH) && is_file(WEDDING_TEMPLATE_LEGACY_GAME_PATH)) {
         if (!copy(WEDDING_TEMPLATE_LEGACY_GAME_PATH, WEDDING_TEMPLATE_GAME_PATH)) {
@@ -308,6 +374,8 @@ function wedding_template_ensure_game_store(): void
             LOCK_EX
         );
     }
+
+    wedding_template_restrict_private_file(WEDDING_TEMPLATE_GAME_PATH);
 }
 
 function wedding_template_read_game_store(): array
@@ -602,12 +670,106 @@ function wedding_template_get_request_ip(): string
     return $remoteAddress !== '' ? $remoteAddress : 'unknown';
 }
 
+function wedding_template_get_request_fingerprint(string $scope): string
+{
+    return hash('sha256', $scope . '|' . wedding_template_get_request_ip());
+}
+
+function wedding_template_ensure_public_rate_limit_store(): void
+{
+    wedding_template_ensure_private_data_directory();
+
+    if (!is_file(WEDDING_TEMPLATE_PUBLIC_RATE_LIMIT_PATH)) {
+        file_put_contents(WEDDING_TEMPLATE_PUBLIC_RATE_LIMIT_PATH, '{}', LOCK_EX);
+    }
+
+    wedding_template_restrict_private_file(WEDDING_TEMPLATE_PUBLIC_RATE_LIMIT_PATH);
+}
+
+function wedding_template_with_public_rate_limit_store(bool $write, callable $callback)
+{
+    wedding_template_ensure_public_rate_limit_store();
+    $handle = fopen(WEDDING_TEMPLATE_PUBLIC_RATE_LIMIT_PATH, 'c+');
+    if ($handle === false) {
+        throw new RuntimeException('No se pudo abrir la protección antiabuso.');
+    }
+
+    try {
+        if (!flock($handle, $write ? LOCK_EX : LOCK_SH)) {
+            throw new RuntimeException('No se pudo bloquear la protección antiabuso.');
+        }
+
+        rewind($handle);
+        $raw = stream_get_contents($handle);
+        $store = $raw === '' ? [] : json_decode($raw, true);
+        if (!is_array($store)) {
+            $store = [];
+        }
+
+        $result = $callback($store);
+
+        if ($write) {
+            $encoded = json_encode($store, JSON_UNESCAPED_SLASHES);
+            if (!is_string($encoded)) {
+                throw new RuntimeException('No se pudo guardar la protección antiabuso.');
+            }
+            rewind($handle);
+            ftruncate($handle, 0);
+            fwrite($handle, $encoded);
+            fflush($handle);
+        }
+
+        flock($handle, LOCK_UN);
+        return $result;
+    } finally {
+        fclose($handle);
+    }
+}
+
+function wedding_template_limit_public_submission(string $scope, int $maxAttempts, int $windowSeconds): void
+{
+    $now = time();
+    $fingerprint = wedding_template_get_request_fingerprint($scope);
+    $blocked = wedding_template_with_public_rate_limit_store(true, static function (array &$store) use ($now, $fingerprint, $maxAttempts, $windowSeconds): bool {
+        foreach ($store as $key => $timestamps) {
+            if (!is_array($timestamps)) {
+                unset($store[$key]);
+                continue;
+            }
+
+            $recent = array_values(array_filter(
+                $timestamps,
+                static fn($timestamp): bool => is_int($timestamp) && $timestamp >= $now - $windowSeconds
+            ));
+            if ($recent === []) {
+                unset($store[$key]);
+            } else {
+                $store[$key] = $recent;
+            }
+        }
+
+        $attempts = $store[$fingerprint] ?? [];
+        if (count($attempts) >= $maxAttempts) {
+            return true;
+        }
+
+        $attempts[] = $now;
+        $store[$fingerprint] = $attempts;
+        return false;
+    });
+
+    if ($blocked) {
+        header('Retry-After: ' . $windowSeconds);
+        wedding_template_fail('Demasiados envíos. Espera unos minutos antes de volver a intentarlo.', 429);
+    }
+}
+
 function wedding_template_get_login_rate_limit_state(): array
 {
     $store = wedding_template_read_login_attempt_store();
-    $requestIp = wedding_template_get_request_ip();
+    $requestFingerprint = wedding_template_get_request_fingerprint('moderation-login');
     $now = time();
-    $entry = isset($store[$requestIp]) && is_array($store[$requestIp]) ? $store[$requestIp] : [];
+    $entry = isset($store[$requestFingerprint]) && is_array($store[$requestFingerprint]) ? $store[$requestFingerprint] : [];
     $attempts = isset($entry['attempts']) && is_array($entry['attempts']) ? $entry['attempts'] : [];
 
     $recentAttempts = array_values(array_filter(
@@ -619,7 +781,7 @@ function wedding_template_get_login_rate_limit_state(): array
     $remainingSeconds = max(0, $blockedUntil - $now);
 
     return [
-        'requestIp' => $requestIp,
+        'requestFingerprint' => $requestFingerprint,
         'recentAttempts' => $recentAttempts,
         'blockedUntil' => $blockedUntil,
         'remainingSeconds' => $remainingSeconds,
@@ -649,7 +811,7 @@ function wedding_template_record_failed_login(): void
     $recentAttempts = $state['recentAttempts'];
     $recentAttempts[] = $now;
 
-    $state['store'][$state['requestIp']] = [
+    $state['store'][$state['requestFingerprint']] = [
         'attempts' => $recentAttempts,
         'blockedUntil' => count($recentAttempts) >= WEDDING_TEMPLATE_LOGIN_MAX_ATTEMPTS
             ? $now + WEDDING_TEMPLATE_LOGIN_BLOCK_SECONDS
@@ -681,18 +843,30 @@ function wedding_template_clear_failed_logins(): void
 {
     $state = wedding_template_get_login_rate_limit_state();
 
-    if (!array_key_exists($state['requestIp'], $state['store'])) {
+    if (!array_key_exists($state['requestFingerprint'], $state['store'])) {
         return;
     }
 
-    unset($state['store'][$state['requestIp']]);
+    unset($state['store'][$state['requestFingerprint']]);
     wedding_template_write_login_attempt_store($state['store']);
 }
 
 function wedding_template_is_authenticated(): bool
 {
     wedding_template_start_session();
-    return ($_SESSION[WEDDING_TEMPLATE_SESSION_AUTH_KEY] ?? false) === true;
+    if (($_SESSION[WEDDING_TEMPLATE_SESSION_AUTH_KEY] ?? false) !== true) {
+        return false;
+    }
+
+    $now = time();
+    $lastActivity = $_SESSION[WEDDING_TEMPLATE_SESSION_LAST_ACTIVITY_KEY] ?? 0;
+    if (!is_int($lastActivity) || $lastActivity < $now - WEDDING_TEMPLATE_SESSION_IDLE_TIMEOUT_SECONDS) {
+        wedding_template_logout();
+        return false;
+    }
+
+    $_SESSION[WEDDING_TEMPLATE_SESSION_LAST_ACTIVITY_KEY] = $now;
+    return true;
 }
 
 function wedding_template_get_csrf_token(): string
@@ -716,6 +890,7 @@ function wedding_template_mark_authenticated(): void
     session_regenerate_id(true);
     $_SESSION[WEDDING_TEMPLATE_SESSION_AUTH_KEY] = true;
     $_SESSION[WEDDING_TEMPLATE_SESSION_CSRF_KEY] = bin2hex(random_bytes(32));
+    $_SESSION[WEDDING_TEMPLATE_SESSION_LAST_ACTIVITY_KEY] = time();
 }
 
 function wedding_template_logout(): void

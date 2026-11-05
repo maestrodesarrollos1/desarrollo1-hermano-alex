@@ -22,13 +22,13 @@ carpeta privada del hosting/
 
 1. Desde `source`, ejecuta `npm run build`.
 2. Abre `source/dist`.
-3. Sube **todo su contenido**, incluido `.htaccess`, a la carpeta pública del dominio.
+3. Sube **todo su contenido**, incluido `.htaccess` y `spa-fallback.js`, a la carpeta pública del dominio.
 4. No borres la carpeta privada `_private` del servidor.
 5. No actives en el cliente SFTP ninguna opción que elimine archivos remotos que no existan localmente.
 
 El archivo `.htaccess` es necesario: protege los endpoints internos y permite que funcionen las URLs como `/es`, `/es/moderacion` y `/es/confirmar-asistencia`.
 
-La contraseña de moderación se mantiene solo en `source/.server.env`, que no se guarda en Git. La compilación la incorpora automáticamente a `dist/.htaccess`; por ello hay que subir también ese archivo oculto.
+La contraseña de moderación se mantiene solo en `source/.server.env`, que no se guarda en Git. La compilación la incorpora automáticamente a `dist/.htaccess`; por ello hay que subir también ese archivo oculto. Usa una contraseña larga y exclusiva para esta boda. Si se desean avisos por correo, añade también `WEDDING_RSVP_NOTIFY_EMAIL` en la configuración segura del servidor; ya no existe un correo personal fijado dentro del código.
 
 ## Primera actualización después de este cambio
 
@@ -40,3 +40,6 @@ Si el servidor ya tenía una carpeta `_messages`, la primera petición de mensaj
 2. Comprueba que aparece en `/es/moderacion`.
 3. Borra la prueba desde moderación.
 4. Comprueba que la web sigue funcionando tras una segunda subida de `dist`.
+5. Comprueba en una ventana privada que `/api/_bootstrap.php` y `/_private/` no se pueden abrir desde internet.
+
+Consulta `../PROTECCION_DATOS.md` antes de publicar: incluye el cierre de datos posterior a la boda y el protocolo básico ante incidencias.

@@ -51,11 +51,13 @@ function wedding_rsvp_with_store(bool $write, callable $callback)
     if (!is_dir($directory) && !mkdir($directory, 0700, true) && !is_dir($directory)) {
         throw new RuntimeException('No se pudo crear el directorio privado de RSVP.');
     }
+    @chmod($directory, 0700);
 
     $handle = fopen($path, 'c+');
     if ($handle === false) {
         throw new RuntimeException('No se pudo abrir el registro de RSVP.');
     }
+    @chmod($path, 0600);
 
     try {
         if (!flock($handle, $write ? LOCK_EX : LOCK_SH)) {

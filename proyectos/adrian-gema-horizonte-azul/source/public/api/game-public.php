@@ -13,6 +13,7 @@ try {
     }
 
     if ($method === 'POST') {
+        wedding_template_require_json_post_request();
         $cutoff = wedding_template_game_cutoff_at();
         if ($cutoff !== null) {
             $cutoffTimestamp = strtotime($cutoff);
@@ -26,6 +27,7 @@ try {
         $rawPhone = isset($input['phone']) && is_string($input['phone']) ? $input['phone'] : '';
         $phone = wedding_template_normalize_game_phone($rawPhone);
         $score = isset($input['score']) && is_int($input['score']) ? $input['score'] : -1;
+        $privacyConsent = ($input['privacyConsent'] ?? false) === true;
 
         if ($name === '' || $rawPhone === '' || $score < 0) {
             wedding_template_fail('Faltan datos obligatorios.', 422);
@@ -39,10 +41,15 @@ try {
             wedding_template_fail('El teléfono no es válido.', 422);
         }
 
+        if (!$privacyConsent) {
+            wedding_template_fail('Lee y acepta la información de privacidad para guardar tu marca.', 422);
+        }
+
         if ($score > 999) {
             wedding_template_fail('La puntuacion no es valida.', 422);
         }
 
+        wedding_template_limit_public_submission('game', 30, 900);
         $store = wedding_template_read_game_store();
         $attemptNumber = 1;
 
@@ -57,6 +64,8 @@ try {
             'name' => $name,
             'phone' => $phone,
             'score' => $score,
+            'privacyConsent' => $privacyConsent,
+            'privacyNoticeVersion' => WEDDING_TEMPLATE_PRIVACY_NOTICE_VERSION,
             'createdAt' => gmdate('c'),
         ];
 

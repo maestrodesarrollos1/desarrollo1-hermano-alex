@@ -16,6 +16,7 @@ try {
     }
 
     if ($method === 'POST') {
+        wedding_template_require_json_post_request();
         $input = wedding_template_read_json_input();
         $action = isset($input['action']) && is_string($input['action']) ? $input['action'] : '';
 

@@ -4,7 +4,14 @@ declare(strict_types=1);
 require_once __DIR__ . '/_bootstrap.php';
 
 try {
-    $token = isset($_GET['token']) && is_string($_GET['token']) ? trim($_GET['token']) : '';
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+        wedding_template_fail('Método no permitido.', 405);
+    }
+
+    $authorization = isset($_SERVER['HTTP_AUTHORIZATION']) && is_string($_SERVER['HTTP_AUTHORIZATION'])
+        ? $_SERVER['HTTP_AUTHORIZATION']
+        : '';
+    $token = preg_match('/^Bearer\s+(.+)$/i', $authorization, $matches) === 1 ? trim($matches[1]) : '';
     $expectedToken = wedding_template_read_environment_value('WEDDING_GAME_REPORT_TOKEN');
 
     if ($expectedToken === null || $token === '' || !hash_equals($expectedToken, $token)) {
@@ -25,10 +32,10 @@ try {
 
     foreach ($ranking as $index => $entry) {
         $lines[] = sprintf(
-            '%d. %s <%s> - %d puntos - %d intento%s - ultima partida: %s',
+            '%d. %s <%s> - %d puntos - %d intento%s - última partida: %s',
             $index + 1,
             $entry['name'],
-            $entry['email'],
+            $entry['phone'] !== '' ? $entry['phone'] : ($entry['legacyEmail'] ?? 'sin contacto'),
             $entry['score'],
             $entry['attempts'],
             $entry['attempts'] === 1 ? '' : 's',
@@ -50,8 +57,6 @@ try {
 
     wedding_template_send_json([
         'ok' => $sent,
-        'sentTo' => $recipient,
-        'ranking' => $ranking,
     ], $sent ? 200 : 500);
 } catch (Throwable $exception) {
     wedding_template_fail('No se pudo generar el informe.', 500);

@@ -58,6 +58,7 @@ try {
     }
 
     if ($method === 'POST') {
+        wedding_template_require_json_post_request();
         $input = wedding_template_read_json_input();
         wedding_template_require_csrf($input);
         $action = $input['action'] ?? '';

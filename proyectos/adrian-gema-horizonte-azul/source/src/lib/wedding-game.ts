@@ -11,6 +11,7 @@ export type GameScoreSubmission = {
   name: string;
   phone: string;
   score: number;
+  privacyConsent: boolean;
 };
 
 const LOCAL_STORAGE_KEY = "wedding-speed-game-ranking-v3";
@@ -145,6 +146,7 @@ export const submitGameScore = async (submission: GameScoreSubmission) => {
     name: submission.name.trim(),
     phone: normalizePhone(submission.phone),
     score: submission.score,
+    privacyConsent: submission.privacyConsent,
   };
 
   try {
