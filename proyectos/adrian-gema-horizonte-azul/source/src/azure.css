@@ -5,11 +5,13 @@
   --az-ink: var(--template-primary-dark);
   --az-accent: var(--template-primary);
   --az-soft: var(--template-soft);
-  --az-olive: color-mix(in srgb, var(--template-primary-dark) 72%, #A58B55);
+  /* Three spring notes: leaf green for structure, petal pink for emphasis and apricot for action. */
+  --az-olive: color-mix(in srgb, var(--template-primary-dark) 68%, #D08B58);
   --az-sage-wash: #E0EECB;
   --az-apricot-wash: #FFD6AC;
   --az-honey-wash: #FFE59A;
-  --az-sun: #FFC76B;
+  --az-sun: #F7C36A;
+  --az-warm-ink: #9A5D29;
   --az-section-wash: transparent;
   --az-sand-wash: color-mix(in srgb, var(--template-soft) 76%, #fffdf7);
   --az-display: "Felixti", Georgia, 'Times New Roman', serif;
@@ -28,6 +30,12 @@ body::before { display: none; }
 @media(max-width:600px) { .az-watercolor { opacity:.38; } }
 .azure-wedding h1, .azure-wedding h2, .azure-wedding h3 { font-family: var(--az-display); letter-spacing: 0; }
 .az-lightbox { font-family: var(--az-serif); }
+.az-game-page { position:relative; isolation:isolate; min-height:100svh; overflow:hidden; background:var(--template-surface); }
+.az-game-page::before { content:""; position:absolute; z-index:0; inset:0; pointer-events:none; background:url('/images/azure/spring-paper.webp') center / cover fixed no-repeat; opacity:.78; }
+.az-game-page::after { content:""; position:absolute; z-index:0; inset:0; pointer-events:none; background:rgb(255 253 247 / .18); }
+.az-game-page > * { position:relative; z-index:1; }
+.az-game-panel { background:color-mix(in srgb,var(--az-ink) 94%,#183729); box-shadow:0 30px 90px rgb(53 95 67 / .22),inset 0 0 0 1px rgb(255 255 255 / .05); }
+@media(max-width:700px) { .az-game-page::before { background-attachment:scroll; background-size:auto 100%; } }
 .azure-wedding h2 { font-size: 48px; line-height: .9; color: var(--az-ink); font-weight: 400; }
 .azure-wedding h2 em { font-weight: 400; color: var(--az-accent); }
 .azure-wedding p { line-height: 1.75; }
@@ -122,6 +130,9 @@ body::before { display: none; }
 .az-venue h2 { font-size: 52px; }
 .az-venue p:not(.az-kicker) { margin-top: 23px; max-width: 370px; }
 .az-venue .az-text-button { margin-top: 18px; }
+.az-map-button { display:inline-flex; align-items:center; gap:13px; min-height:52px; margin-top:25px; padding:15px 20px; border:1px solid color-mix(in srgb,var(--az-sun) 68%,var(--az-warm-ink)); background:var(--az-sun); color:var(--az-ink); font:600 12px var(--font-nav); transition:background .25s,color .25s,border-color .25s,transform .25s; }
+.az-map-button:hover { background:var(--az-ink); border-color:var(--az-ink); color:#fff; transform:translateY(-1px); }
+.az-map-button:focus-visible { outline:2px solid var(--az-accent); outline-offset:4px; }
 .az-venue .az-venue-note { font-size: 12px; color: var(--az-olive); }
 .az-contact { background:var(--az-section-wash); padding-block: 82px; }
 .az-contact-inner { display: grid; grid-template-columns: 1.25fr 1fr; gap: 100px; align-items: center; }
@@ -142,6 +153,9 @@ body::before { display: none; }
 .az-rsvp-page-copy h1 { max-width:650px; color:var(--az-ink); font:clamp(62px,7vw,112px)/.83 var(--az-display); text-wrap:balance; }
 .az-rsvp-page-copy h1 em { display:block; margin-top:9px; color:var(--az-accent); font-style:italic; }
 .az-rsvp-page-copy > p:not(.az-kicker) { max-width:410px; margin-top:34px; font:18px/1.7 var(--font-body); }
+.az-rsvp-adults-note { max-width:410px; margin-top:30px; padding:17px 0 16px 19px; border-left:2px solid var(--az-accent); color:var(--az-ink); }
+.az-rsvp-adults-note span { display:block; color:var(--az-accent); font:10px/1.2 var(--font-nav); letter-spacing:.18em; text-transform:uppercase; }
+.az-rsvp-adults-note p { margin:7px 0 0 !important; font:italic 19px/1.35 var(--az-serif) !important; }
 .az-rsvp-page-signature { display:block; margin-top:65px; font:32px var(--az-serif); color:var(--az-ink); }
 .az-rsvp-page-signature i { color:var(--az-accent); }
 .az-rsvp-page-footer { display:flex; justify-content:space-between; gap:20px; padding:25px max(40px,calc((100% - 1232px)/2)); border-top:1px solid var(--template-border); background:var(--template-surface); color:var(--az-olive); font:12px var(--font-nav); }
@@ -399,6 +413,7 @@ body::before { display: none; }
   .az-rsvp-back { margin-bottom:40px; }
   .az-rsvp-page-copy h1 { font-size:72px; }
   .az-rsvp-page-copy > p:not(.az-kicker) { margin-top:22px; }
+  .az-rsvp-adults-note { margin-top:24px; }
   .az-rsvp-page-signature { display:none; }
   .azure-wedding h2 { font-size:38px; }
   .az-nav { padding-inline:24px; height:68px; }
@@ -570,9 +585,9 @@ body::before { display: none; }
 .az-gifts h2 { font-size: clamp(2rem, 5vw, 3.7rem); margin: 8px 0 40px; }
 .az-gift-paper { position: relative; width: min(760px, 100%); margin-inline: auto; padding: 44px clamp(20px, 5vw, 60px); border: 1px solid color-mix(in srgb, var(--az-accent) 26%, #fbf8ef); background: repeating-linear-gradient(0deg, transparent 0 29px, rgb(93 76 47 / .06) 29px 30px), #fbf8ef; box-shadow: 0 16px 34px rgb(55 43 24 / .12), inset 0 0 0 4px rgb(255 255 255 / .5); }
 .az-gift-paper > p { max-width: 620px; margin-left: auto; margin-right: auto; }
-.az-gift-paper > .az-gifts-account { margin-top: 40px; margin-bottom: 0; padding: 26px 16px; border: 1px solid color-mix(in srgb, var(--az-accent) 26%, #fbf8ef); border-radius: 2px; background: rgb(255 253 247 / .86); color: var(--az-ink); }
-.az-gifts-account span { display: block; margin-bottom: 14px; font-size: .9rem; font-weight: 600; }
-.az-gifts-account strong { display: block; font-size: clamp(.95rem, 3.7vw, 1.5rem); user-select: all; overflow-wrap: anywhere; }
+.az-gift-paper > .az-gifts-account { margin-top:40px; margin-bottom:0; padding:25px 16px 23px; border:1px solid color-mix(in srgb,var(--az-sun) 72%,#fbf8ef); border-radius:2px; background:color-mix(in srgb,var(--az-sun) 12%,rgb(255 253 247 / .94)); color:var(--az-ink); box-shadow:inset 0 3px 0 color-mix(in srgb,var(--az-sun) 72%,transparent); }
+.az-gifts-account span { display:block; margin-bottom:12px; color:var(--az-warm-ink); font:600 .75rem/1.3 var(--font-nav); letter-spacing:.1em; text-transform:uppercase; }
+.az-gifts-account strong { display:block; color:var(--az-warm-ink); font:600 clamp(1rem,3.7vw,1.55rem)/1.35 var(--font-nav); letter-spacing:.08em; user-select:all; overflow-wrap:anywhere; }
 .az-story-copy > p:not(.az-kicker) { max-width: 440px; font-family: var(--az-serif); font-size: 16px; line-height: 1.8; text-align: justify; hyphens: auto; text-wrap: pretty; }
 .az-contact-copy > .az-song-reminder { margin-block: 0 12px; padding: 12px 16px; border-left: 2px solid var(--az-accent); background: var(--az-sand-wash); font-style: italic; }
 @media (max-width: 1050px) { .az-nav nav { gap: 18px; } }

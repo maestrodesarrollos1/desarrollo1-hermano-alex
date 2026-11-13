@@ -106,11 +106,11 @@ const WeddingGame = () => {
   };
 
   return (
-    <main className="min-h-screen bg-[#0D1F18] px-5 py-8 text-white md:py-10">
+    <main className="az-game-page px-5 py-8 text-white md:py-10">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
         <Link
           to="/es"
-          className="font-nav inline-flex items-center gap-2 border border-white/18 bg-white/8 px-4 py-3 text-xs uppercase tracking-[0.22em] text-white/82 transition hover:bg-white hover:text-[#0F3D2E]"
+          className="font-nav inline-flex items-center gap-2 border border-white/18 bg-white/8 px-4 py-3 text-xs uppercase tracking-[0.22em] text-white/82 transition hover:bg-white hover:text-[#355F43]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Volver
@@ -121,7 +121,7 @@ const WeddingGame = () => {
       </div>
 
       <section className="mx-auto max-w-3xl pb-12 pt-10">
-        <div className="relative overflow-hidden border border-white/18 bg-white/[0.06] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-md md:p-8">
+        <div className="az-game-panel relative overflow-hidden border border-white/18 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-md md:p-8">
           <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full border border-white/10" aria-hidden="true" />
           <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full border border-white/10" aria-hidden="true" />
 
@@ -154,7 +154,7 @@ const WeddingGame = () => {
                     aria-label={active ? "Luz activa" : "Luz apagada"}
                     className={`aspect-square border transition duration-150 ${
                       active
-                        ? "scale-[1.02] border-[#F1DDD5] bg-[#A7605F] shadow-[0_0_34px_rgba(241,221,213,0.38)]"
+                        ? "scale-[1.02] border-[#FFE8EC] bg-[#C96C86] shadow-[0_0_34px_rgba(201,108,134,0.42)]"
                         : "border-white/14 bg-white/[0.055] hover:bg-white/[0.09]"
                     }`}
                   >
@@ -188,7 +188,7 @@ const WeddingGame = () => {
                 <button
                   type="button"
                   onClick={startGame}
-                  className="font-nav inline-flex h-12 items-center gap-2 border border-white/70 bg-white px-5 text-xs uppercase tracking-[0.24em] text-[#0F3D2E] transition hover:bg-transparent hover:text-white"
+                  className="font-nav inline-flex h-12 items-center gap-2 border border-[#F7C36A] bg-[#F7C36A] px-5 text-xs uppercase tracking-[0.24em] text-[#355F43] transition hover:border-[#C96C86] hover:bg-[#C96C86] hover:text-white"
                 >
                   <Play className="h-4 w-4" aria-hidden="true" />
                   {status === "finished" ? "Repetir" : "Jugar"}
@@ -198,7 +198,7 @@ const WeddingGame = () => {
                 <button
                   type="button"
                   onClick={startGame}
-                  className="font-nav inline-flex h-12 items-center gap-2 border border-white/26 bg-transparent px-5 text-xs uppercase tracking-[0.24em] text-white/82 transition hover:bg-white hover:text-[#0F3D2E]"
+                  className="font-nav inline-flex h-12 items-center gap-2 border border-white/26 bg-transparent px-5 text-xs uppercase tracking-[0.24em] text-white/82 transition hover:bg-white hover:text-[#355F43]"
                 >
                   <RotateCcw className="h-4 w-4" aria-hidden="true" />
                   Reiniciar
@@ -228,7 +228,7 @@ const WeddingGame = () => {
                         required
                         autoComplete="name"
                         placeholder="Tu nombre y apellidos"
-                        className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#0F3D2E] outline-none"
+                        className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#355F43] outline-none"
                       />
                     </label>
 
@@ -245,7 +245,7 @@ const WeddingGame = () => {
                         autoComplete="tel"
                         required
                         placeholder="Tu número de teléfono"
-                        className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#0F3D2E] outline-none"
+                        className="min-h-12 w-full border border-white/16 bg-white px-4 text-[#355F43] outline-none"
                       />
                     </label>
                   </div>
@@ -256,7 +256,7 @@ const WeddingGame = () => {
                       checked={privacyConsent}
                       onChange={(event) => setPrivacyConsent(event.target.checked)}
                       required
-                      className="mt-1 h-4 w-4 accent-[#F1DDD5]"
+                      className="mt-1 h-4 w-4 accent-[#C96C86]"
                     />
                     <span>He leído la <Link to="/es/privacidad" className="underline decoration-white/45 underline-offset-4 hover:text-white">información de privacidad</Link> y acepto el uso de mis datos para gestionar el reto y los premios.</span>
                   </label>
@@ -265,7 +265,7 @@ const WeddingGame = () => {
                     type="button"
                     onClick={saveScore}
                     disabled={!playerName.trim() || !playerPhone.trim() || !privacyConsent || saved}
-                    className="font-nav flex min-h-12 w-full items-center justify-center border border-[#F1DDD5] bg-[#F1DDD5] px-5 text-xs uppercase tracking-[0.22em] text-[#4A1F2A] transition hover:border-white hover:bg-white disabled:opacity-45"
+                  className="font-nav flex min-h-12 w-full items-center justify-center border border-[#F7C36A] bg-[#F7C36A] px-5 text-xs uppercase tracking-[0.22em] text-[#355F43] transition hover:border-[#C96C86] hover:bg-[#C96C86] hover:text-white disabled:opacity-45"
                   >
                     {saved ? "Guardado" : "Guardar mi marca"}
                   </button>
@@ -275,7 +275,7 @@ const WeddingGame = () => {
                     Intento registrado: #{attemptNumber}. Tu marca queda guardada para la sorpresa del día.
                   </p>
                 ) : null}
-                {saveError ? <p className="px-5 pb-5 text-sm text-[#F1DDD5]">{saveError}</p> : null}
+                {saveError ? <p className="px-5 pb-5 text-sm text-[#F6C8D2]">{saveError}</p> : null}
               </div>
             ) : null}
           </div>

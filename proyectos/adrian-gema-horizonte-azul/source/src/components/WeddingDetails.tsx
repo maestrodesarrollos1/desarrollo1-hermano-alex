@@ -9,6 +9,7 @@ export default function WeddingDetails() {
   const questions=[
     [v.faq.parkingQuestion,v.faq.parkingAnswer],
     [v.faq.flowersQuestion,v.faq.flowersAnswer],
+    ["¿Pueden venir niños?", "Nos encantan, pero hemos preparado una celebración solo para adultos para que todos podamos disfrutar del día y la noche con tranquilidad."],
     ["¿Cómo podemos vestir?",v.faq.dressAnswer],
     ["¿La finca es accesible?",v.faq.accessibilityAnswer],
     ["¿Queréis participar en los premios?", "Descubrid el easter egg escondido en la página y superad el reto. Si queréis optar a los premios, guardad vuestra marca con vuestro nombre y teléfono reales. Solo contarán las participaciones que podamos identificar."],
@@ -22,7 +23,7 @@ export default function WeddingDetails() {
     </section>
     <section className="az-venue az-wrap">
       <figure><img src="/images/pareja/finca-ilustrada.webp" alt="Ilustración mediterránea de una finca entre árboles" loading="lazy" width="1000" height="650"/><figcaption>Un paisaje para imaginar el día.</figcaption></figure>
-      <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-text-button" href={v.event.mapUrl} target="_blank" rel="noreferrer">Buscar la finca en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca y ascensores interiores.</p></div>
+      <div><p className="az-kicker">El punto de encuentro</p><h2 data-editor-key="event.venue">{v.event.venue}</h2><p>Nos vemos aquí para el primer abrazo, el primer brindis y todo lo que venga después.</p><a className="az-map-button" href={v.event.mapUrl} target="_blank" rel="noreferrer">Abrir ubicación en Maps <ArrowUpRight size={17}/></a><p className="az-venue-note">Dos zonas de aparcamiento dentro de la finca y ascensores interiores.</p></div>
     </section>
 
   </>;

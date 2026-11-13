@@ -14,7 +14,6 @@ Revisión: 4 de noviembre de 2026. Cambios preparados localmente.
 | Cuenta atrás | Activa hasta la ceremonia |
 | No publicar contacto para el día de la boda | Sin bloque de contacto personal |
 | Vestimenta, dos aparcamientos y ascensores interiores | Preguntas frecuentes y ubicación |
-| Encuesta de autobús: sí/no, plazas, Elche/Alicante | Formulario; preferencias guardadas en el comentario de la respuesta y exportadas en CSV |
 | Regalos e IBAN facilitado en el chat | Recuadro de papel crema rayado, como el formulario de mensajes del álbum, con el IBAN en un recuadro propio, después de las dudas e inmediatamente antes de la confirmación |
 | Fecha límite 10/02/2027 | Invitación y página de confirmación |
 | Nombre, asistencia, pareja/acompañantes, alergias, canción y mensaje | Formulario de confirmación |
