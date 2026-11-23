@@ -9,7 +9,7 @@ const BrandClosing = () => (
     <div className="brand-closing__signature brand-shell" aria-hidden="true"><img src="/images/nupia-mark.png" alt="" />NUPIA</div>
     <div className="brand-closing__bottom brand-shell">
       <span>ESTUDIO DIGITAL / WEBS DE BODA</span>
-      <a href="mailto:maestrodesarrollos1@gmail.com">maestrodesarrollos1@gmail.com</a>
+      <a href="mailto:nupiaproject@gmail.com">nupiaproject@gmail.com</a>
       <a href="#inicio" aria-label="Volver al inicio">Al principio <ArrowUp aria-hidden="true" /></a>
     </div>
   </footer>

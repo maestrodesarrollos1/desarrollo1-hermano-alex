@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 import { designs } from "../data/designs";
 
-const CONTACT_EMAIL = "maestrodesarrollos1@gmail.com";
+const CONTACT_EMAIL = "nupiaproject@gmail.com";
 type Props = { selectedDesign: string; onDesignChange: (value: string) => void };
 
 const ContactMoment = ({ selectedDesign, onDesignChange }: Props) => {
