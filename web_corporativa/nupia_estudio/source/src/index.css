@@ -238,7 +238,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible, select:focus-visib
 .archive-card--dark .archive-model:hover { color: #c6d1ca; }
 .archive-card--dark .archive-model > span:not(.archive-model__meta) { color: #c6d1ca; }
 .archive-card--rose { background: #eee3e0; }
-.archive-card--spring { background: #e2e7d6; }
+.archive-card--garnet { --ink: #47232a; --muted: #70454a; --line: #c49b99; color: var(--ink); background: #efd8d4; }
 @keyframes hero-arrive { from { opacity: .4; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
 @keyframes image-arrive { from { opacity: .35; transform: scale(1.015); } to { opacity: 1; transform: scale(1); } }
 @media (min-width: 1700px) {

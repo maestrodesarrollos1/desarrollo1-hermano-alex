@@ -7,7 +7,7 @@ export type TemplateArchiveItem = {
   image: string;
   alt: string;
   previewUrl: string;
-  tone: "light" | "dark" | "rose" | "spring";
+  tone: "light" | "dark" | "rose" | "garnet";
   editions: readonly string[];
 };
 
@@ -53,9 +53,9 @@ export const templateArchive: TemplateArchiveItem[] = [
     direction: "PATIO / FLORAL",
     note: "Dos puertas color vino se abren a una noche de junio en el patio.",
     image: "/images/catalog/patio-en-flor.webp",
-    alt: "Puertas granates con adornos florales y el monograma de Inés y Bruno en el centro",
+    alt: "Puertas granates entreabiertas bajo una buganvilla en flor, con luz de tarde al fondo del patio",
     previewUrl: "http://127.0.0.1:8081/es",
-    tone: "spring",
+    tone: "garnet",
     editions: ["Esencia", "Historia", "Firma"],
   },
   {
@@ -65,7 +65,7 @@ export const templateArchive: TemplateArchiveItem[] = [
     direction: "CARTA / LAVANDA",
     note: "Un sobre lavanda, dos iniciales y una carta que Marina y Pau han reservado para vosotros.",
     image: "/images/catalog/de-puno-y-letra.webp",
-    alt: "Sobre lavanda con el sello de Marina y Pau bajo sus nombres enmarcados por flores",
+    alt: "Sobre lavanda sobre terciopelo ciruela, con una flor violeta sujeta por un sello de lacre",
     previewUrl: "http://127.0.0.1:8082/es",
     tone: "light",
     editions: ["Esencia", "Historia", "Firma"],
