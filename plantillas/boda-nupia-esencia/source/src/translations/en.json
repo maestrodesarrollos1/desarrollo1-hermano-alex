@@ -1,0 +1,129 @@
+{
+  "nav": {
+    "story": "Story",
+    "details": "Details",
+    "schedule": "Schedule",
+    "contact": "RSVP"
+  },
+  "hero": {
+    "tagline": "An elegant template for your wedding celebration.",
+    "description": "Replace this copy with your story, event information, and every detail your guests need before the big day.",
+    "seeSchedule": "View schedule",
+    "rsvpNow": "RSVP now",
+    "dateLine": "June 18, 2027 · Venue to be confirmed"
+  },
+  "about": {
+    "title": "Our Story",
+    "experienceTitle": "Introduce your celebration with a personal message",
+    "experienceText1": "Use this section to share how you met, what this day means to you, or any short welcome note for your guests.",
+    "experienceText2": "It also works well for travel notes, dress code, accommodation tips, or other important information.",
+    "highlights": {
+      "story": {
+        "title": "Your story",
+        "description": "Add a warm and personal summary of your relationship."
+      },
+      "date": {
+        "title": "The date",
+        "description": "Make it clear when the ceremony starts and when the celebration begins."
+      },
+      "place": {
+        "title": "The place",
+        "description": "Include the location, useful references, and transport options."
+      }
+    }
+  },
+  "services": {
+    "title": "Day Details",
+    "subtitle": "Three simple blocks to organize the most important event information.",
+    "items": {
+      "welcome": {
+        "title": "Welcome",
+        "description": "Use this space for your welcome note, accommodation details, transfers, or guest recommendations.",
+        "tags": ["Welcome", "Travel", "Stay"]
+      },
+      "moments": {
+        "title": "Special Moments",
+        "description": "Highlight the ceremony, cocktail hour, photos, gifts, or any meaningful moment you want guests to remember.",
+        "tags": ["Ceremony", "Photos", "Gifts"]
+      },
+      "party": {
+        "title": "Celebration",
+        "description": "Explain the party, music, dinner, after party, or any other plan for the day.",
+        "tags": ["Dinner", "Music", "Party"]
+      }
+    }
+  },
+  "process": {
+    "title": "Event Schedule",
+    "subtitle": "A clear format for presenting the flow of the big day.",
+    "step1Title": "Ceremony",
+    "step1Description": "Share arrival time, ceremony start time, and any important instructions here.",
+    "step2Title": "Cocktail And Dinner",
+    "step2Description": "Add timing for drinks, dinner, speeches, or any special surprises.",
+    "step3Title": "Party",
+    "step3Description": "Wrap up the schedule with dancing, open bar, after party, or the planned finish time.",
+    "communication": "Guest Notes",
+    "communicationDesc": "Use this block for transport, dress code, weather, or practical reminders.",
+    "availability": "FAQ",
+    "availabilityDesc": "Perfect for allergies, kids, accommodation, parking, or any helpful information."
+  },
+  "contact": {
+    "title": "RSVP",
+    "subtitle": "Use this form as a base for collecting confirmations before the event.",
+    "name": "Name",
+    "email": "Email",
+    "guests": "Number of guests",
+    "guestsPlaceholder": "Example: 2 adults",
+    "message": "Message",
+    "messagePlaceholder": "Dietary restrictions, questions, or special notes",
+    "send": "Send RSVP",
+    "submitting": "Sending...",
+    "privacy": "This form is only a template. Connect it to your backend or RSVP service before publishing.",
+    "emailLabel": "Contact email",
+    "rsvpDeadline": "RSVP deadline",
+    "rsvpDeadlineValue": "May 15, 2027",
+    "venue": "Event venue",
+    "venueValue": "Venue name\nCity, Country",
+    "validationTitle": "Missing details",
+    "validationMessage": "Please complete name, email, and message before sending.",
+    "successTitle": "Sample form submitted",
+    "successMessage": "The frontend template works. Connect your real RSVP flow here.",
+    "errorTitle": "Could not send",
+    "errorMessage": "Review the form integration before publishing the site.",
+    "templateNoticeTitle": "No real data or embedded map",
+    "templateNoticeText": "This block replaces the previous personal information. Add your map, contact details, and final content when ready."
+  },
+  "footer": {
+    "description": "Base template for a wedding website with story, details, schedule, and RSVP.",
+    "location": "Venue name · City, Country",
+    "navigationTitle": "Navigation",
+    "navigation": {
+      "about": "Story",
+      "services": "Details",
+      "schedule": "Schedule",
+      "contact": "RSVP"
+    },
+    "notesTitle": "Note",
+    "notesText": "Replace every placeholder with your own details before publishing.",
+    "credit": "Wedding Website Template",
+    "rights": "All rights reserved.",
+    "templateHint": "This version no longer includes names, photos, or details from the original project."
+  },
+  "logo": {
+    "partner1": "Alex",
+    "partner2": "Jamie",
+    "asociados": "wedding day",
+    "ariaLabel": "Sample logo for a wedding website"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page not found",
+    "backHome": "Back home"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "message": "This template uses basic cookies to remember visitor preferences.",
+    "accept": "Accept",
+    "deny": "Close"
+  }
+}

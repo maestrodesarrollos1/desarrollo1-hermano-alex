@@ -5,7 +5,7 @@ const Hero = () => (
   <section id="hero" data-editor-component="hero" className="nocturne-hero">
     <style>{`
       .nocturne-hero { position:relative; min-height:100svh; overflow:hidden; color:#f2f0f3; background:#090a0e; }
-      .nocturne-hero__image { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.48) saturate(.48) contrast(1.12); }
+      .nocturne-hero__image { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.82) saturate(.58) contrast(1.04); }
       .nocturne-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(4,4,6,.84),rgba(4,4,6,.16) 68%),linear-gradient(0deg,rgba(4,4,6,.74),transparent 55%); }
       .nocturne-hero__frame { position:absolute; z-index:2; inset:24px; border:1px solid rgba(239,236,242,.38); pointer-events:none; }
       .nocturne-hero__content { position:relative; z-index:3; display:flex; min-height:100svh; width:min(100% - 96px,1360px); flex-direction:column; justify-content:flex-end; padding:126px 0 80px; margin:0 auto; }
@@ -18,7 +18,7 @@ const Hero = () => (
     <img className="nocturne-hero__image" src={templateValues.images.hero || "/images/nocturna/black-lacquer-moon.png"} alt="Estuche de laca negro para una celebracion nocturna" />
     <div className="nocturne-hero__frame" aria-hidden="true" />
     <div className="nocturne-hero__content"><p className="nocturne-hero__index" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p><h1><span data-editor-key="couple.partner1">{weddingData.couple.partner1}</span><em>&amp;</em><span data-editor-key="couple.partner2">{weddingData.couple.partner2}</span></h1><div className="nocturne-hero__line" /><p className="nocturne-hero__date"><span data-editor-key="event.dateLabel">{weddingData.event.dateLabel}</span> / <span data-editor-key="event.city">{weddingData.event.city}</span></p></div>
-    <p className="nocturne-hero__aside">Pase privado<br />Para una noche<br />sin testigos del reloj</p>
+    <p className="nocturne-hero__aside">Sesión de noche<br />{weddingData.event.venue}</p>
   </section>
 );
 

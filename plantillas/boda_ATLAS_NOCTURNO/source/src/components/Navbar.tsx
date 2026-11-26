@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { templateValues } from "@/config/template-values";
 import { weddingData } from "@/data/weddingData";
 
-const links = [
-  ["La noche", "#countdown"],
-  ["El archivo", "#sobre-nosotros"],
-  ["El recorrido", "#cronograma"],
-  ["Una nota", "#regalos"],
-  ["Confirmar", "#confirmar-asistencia"],
-  ["Preguntas", "#preguntas-frecuentes"],
-] as const;
+const links = ([
+  ["La noche", "#countdown", templateValues.sections.countdown],
+  ["El archivo", "#sobre-nosotros", templateValues.sections.story],
+  ["El recorrido", "#cronograma", templateValues.sections.schedule],
+  ["Una nota", "#regalos", "gifts" in templateValues.sections && templateValues.sections.gifts],
+  ["Confirmar", "#confirmar-asistencia", templateValues.sections.rsvp],
+  ["Preguntas", "#preguntas-frecuentes", templateValues.sections.faq],
+] as const).filter(([, , enabled]) => enabled);
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -35,7 +36,7 @@ const Navbar = () => {
       `}</style>
       <div className="atlas-nav__inner">
         <nav className="atlas-nav__links" aria-label="Secciones de la invitacion">
-          {links.slice(0, 5).map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+          {links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
         </nav>
         <a className="atlas-nav__monogram" href="#hero" aria-label="Volver al inicio">{weddingData.couple.short.replace(" y ", "")}</a>
         <button className="atlas-nav__menu-button" type="button" aria-label={mobileOpen ? "Cerrar menu" : "Abrir menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((current) => !current)}>{mobileOpen ? <X size={17} /> : <Menu size={18} />}</button>

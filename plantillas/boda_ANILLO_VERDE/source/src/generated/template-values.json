@@ -1,13 +1,13 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Vera",
+    "partner2": "Nicolás"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
+    "dateLabel": "18 de junio de 2027",
     "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "city": "Córdoba",
+    "venue": "Jardín de los Naranjos"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Una celebracion intima, natural y pensada para disfrutar sin prisas."
   },
   "hero": {
-    "eyebrow": "Invitacion botanica"
+    "eyebrow": "Una mesa en el jardín"
   },
   "story": {
-    "title": "Nuestra historia",
-    "paragraph1": "Todo empezo como empiezan las cosas que importan: sin demasiado ruido, pero con una certeza dificil de explicar.",
-    "paragraph2": "Queremos celebrar este paso rodeados de las personas que han formado parte del camino."
+    "title": "El árbol de la terraza",
+    "paragraph1": "Nuestro primer naranjo llegó a casa en el asiento trasero de un taxi. Desde entonces ha pasado por tres terrazas con nosotros.",
+    "paragraph2": "Nos parecía justo casarnos bajo sus hermanos mayores. Cuando caiga la tarde, nos encontraréis en el jardín."
   },
   "theme": {
     "primaryDark": "#123C2D",

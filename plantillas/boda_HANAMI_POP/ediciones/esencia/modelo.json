@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-hanami-pop",
+  "templateName": "Hanami Pop",
+  "modelId": "esencia",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

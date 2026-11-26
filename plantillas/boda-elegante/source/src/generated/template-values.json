@@ -1,42 +1,56 @@
 {
   "couple": {
-    "partner1": "Adrián",
-    "partner2": "Gema"
+    "partner1": "Ada",
+    "partner2": "Martín"
   },
   "event": {
     "dateLabel": "27 de marzo de 2027",
     "dateIso": "2027-03-27T12:00",
-    "city": "Elche · Alicante",
-    "venue": "Finca Ronesa"
+    "city": "Dénia",
+    "venue": "Casa de la Brisa"
   },
   "contact": {
     "email": "",
-    "phone": "Nereida · 619 544 090"
+    "phone": ""
   },
   "rsvp": {
     "url": "",
     "noteTitle": "Un detalle práctico",
-    "noteText": "Para dudas el día de la boda, podéis contactar con Nereida.",
+    "noteText": "El día de la boda nos vemos directamente en la casa.",
     "ctaTitle": "La celebración empieza aquí",
     "ctaText": "La confirmación de asistencia se habilitará próximamente. Por ahora, guardad la fecha."
   },
   "hero": {
-    "eyebrow": "Sigamos construyendo una vida juntos"
+    "eyebrow": "Al otro lado de la bahía"
   },
   "story": {
-    "title": "Una celebración muy nuestra",
-    "paragraph1": "Adrián y Gema quieren reunir a quienes más quieren para celebrar una vida compartida, con una boda mediterránea, colorida y llena de personalidad.",
-    "paragraph2": "Una jornada tranquila en Finca Ronesa: tiempo para llegar, brindar, sentarse a la mesa y terminar bailando."
+    "title": "Cuaderno de costa",
+    "paragraph1": "Cada septiembre volvíamos al mismo paseo. Primero con dos toallas; después, con una llave que abría la misma puerta.",
+    "paragraph2": "Este año, además de bajar al mar, nos casamos. Hemos guardado sitio para vosotros en la mesa."
   },
+  "schedule": {
+    "eyebrow": "Al otro lado de la bahía",
+    "title": "Un día para quedarse",
+    "items": [
+      { "time": "12:00", "title": "La ceremonia" },
+      { "time": "13:30", "title": "El brindis" },
+      { "time": "15:00", "title": "A la mesa" },
+      { "time": "17:00", "title": "Que siga la fiesta" }
+    ]
+  },
+  "faq": [
+    { "id": "lugar", "question": "¿Dónde se celebra?", "answer": "En Casa de la Brisa, Dénia." },
+    { "id": "vestimenta", "question": "¿Hay algún código de vestimenta?", "answer": "Venid cómodos, con ganas de disfrutar y de celebrar juntos." }
+  ],
   "theme": {
-    "primaryDark": "#637554",
-    "primary": "#A96F4C",
-    "soft": "#D9C6A5",
-    "text": "#506242",
+    "primaryDark": "#183846",
+    "primary": "#47788A",
+    "soft": "#DBE7EB",
+    "text": "#365666",
     "radius": "8"
   },
   "images": {
-    "hero": "/images/azure/finca-acuarela.png"
+    "hero": "/images/azure/blue-hour-entry.png"
   },
   "sections": {
     "intro": true,

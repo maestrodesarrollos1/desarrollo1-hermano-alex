@@ -7,7 +7,7 @@
     "dateLabel": "9 de octubre de 2027",
     "dateIso": "2027-10-09T19:30",
     "city": "Madrid",
-    "venue": "Jardin de los Farolillos"
+    "venue": "Jardín de los Farolillos"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
   },
   "hero": {
-    "eyebrow": "Capitulo I: la noche nos encontro"
+    "eyebrow": "Capítulo I · Bajo los farolillos"
   },
   "story": {
-    "title": "Vuestras historias",
-    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
-    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+    "title": "Una viñeta para dos",
+    "paragraph1": "Dani guardaba el sitio en la cola; Aiko volvía con dos cuencos de ramen. Nos perdimos el estreno, pero no la segunda cita.",
+    "paragraph2": "Si dibujáramos aquella noche, la última viñeta seguiría en blanco. La llenamos con vosotros en octubre."
   },
   "theme": {
     "primaryDark": "#10205C",

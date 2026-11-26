@@ -1,0 +1,41 @@
+{
+  "esencia": {
+    "sections": {
+      "intro": false,
+      "story": true,
+      "gallery": false,
+      "countdown": true,
+      "schedule": true,
+      "faq": true,
+      "messages": false,
+      "gifts": false,
+      "rsvp": false
+    }
+  },
+  "historia": {
+    "sections": {
+      "intro": false,
+      "story": true,
+      "gallery": true,
+      "countdown": true,
+      "schedule": true,
+      "faq": true,
+      "messages": false,
+      "gifts": true,
+      "rsvp": true
+    }
+  },
+  "firma": {
+    "sections": {
+      "intro": true,
+      "story": true,
+      "gallery": true,
+      "countdown": true,
+      "schedule": true,
+      "faq": true,
+      "messages": true,
+      "gifts": true,
+      "rsvp": true
+    }
+  }
+}

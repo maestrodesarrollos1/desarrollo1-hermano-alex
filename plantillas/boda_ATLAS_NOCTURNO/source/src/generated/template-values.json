@@ -1,13 +1,13 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Luna",
+    "partner2": "Teo"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
+    "dateLabel": "18 de junio de 2027",
     "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "city": "Teruel",
+    "venue": "Mirador de la Sierra"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Una celebracion de noche, con tiempo para mirar, brindar y bailar sin mirar el reloj."
   },
   "hero": {
-    "eyebrow": "El pase para nuestra noche"
+    "eyebrow": "Coordenadas de una noche"
   },
   "story": {
-    "title": "El lugar al que siempre volvemos",
-    "paragraph1": "Hay historias que no hacen ruido al empezar, pero acaban convirtiendose en el lugar al que una y otra vez queremos volver.",
-    "paragraph2": "Esta noche es nuestra forma de reunir cada camino, cada coincidencia y a todas las personas que lo hicieron posible."
+    "title": "Donde termina el mapa",
+    "paragraph1": "En nuestra primera escapada nos pasamos el desvío. Acabamos en un mirador, con dos bocadillos y más estrellas de las que sabíamos nombrar.",
+    "paragraph2": "Volvemos allí a casarnos. Esta vez os mandamos las coordenadas."
   },
   "theme": {
     "primaryDark": "#2C2638",
@@ -36,7 +36,7 @@
     "radius": "10"
   },
   "images": {
-    "hero": ""
+    "hero": "/images/intro/dinner-editorial.png"
   },
   "sections": {
     "intro": true,

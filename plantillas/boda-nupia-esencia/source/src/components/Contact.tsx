@@ -1,0 +1,23 @@
+import { ArrowRight, CalendarPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+import { templateValues as v } from "@/config/template-values";
+import { downloadWeddingDate } from "@/lib/wedding-calendar";
+
+export default function Contact() {
+  return <section id="confirmar-asistencia" data-editor-component="rsvp" className="az-contact">
+    <div className="az-wrap az-contact-inner">
+      <div className="az-contact-copy">
+        <p className="az-kicker">{v.event.dateLabel} · {v.event.venue}</p>
+        <h2 data-editor-key="rsvp.ctaTitle">{v.rsvp.ctaTitle}</h2>
+        <p data-editor-key="rsvp.ctaText">{v.rsvp.ctaText}</p>
+        <p className="az-song-reminder">No olvides sugerir una canción <span role="img" aria-label="música">🎵</span></p>
+        <p>Confirmad antes del <strong>{v.rsvp.deadlineLabel}</strong>.</p><Link className="az-button az-contact-cta" to="/es/confirmar-asistencia">Confirma asistencia <ArrowRight size={17} aria-hidden="true"/></Link>
+        <button className="az-text-button" type="button" onClick={downloadWeddingDate}><CalendarPlus size={17} aria-hidden="true"/> Guardar la fecha</button>
+      </div>
+      <figure className="az-contact-art">
+        <img src={v.images.historia2} alt={`Fotografía de ${v.couple.partner1} y ${v.couple.partner2}`} loading="lazy" width="1536" height="2048"/>
+        <figcaption><span>{v.couple.partner1} &amp; {v.couple.partner2}</span><span>{v.event.dateLabel}</span></figcaption>
+      </figure>
+    </div>
+  </section>;
+}

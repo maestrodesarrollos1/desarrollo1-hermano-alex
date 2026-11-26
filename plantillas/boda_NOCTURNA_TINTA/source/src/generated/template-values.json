@@ -7,7 +7,7 @@
     "dateLabel": "16 de octubre de 2027",
     "dateIso": "2027-10-16T21:00",
     "city": "Valencia",
-    "venue": "La Fabrica de Noche"
+    "venue": "La Fábrica de Noche"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
   },
   "hero": {
-    "eyebrow": "El rito comienza de noche"
+    "eyebrow": "Después del último pase"
   },
   "story": {
-    "title": "Vuestras historias",
-    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
-    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+    "title": "Los títulos de crédito",
+    "paragraph1": "Éramos los dos que se quedaban sentados en el cine hasta que se encendían las luces. Una noche salimos hablando y se nos hizo de día.",
+    "paragraph2": "La sesión de octubre empieza tarde. Esta vez hemos reservado la sala entera."
   },
   "theme": {
     "primaryDark": "#101116",

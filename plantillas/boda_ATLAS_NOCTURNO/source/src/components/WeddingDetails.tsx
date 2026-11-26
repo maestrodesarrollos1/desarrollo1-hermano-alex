@@ -4,7 +4,7 @@ import Contact from "@/components/Contact";
 import GiftRegistry from "@/components/GiftRegistry";
 import LoveMessages from "@/components/LoveMessages";
 import NightPhotoGallery from "@/components/NightPhotoGallery";
-import { templateValues } from "@/config/template-values";
+import { activeEditionId, templateValues } from "@/config/template-values";
 import { weddingData } from "@/data/weddingData";
 
 const schedule = [
@@ -15,10 +15,10 @@ const schedule = [
 ] as const;
 
 const faqItems = [
-  ["Como llego?", "Incluid aqui la finca, el enlace de mapas, el parking y cualquier detalle de transporte que facilite el viaje."],
-  ["Hay codigo de vestimenta?", "Este espacio permite concretar formalidad, colores o recomendaciones para una celebracion al aire libre."],
-  ["Puedo venir con acompanante?", "La confirmacion puede indicar claramente las plazas reservadas para cada invitado."],
-  ["Y si tengo alguna duda?", "Dejad una persona de contacto para resolver los pequenos detalles antes del gran dia."],
+  ["¿Dónde nos encontramos?", "En Mirador de la Sierra, en Teruel. Os esperamos en la entrada."],
+  ["¿Cómo nos vestimos?", "Traed algo de abrigo para cuando se oculte el sol."],
+  ["¿La cena es en el mismo sitio?", "Sí. Después del brindis nos sentaremos todos a la mesa, sin más desplazamientos."],
+  ["¿Y si tengo alguna duda?", "Escribidnos antes de salir y os echaremos una mano."],
 ] as const;
 
 const photo = (slot: "historia1" | "historia2") => templateValues.images[slot] || "/images/intro/dinner-editorial.png";
@@ -30,7 +30,7 @@ const WeddingDetails = () => (
     {templateValues.sections.story ? (
       <section id="sobre-nosotros" data-editor-component="story" className="atlas-story scroll-animate">
         <div className="atlas-story__heading">
-          <p className="atlas-kicker">01 / Donde empezo todo</p>
+          <p className="atlas-kicker">01 / Dónde empezó todo</p>
           <p className="atlas-story__number" aria-hidden="true">I</p>
           <h2 data-editor-key="story.title">{templateValues.story.title}</h2>
         </div>
@@ -44,7 +44,7 @@ const WeddingDetails = () => (
             <figure className="atlas-story__landscape"><img src={photo("historia2")} alt="Otro momento compartido" loading="lazy" /></figure>
           </div>
         </div>
-        <NightPhotoGallery />
+        {activeEditionId !== "esencia" && <NightPhotoGallery />}
       </section>
     ) : null}
 
@@ -71,7 +71,7 @@ const WeddingDetails = () => (
       </section>
     ) : null}
 
-    <GiftRegistry />
+    {templateValues.sections.gifts ? <GiftRegistry /> : null}
     {templateValues.sections.rsvp ? <Contact /> : null}
 
     {templateValues.sections.messages ? (

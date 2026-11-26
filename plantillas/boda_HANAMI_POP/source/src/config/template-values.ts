@@ -1,10 +1,22 @@
 import values from "@/generated/template-values.json";
+import editionPresets from "@/generated/edition-presets.json";
 
 export type TemplateValues = typeof values & {
   theme: typeof values.theme & { radius?: string };
 };
 
-export const templateValues: TemplateValues = values;
+const requestedEdition = new URLSearchParams(window.location.search).get("modelo");
+export const activeEditionId = requestedEdition && Object.prototype.hasOwnProperty.call(editionPresets, requestedEdition)
+  ? requestedEdition
+  : "";
+const activeEdition = activeEditionId
+  ? editionPresets[activeEditionId as keyof typeof editionPresets]
+  : undefined;
+
+export const templateValues: TemplateValues = {
+  ...values,
+  sections: { ...values.sections, ...activeEdition?.sections },
+} as TemplateValues;
 
 const hexToHslChannels = (hex: string) => {
   const normalized = hex.replace("#", "");
@@ -30,6 +42,7 @@ const hexToHslChannels = (hex: string) => {
 
 export const applyTemplateTheme = () => {
   const root = document.documentElement;
+  root.dataset.nupiaEdition = activeEditionId;
   root.style.setProperty("--template-primary-dark", templateValues.theme.primaryDark);
   root.style.setProperty("--template-primary", templateValues.theme.primary);
   root.style.setProperty("--template-soft", templateValues.theme.soft);

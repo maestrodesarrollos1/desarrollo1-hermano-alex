@@ -1,0 +1,125 @@
+{
+  "couple": {
+    "partner1": "Clara",
+    "partner2": "Mateo"
+  },
+  "event": {
+    "dateLabel": "27 de marzo de 2027",
+    "dateIso": "2027-03-27T12:00:00+01:00",
+    "city": "Mediterráneo",
+    "venue": "Masía del Olivar",
+    "mapUrl": "https://maps.google.com"
+  },
+  "contact": {
+    "email": "",
+    "phone": "",
+    "name": ""
+  },
+  "rsvp": {
+    "url": "",
+    "noteTitle": "Todo lo importante, en un mismo lugar",
+    "noteText": "Esta vista muestra cómo una invitación puede reunir la información que necesitan los invitados.",
+    "ctaTitle": "Guardadnos ese día.",
+    "ctaText": "Decidnos si nos acompañaréis el 27 de marzo. Así podremos preparar un lugar para cada uno de vosotros.",
+    "deadlineLabel": "la fecha indicada por la pareja"
+  },
+  "hero": {
+    "eyebrow": "El comienzo de todo lo que viene."
+  },
+  "story": {
+    "title": "Lo mejor, juntos.",
+    "paragraph1": "Hay lugares, personas y momentos que se quedan con nosotros. Este día queremos reunirlos a todos.",
+    "paragraph2": "Nuestra historia está hecha de planes improvisados, caminos compartidos y la certeza de querer seguir descubriendo el mundo juntos."
+  },
+  "theme": {
+    "primaryDark": "#34483d",
+    "primary": "#748b7c",
+    "soft": "#f1f3ef",
+    "text": "#3e4a43",
+    "radius": "3"
+  },
+  "images": {
+    "hero": "/images/demo/pareja.png",
+    "landing": "/images/demo/pareja.png",
+    "landingMobile": "/images/demo/pareja.png",
+    "historia1": "/images/demo/pareja.png",
+    "historia2": "/images/demo/pareja.png",
+    "galeria1": "/images/demo/pareja.png",
+    "galeria2": "/images/demo/pareja.png",
+    "galeria3": "/images/demo/pareja.png",
+    "galeria4": "/images/demo/pareja.png",
+    "galeria5": "/images/demo/pareja.png",
+    "galeria6": "/images/demo/pareja.png",
+    "galeria7": "",
+    "galeria8": "",
+    "galeria9": "",
+    "galeria10": "",
+    "galeria11": "",
+    "galeria13": "",
+    "galeria14": "",
+    "galeria15": "",
+    "galeria16": "",
+    "galeria18": "",
+    "galeria19": "",
+    "galeria20": "",
+    "galeria21": "",
+    "galeria22": "",
+    "galeria23": "",
+    "galeria24": "",
+    "galeria25": "",
+    "galeria26": "",
+    "galeria28": "",
+    "galeria29": "",
+    "galeria30": "",
+    "galeria31": "",
+    "galeria32": "",
+    "galeria33": "",
+    "galeria34": "",
+    "galeria35": "",
+    "galeria36": "",
+    "galeria37": "",
+    "galeria38": "",
+    "galeria39": "",
+    "galeria40": "",
+    "galeria41": "",
+    "galeria42": "",
+    "galeria43": "",
+    "galeria44": "",
+    "despedida": "/images/demo/pareja.png"
+  },
+  "album": {
+    "title": "Nuestra historia, hoja a hoja.",
+    "order": "galeria1, galeria2, galeria3, galeria4, galeria5, galeria6"
+  },
+  "sections": {
+    "intro": false,
+    "story": false,
+    "gallery": false,
+    "countdown": false,
+    "schedule": true,
+    "faq": false,
+    "messages": false,
+    "gifts": false,
+    "rsvp": false,
+    "cookies": false
+  },
+  "schedule": {
+    "ceremony": "12:00",
+    "cocktail": "13:30",
+    "lunch": "15:00",
+    "party": "17:00",
+    "end": "00:00"
+  },
+  "faq": {
+    "parkingQuestion": "¿Hay sitio para aparcar?",
+    "parkingAnswer": "La información de aparcamiento se confirmará junto con los detalles de la celebración.",
+    "flowersQuestion": "¿Dónde será la celebración?",
+    "flowersAnswer": "Os esperamos en Masía del Olivar. Compartiremos todos los detalles antes del gran día.",
+    "dressAnswer": "Siéntete libre de vestir como mejor te sientas para un día tan especial, eligiendo cualquier color de la paleta evitando el blanco, el crema o colores demasiado claros.",
+    "accessibilityAnswer": "Compartiremos la información de accesibilidad antes de la celebración."
+  },
+  "gifts": {
+    "text": "La mejor parte de este día es compartirlo con vosotros.",
+    "iban": ""
+  }
+}

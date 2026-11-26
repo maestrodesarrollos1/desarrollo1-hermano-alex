@@ -35,12 +35,12 @@ const galleryItems = [
 ] as const;
 
 const positions = [
-  "md:left-[50%] md:top-[2%] md:-translate-x-1/2",
-  "md:right-[3%] md:top-[22%]",
-  "md:right-[10%] md:bottom-[10%]",
-  "md:left-[50%] md:bottom-[0%] md:-translate-x-1/2",
-  "md:left-[10%] md:bottom-[10%]",
-  "md:left-[3%] md:top-[22%]",
+  "left-[38%] top-[0%] md:left-[50%] md:top-[2%] md:-translate-x-1/2",
+  "right-[0%] top-[15%] md:right-[3%] md:top-[22%]",
+  "right-[0%] bottom-[12%] md:right-[10%] md:bottom-[10%]",
+  "left-[38%] bottom-[0%] md:left-[50%] md:bottom-[0%] md:-translate-x-1/2",
+  "left-[0%] bottom-[12%] md:left-[10%] md:bottom-[10%]",
+  "left-[0%] top-[15%] md:left-[3%] md:top-[22%]",
 ] as const;
 
 const NightPhotoGallery = () => {
@@ -72,7 +72,7 @@ const NightPhotoGallery = () => {
           <div
             className="h-full w-full bg-cover bg-center transition duration-500"
             style={{
-              backgroundImage: `${activeItem.fallback}, url("${activeItem.src}")`,
+              backgroundImage: `url("${activeItem.src}"), ${activeItem.fallback}`,
               clipPath: "polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%)",
             }}
           />
@@ -103,7 +103,7 @@ const NightPhotoGallery = () => {
             <span
               className="block h-full w-full bg-cover bg-center"
               style={{
-                backgroundImage: `${item.fallback}, url("${item.src}")`,
+                backgroundImage: `url("${item.src}"), ${item.fallback}`,
                 clipPath: "polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%)",
               }}
             />

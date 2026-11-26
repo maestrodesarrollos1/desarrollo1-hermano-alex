@@ -17,7 +17,7 @@ const Hero = () => {
             <p data-editor-key="hero.eyebrow" className="font-nav text-[10px] font-medium uppercase tracking-[.34em] text-[#D9B76F]">
               {templateValues.hero.eyebrow}
             </p>
-            <h1 className="mt-7 font-script text-[clamp(4.3rem,10vw,9.5rem)] leading-[.76] tracking-normal text-[#F7F1E5]">
+            <h1 className="mt-7 font-script text-6xl sm:text-7xl lg:text-8xl leading-[.91] tracking-normal text-[#F7F1E5]">
               <span className="block" data-editor-key="couple.partner1">{weddingData.couple.partner1}</span>
               <span className="my-4 block font-serif text-[.35em] italic leading-none text-[#D9B76F]">&amp;</span>
               <span className="block" data-editor-key="couple.partner2">{weddingData.couple.partner2}</span>

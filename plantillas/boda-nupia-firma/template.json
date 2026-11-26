@@ -1,0 +1,9 @@
+{
+  "id": "boda-nupia-firma",
+  "name": "Nupia Firma",
+  "description": "Demostración comercial completa con apertura, dirección visual ampliada, álbum y espacio de mensajes.",
+  "source": "source",
+  "previewPath": "/es",
+  "valuesFile": "src/generated/template-values.json",
+  "commercial": { "fromPrice": 490, "currency": "EUR", "includes": ["Apertura diseñada para la pareja", "Dirección visual y composición ampliadas", "Álbum interactivo y espacio de mensajes", "Tres revisiones y acompañamiento reforzado"] }
+}

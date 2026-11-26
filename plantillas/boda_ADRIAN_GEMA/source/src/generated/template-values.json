@@ -1,13 +1,13 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Inés",
+    "partner2": "Bruno"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
+    "dateLabel": "18 de junio de 2027",
     "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "city": "Sevilla",
+    "venue": "Patio de las Jacarandas"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
   },
   "hero": {
-    "eyebrow": "Plantilla de celebración"
+    "eyebrow": "Una noche en el patio"
   },
   "story": {
-    "title": "Vuestras historias",
-    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
-    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+    "title": "A la fresca",
+    "paragraph1": "En la calle de Inés las sillas salían a la acera en cuanto aflojaba el calor. Bruno se sentó una tarde y se quedó a cenar.",
+    "paragraph2": "Para nuestra boda hemos sacado unas cuantas sillas más. Una de ellas es vuestra."
   },
   "theme": {
     "primaryDark": "#4A1F2A",
@@ -35,7 +35,7 @@
     "text": "#63323B"
   },
   "images": {
-    "hero": ""
+    "hero": "/cena.webp"
   },
   "sections": {
     "intro": true,

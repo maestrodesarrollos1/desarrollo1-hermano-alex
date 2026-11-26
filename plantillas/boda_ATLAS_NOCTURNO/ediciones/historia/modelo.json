@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-atlas-nocturno",
+  "templateName": "Atlas Nocturno",
+  "modelId": "historia",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

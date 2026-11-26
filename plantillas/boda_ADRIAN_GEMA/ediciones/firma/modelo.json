@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-adrian-gema",
+  "templateName": "Adrian & Gema",
+  "modelId": "firma",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

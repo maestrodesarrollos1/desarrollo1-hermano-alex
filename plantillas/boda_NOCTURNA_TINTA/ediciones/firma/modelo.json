@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-nocturna-tinta",
+  "templateName": "Nocturna Tinta",
+  "modelId": "firma",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

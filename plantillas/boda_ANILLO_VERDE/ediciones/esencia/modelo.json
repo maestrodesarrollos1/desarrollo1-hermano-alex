@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-anillo-verde",
+  "templateName": "Anillo Verde",
+  "modelId": "esencia",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

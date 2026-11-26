@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import { useLocalizedNavigation } from "@/hooks/use-localized-navigation";
 import { useCountdown } from "@/hooks/use-countdown";
 import { cn } from "@/lib/utils";
-import { templateValues } from "@/config/template-values";
+import { activeEditionId, templateValues } from "@/config/template-values";
 import { weddingData } from "@/data/weddingData";
 
 type NavItem = {
@@ -15,12 +15,12 @@ type NavItem = {
 };
 
 const navItems: readonly NavItem[] = [
-  ...(templateValues.sections.countdown ? [{ label: "Cuenta atras", href: "#countdown" }] : []),
+  ...(templateValues.sections.countdown ? [{ label: "Cuenta atrás", href: "#countdown" }] : []),
   ...(templateValues.sections.story
     ? [{ label: "Historias", href: "#sobre-nosotros" }]
     : []),
   ...(templateValues.sections.schedule ? [{ label: "Cronograma", href: "#cronograma" }] : []),
-  { label: "Regalos", href: "#regalos" },
+  ...("gifts" in templateValues.sections && templateValues.sections.gifts ? [{ label: "Regalos", href: "#regalos" }] : []),
   ...(templateValues.sections.messages ? [{ label: "Mensajes", href: "#mensajes" }] : []),
   ...(templateValues.sections.rsvp
     ? [{ label: "Confirma asistencia", href: "#confirmar-asistencia" }]
@@ -260,12 +260,12 @@ const Navbar = () => {
 
         <nav className="hidden flex-1 items-center justify-end gap-1 lg:flex" aria-label="Navegacion principal">
           {navItems.map((item) => renderNavItem(item))}
-          <Link
+          {(!activeEditionId || activeEditionId === "firma") && <Link
             to={gamePath}
             className="font-nav ml-2 flex min-h-[44px] items-center justify-center border border-[#A8CFAE] bg-white px-3 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[#123C2D] transition-colors hover:border-[#4F8B6D] hover:bg-[#4F8B6D] hover:text-white xl:text-[11px]"
           >
             Participa y gana
-          </Link>
+          </Link>}
         </nav>
 
         <button
@@ -319,13 +319,13 @@ const Navbar = () => {
       >
         <nav className="py-2" aria-label="Navegacion principal movil">
           {navItems.map((item) => renderNavItem(item, true))}
-          <Link
+          {(!activeEditionId || activeEditionId === "firma") && <Link
             to={gamePath}
             onClick={() => setMobileOpen(false)}
             className="font-nav flex w-full items-center justify-center px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0F3D2E] transition-colors hover:bg-[#DDEBDD] hover:text-[#123C2D]"
           >
             Participa y gana
-          </Link>
+          </Link>}
         </nav>
       </div>
     </header>

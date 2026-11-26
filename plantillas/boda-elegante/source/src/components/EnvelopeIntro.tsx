@@ -41,7 +41,7 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           z-index: 140;
           overflow: hidden;
           isolation: isolate;
-          background: #4d6046;
+          background: var(--template-primary-dark);
           color: #faf7ed;
           font-family: var(--font-title), Georgia, serif;
           transition: opacity .72s ease, filter .72s ease;
@@ -62,7 +62,7 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           position: absolute;
           z-index: 1;
           inset: 0;
-          background: rgba(67, 84, 58, .22);
+          background: rgba(29, 58, 81, .22);
           content: "";
           transition: background .7s ease;
         }
@@ -189,8 +189,8 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           box-sizing: border-box;
           place-items: center;
           padding: clamp(36px, 6vw, 76px);
-          background: #f7f0df;
-          color: #506242;
+          background: #f6f8f7;
+          color: var(--template-primary-dark);
           box-shadow: 0 42px 120px rgba(8, 23, 16, .48);
           opacity: 0;
           pointer-events: none;
@@ -222,14 +222,14 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
           font-size: .38em;
           font-style: italic;
         }
-        .watercolor-intro__paper .watercolor-intro__eyebrow { color: #607e68; }
-        .watercolor-intro__paper .watercolor-intro__date { color: #536c5a; }
+        .watercolor-intro__paper .watercolor-intro__eyebrow { color: #436876; }
+        .watercolor-intro__paper .watercolor-intro__date { color: #3b5968; }
         .watercolor-intro__enter {
           margin-top: 42px;
-          border: 1px solid #506242;
+          border: 1px solid var(--template-primary-dark);
           padding: 15px 22px;
-          background: #506242;
-          color: #f7f0df;
+          background: var(--template-primary-dark);
+          color: #f6f8f7;
           font-family: var(--font-nav), Arial, sans-serif;
           font-size: 10px;
           font-weight: 500;
@@ -257,10 +257,10 @@ export default function EnvelopeIntro({ onComplete }: EnvelopeIntroProps) {
 
       <img
         className="watercolor-intro__scene"
-        src="/images/azure/finca-acuarela.png"
-        alt="Ilustración en acuarela de la finca de la celebración"
+        src={templateValues.images.hero || "/images/azure/blue-hour-entry.png"}
+        alt="Portada de la invitación Horizonte Azul"
       />
-      <p className="watercolor-intro__place"><i aria-hidden="true" /> La finca</p>
+      <p className="watercolor-intro__place"><i aria-hidden="true" /> {weddingData.event.venue}</p>
 
       <div className="watercolor-intro__cover-copy">
         <p className="watercolor-intro__eyebrow" data-editor-key="hero.eyebrow">{templateValues.hero.eyebrow}</p>

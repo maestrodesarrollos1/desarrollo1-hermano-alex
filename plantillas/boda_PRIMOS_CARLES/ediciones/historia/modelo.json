@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-primos-carles",
+  "templateName": "Casa Carles",
+  "modelId": "historia",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

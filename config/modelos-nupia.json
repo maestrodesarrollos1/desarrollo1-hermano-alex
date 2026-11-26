@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "id": "esencia",
+      "name": "Nupia Esencia",
+      "fromPrice": 190,
+      "description": "Una invitación estática y completa para compartir lo esencial del día.",
+      "includes": ["Portada y datos esenciales", "Historia editorial", "Cuenta atrás", "Agenda, lugar y preguntas frecuentes", "Paleta y fotografías", "Diseño móvil y una ronda de revisión"],
+      "excludes": ["Galería o álbum interactivo", "Confirmación de asistencia", "Mensajes de invitados", "Regalos y minijuegos"],
+      "sections": { "intro": false, "story": true, "gallery": false, "countdown": true, "schedule": true, "faq": true, "messages": false, "gifts": false, "rsvp": false }
+    },
+    {
+      "id": "historia",
+      "name": "Nupia Historia",
+      "fromPrice": 290,
+      "description": "Una invitación completa para presentar el día y contar lo que os une.",
+      "includes": ["Todo lo esencial", "Historia y galería", "Cuenta atrás", "Preguntas frecuentes", "Confirmación de asistencia", "Dos rondas de revisión"],
+      "excludes": ["Apertura exclusiva", "Álbum interactivo", "Mensajes de invitados"],
+      "sections": { "intro": false, "story": true, "gallery": true, "countdown": true, "schedule": true, "faq": true, "messages": false, "gifts": true, "rsvp": true }
+    },
+    {
+      "id": "firma",
+      "name": "Nupia Firma",
+      "fromPrice": 490,
+      "description": "La versión más cuidada: una experiencia diseñada alrededor de la pareja.",
+      "includes": ["Apertura personalizada", "Dirección visual ampliada", "Historia y álbum interactivo", "RSVP, regalos y mensajes", "Tres rondas de revisión"],
+      "excludes": [],
+      "sections": { "intro": true, "story": true, "gallery": true, "countdown": true, "schedule": true, "faq": true, "messages": true, "gifts": true, "rsvp": true }
+    }
+  ]
+}

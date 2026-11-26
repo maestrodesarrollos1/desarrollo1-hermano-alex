@@ -1,13 +1,13 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Elena",
+    "partner2": "Simón"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
+    "dateLabel": "18 de junio de 2027",
     "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "city": "Granada",
+    "venue": "Casa de las Camelias"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Una celebracion intima, luminosa y pensada para disfrutar sin prisas."
   },
   "hero": {
-    "eyebrow": "Una invitacion para recordar"
+    "eyebrow": "Las puertas están abiertas"
   },
   "story": {
-    "title": "Nuestra historia",
-    "paragraph1": "Todo empezo como empiezan las cosas que importan: sin demasiado ruido, pero con una certeza dificil de explicar.",
-    "paragraph2": "Queremos celebrar este paso rodeados de las personas que han formado parte del camino."
+    "title": "Una llave para dos",
+    "paragraph1": "Durante meses nuestra única copia de la llave cambió de bolsillo en cada despedida. Hasta que hicimos otra y dejaron de hacer falta las despedidas.",
+    "paragraph2": "Hoy abrimos las dos hojas de la puerta. Pasad, que la casa está de fiesta."
   },
   "theme": {
     "primaryDark": "#633542",

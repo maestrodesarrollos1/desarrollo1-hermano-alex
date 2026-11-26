@@ -11,19 +11,19 @@ const timelineItems = [
   { time: "19:30", title: "Cóctel", icon: Wine },
   { time: "21:00", title: "Cena", icon: Utensils },
   { time: "23:30", title: "Fiesta", icon: Music },
-  { time: "Por definir", title: "Fin del evento", icon: Heart },
+  { time: "02:00", title: "Fin del evento", icon: Heart },
 ] as const;
 
 const venueCards = [
   {
     eyebrow: "Ceremonia",
-    title: "Lugar de la ceremonia",
-    description: "Añade aquí el nombre, la dirección y las indicaciones de acceso.",
+    title: weddingData.event.venue,
+    description: "Nos vemos a la entrada de la masía para pasar juntos al patio.",
   },
   {
     eyebrow: "Celebración",
     title: weddingData.event.venue,
-    description: "Añade aquí el espacio de celebración, transporte y aparcamiento.",
+    description: "Al terminar la ceremonia, nos esperan el aperitivo y la mesa.",
   },
 ] as const;
 
@@ -32,31 +32,31 @@ const faqItems = [
     id: "faq-como-ir",
     question: "¿Cómo puedo llegar?",
     answer:
-      "Incluye enlaces de mapas, direcciones, transporte colectivo y opciones de aparcamiento.",
+      "Nos reunimos en Mas dels Til·lers, en Girona. Nos encontraréis en la entrada antes de la ceremonia.",
   },
   {
     id: "faq-musica",
     question: "¿Puedo sugerir una canción?",
     answer:
-      "Explica cómo enviar sugerencias o conecta este apartado con una pregunta del formulario RSVP.",
+      "Por supuesto. Decídnosla cuando nos veamos y la guardaremos para el baile.",
   },
   {
     id: "faq-hora",
     question: "¿A qué hora debo llegar?",
     answer:
-      "Indica la hora recomendada de llegada y cuánto margen conviene dejar antes del comienzo.",
+      "Con un cuarto de hora de margen tendréis tiempo para saludar y buscar sitio.",
   },
   {
     id: "faq-vestimenta",
     question: "¿Cuál es el código de vestimenta?",
     answer:
-      "Describe el nivel de formalidad, los colores reservados y cualquier recomendación práctica.",
+      "Vestíos de fiesta, pero con zapatos que os apetezca seguir llevando en el baile.",
   },
   {
     id: "faq-tiempo",
     question: "¿Qué tiempo suele hacer?",
     answer:
-      "Añade una orientación estacional y recuerda actualizarla cerca de la fecha del evento.",
+      "Al caer la noche puede refrescar. Una chaqueta ligera os vendrá bien.",
   },
 ] as const;
 

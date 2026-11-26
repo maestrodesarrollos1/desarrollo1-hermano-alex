@@ -4,11 +4,11 @@ import Contact from "@/components/Contact";
 import LoveMessages from "@/components/LoveMessages";
 import NightPhotoGallery from "@/components/NightPhotoGallery";
 import { weddingData } from "@/data/weddingData";
-import { templateValues } from "@/config/template-values";
+import { activeEditionId, templateValues } from "@/config/template-values";
 
 const timelineItems = [
   { time: "18:30", title: "Ceremonia", icon: Church },
-  { time: "20:00", title: "Coctel", icon: Wine },
+  { time: "20:00", title: "Cóctel", icon: Wine },
   { time: "21:30", title: "Cena", icon: Utensils },
   { time: "00:00", title: "Fiesta", icon: Music },
 ] as const;
@@ -16,28 +16,28 @@ const timelineItems = [
 const faqItems = [
   {
     id: "faq-como-ir",
-    question: "Como puedo llegar?",
-    answer: "Incluye enlaces de mapas, direcciones, transporte colectivo y opciones de aparcamiento.",
+    question: "¿Dónde nos encontramos?",
+    answer: "Nos reunimos en Patio de las Jacarandas, en Sevilla. Nos encontraréis en la entrada antes de la ceremonia.",
   },
   {
     id: "faq-musica",
-    question: "Puedo sugerir una cancion?",
-    answer: "Explica como enviar sugerencias o conecta este apartado con una pregunta del formulario RSVP.",
+    question: "¿Puedo sugerir una canción?",
+    answer: "Por supuesto. Decídnosla cuando nos veamos y la guardaremos para el baile.",
   },
   {
     id: "faq-hora",
-    question: "A que hora debo llegar?",
-    answer: "Indica la hora recomendada de llegada y cuanto margen conviene dejar antes del comienzo.",
+    question: "¿A qué hora debo llegar?",
+    answer: "Con un cuarto de hora de margen tendréis tiempo para saludar y buscar sitio.",
   },
   {
     id: "faq-vestimenta",
-    question: "Cual es el codigo de vestimenta?",
-    answer: "Describe el nivel de formalidad, los colores reservados y cualquier recomendacion practica.",
+    question: "¿Cómo nos vestimos?",
+    answer: "Vestíos de fiesta, pero con zapatos que os apetezca seguir llevando en el baile.",
   },
   {
     id: "faq-tiempo",
-    question: "Que tiempo suele hacer?",
-    answer: "Anade una orientacion estacional y recuerda actualizarla cerca de la fecha del evento.",
+    question: "¿Llevo algo de abrigo?",
+    answer: "Al caer la noche puede refrescar. Una chaqueta ligera os vendrá bien.",
   },
 ] as const;
 
@@ -49,10 +49,14 @@ const WeddingDetails = () => {
       {templateValues.sections.story ? (
         <section id="sobre-nosotros" data-editor-component="story" className="scroll-animate bg-white px-5 py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <NightPhotoGallery />
+            {activeEditionId === "esencia" ? (
+              <figure className="mx-auto w-full max-w-5xl overflow-hidden">
+                <img src={templateValues.images.hero || "/images/intro/dinner-editorial.png"} alt="" loading="lazy" className="aspect-[3/2] w-full object-cover" />
+              </figure>
+            ) : <NightPhotoGallery />}
 
             <div className="mx-auto max-w-xl text-center lg:text-left">
-              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Galeria de la pareja</p>
+              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Nuestra historia</p>
               <h2 data-editor-key="story.title" className="mt-4 font-script text-4xl text-[#0F3D2E] md:text-6xl">
                 {templateValues.story.title}
               </h2>
@@ -148,13 +152,13 @@ const WeddingDetails = () => {
         <section id="preguntas-frecuentes" data-editor-component="faq" className="scroll-animate bg-[#F8FCF8] px-5 py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
             <div className="border border-[#DDECE0] bg-white p-7 md:p-9">
-              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Informacion practica</p>
+              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Información práctica</p>
               <h2 className="mt-5 font-script text-4xl leading-none text-[#0F3D2E] md:text-6xl">
                 Preguntas frecuentes
               </h2>
               <div className="mt-7 h-px w-20 bg-[#DDF0E1]" />
               <p className="mt-7 text-base leading-8 text-[#1F5E46]">
-                Un cierre limpio para resolver dudas sin romper la estetica de la invitacion.
+                Por si os lo estáis preguntando antes de salir de casa.
               </p>
             </div>
 

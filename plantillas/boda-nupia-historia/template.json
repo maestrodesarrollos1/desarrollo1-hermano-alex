@@ -1,0 +1,9 @@
+{
+  "id": "boda-nupia-historia",
+  "name": "Nupia Historia",
+  "description": "Demostración comercial intermedia: historia, galería, cuenta atrás, preguntas y confirmación sobre un diseño existente.",
+  "source": "source",
+  "previewPath": "/es",
+  "valuesFile": "src/generated/template-values.json",
+  "commercial": { "fromPrice": 290, "currency": "EUR", "includes": ["Todo lo esencial", "Historia, galería y cuenta atrás", "Preguntas y confirmación de asistencia", "Dos revisiones sobre un diseño existente"] }
+}

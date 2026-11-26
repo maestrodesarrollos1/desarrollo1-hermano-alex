@@ -4,11 +4,11 @@ import Contact from "@/components/Contact";
 import LoveMessages from "@/components/LoveMessages";
 import NightPhotoGallery from "@/components/NightPhotoGallery";
 import { weddingData } from "@/data/weddingData";
-import { templateValues } from "@/config/template-values";
+import { activeEditionId, templateValues } from "@/config/template-values";
 
 const timelineItems = [
   { time: "18:30", title: "Ceremonia", icon: Church },
-  { time: "20:00", title: "Coctel", icon: Wine },
+  { time: "20:00", title: "Cóctel", icon: Wine },
   { time: "21:30", title: "Cena", icon: Utensils },
   { time: "00:00", title: "Fiesta", icon: Music },
 ] as const;
@@ -16,28 +16,28 @@ const timelineItems = [
 const faqItems = [
   {
     id: "faq-como-ir",
-    question: "Como puedo llegar?",
-    answer: "Incluye enlaces de mapas, direcciones, transporte colectivo y opciones de aparcamiento.",
+    question: "¿Dónde nos encontramos?",
+    answer: "Nos reunimos en La Fábrica de Noche, en Valencia. Nos encontraréis en la entrada antes de la ceremonia.",
   },
   {
     id: "faq-musica",
-    question: "Puedo sugerir una cancion?",
-    answer: "Explica como enviar sugerencias o conecta este apartado con una pregunta del formulario RSVP.",
+    question: "¿Puedo sugerir una canción?",
+    answer: "Por supuesto. Decídnosla cuando nos veamos y la guardaremos para el baile.",
   },
   {
     id: "faq-hora",
-    question: "A que hora debo llegar?",
-    answer: "Indica la hora recomendada de llegada y cuanto margen conviene dejar antes del comienzo.",
+    question: "¿A qué hora debo llegar?",
+    answer: "Con un cuarto de hora de margen tendréis tiempo para saludar y buscar sitio.",
   },
   {
     id: "faq-vestimenta",
-    question: "Cual es el codigo de vestimenta?",
-    answer: "Describe el nivel de formalidad, los colores reservados y cualquier recomendacion practica.",
+    question: "¿Cómo nos vestimos?",
+    answer: "Vestíos de fiesta, pero con zapatos que os apetezca seguir llevando en el baile.",
   },
   {
     id: "faq-tiempo",
-    question: "Que tiempo suele hacer?",
-    answer: "Anade una orientacion estacional y recuerda actualizarla cerca de la fecha del evento.",
+    question: "¿Llevo algo de abrigo?",
+    answer: "Al caer la noche puede refrescar. Una chaqueta ligera os vendrá bien.",
   },
 ] as const;
 
@@ -49,15 +49,19 @@ const WeddingDetails = () => {
       {templateValues.sections.story ? (
         <section id="sobre-nosotros" data-editor-component="story" className="scroll-animate bg-white px-5 py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <NightPhotoGallery />
+            {activeEditionId === "esencia" ? (
+              <figure className="mx-auto w-full max-w-5xl overflow-hidden">
+                <img src={templateValues.images.hero || "/images/intro/dinner-editorial.png"} alt="" loading="lazy" className="aspect-[3/2] w-full object-cover" />
+              </figure>
+            ) : <NightPhotoGallery />}
 
             <div className="mx-auto max-w-xl text-center lg:text-left">
-              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Galeria de la pareja</p>
-              <h2 data-editor-key="story.title" className="mt-4 font-script text-4xl text-[#0F3D2E] md:text-6xl">
+              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[color:var(--template-primary-dark)]">Nuestra historia</p>
+              <h2 data-editor-key="story.title" className="mt-4 font-script text-4xl text-[color:var(--template-primary-dark)] md:text-6xl">
                 {templateValues.story.title}
               </h2>
               <div className="mx-auto mt-6 h-px w-20 bg-[#DDF0E1] lg:mx-0" />
-              <div className="mt-8 space-y-6 text-lg leading-8 text-[#1F5E46]">
+              <div className="mt-8 space-y-6 text-lg leading-8 text-[color:var(--template-primary-dark)]">
                 <p data-editor-key="story.paragraph1" data-editor-multiline="true">
                   {templateValues.story.paragraph1}
                 </p>
@@ -74,10 +78,10 @@ const WeddingDetails = () => {
         <section
           id="cronograma"
           data-editor-component="schedule"
-          className="scroll-animate bg-[#F8FCF8] px-5 py-12 md:py-16"
+          className="scroll-animate bg-[var(--template-soft)] px-5 py-12 md:py-16"
         >
           <div className="mx-auto max-w-6xl">
-            <div className="relative overflow-hidden border border-[#DDECE0] bg-[#0D1F18] p-5 text-white shadow-[0_24px_64px_rgba(15,61,46,0.13)] md:p-7">
+            <div className="relative overflow-hidden border border-[#DDECE0] bg-[var(--template-primary-dark)] p-5 text-white shadow-[0_24px_64px_rgba(15,61,46,0.13)] md:p-7">
               <div className="absolute -left-16 top-1/2 h-36 w-36 -translate-y-1/2 rounded-full border border-white/10" aria-hidden="true" />
               <div className="absolute -right-20 bottom-0 h-48 w-48 rounded-full border border-white/10" aria-hidden="true" />
 
@@ -101,7 +105,7 @@ const WeddingDetails = () => {
                     return (
                       <article
                         key={`${item.time}-${item.title}`}
-                        className="group border border-white/16 bg-white/9 p-4 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/14"
+                        className="border-l border-white/30 px-4 py-2"
                       >
                         <div className="flex items-center justify-between gap-3">
                           <Icon className="h-5 w-5 text-white/68" aria-hidden="true" />
@@ -127,11 +131,11 @@ const WeddingDetails = () => {
         <section id="mensajes" data-editor-component="messages" className="scroll-animate bg-white px-5 py-16 md:py-24">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
-              <h3 className="font-script text-4xl leading-tight text-[#0F3D2E] md:text-6xl">
+              <h3 className="font-script text-4xl leading-tight text-[color:var(--template-primary-dark)] md:text-6xl">
                 Comparte un mensaje con nosotros
               </h3>
               <div className="mx-auto mt-6 h-px w-20 bg-[#DDF0E1]" />
-              <p className="mt-6 text-base leading-8 text-[#1F5E46] md:text-lg">
+              <p className="mt-6 text-base leading-8 text-[color:var(--template-primary-dark)] md:text-lg">
                 Deja una dedicatoria para que forme parte del recuerdo de la noche.
               </p>
             </div>
@@ -145,16 +149,16 @@ const WeddingDetails = () => {
       {templateValues.sections.rsvp ? <Contact /> : null}
 
       {templateValues.sections.faq ? (
-        <section id="preguntas-frecuentes" data-editor-component="faq" className="scroll-animate bg-[#F8FCF8] px-5 py-16 md:py-24">
+        <section id="preguntas-frecuentes" data-editor-component="faq" className="scroll-animate bg-[var(--template-soft)] px-5 py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
             <div className="border border-[#DDECE0] bg-white p-7 md:p-9">
-              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[#7FAF8E]">Informacion practica</p>
-              <h2 className="mt-5 font-script text-4xl leading-none text-[#0F3D2E] md:text-6xl">
+              <p className="font-nav text-xs uppercase tracking-[0.34em] text-[color:var(--template-primary-dark)]">Información práctica</p>
+              <h2 className="mt-5 font-script text-4xl leading-none text-[color:var(--template-primary-dark)] md:text-6xl">
                 Preguntas frecuentes
               </h2>
               <div className="mt-7 h-px w-20 bg-[#DDF0E1]" />
-              <p className="mt-7 text-base leading-8 text-[#1F5E46]">
-                Un cierre limpio para resolver dudas sin romper la estetica de la invitacion.
+              <p className="mt-7 text-base leading-8 text-[color:var(--template-primary-dark)]">
+                Por si os lo estáis preguntando antes de salir de casa.
               </p>
             </div>
 
@@ -169,7 +173,7 @@ const WeddingDetails = () => {
                     {item.question}
                   </label>
                   <div className="faq-accordion__answer">
-                    <div className="faq-accordion__answer-inner text-sm leading-7 text-[#1F5E46] md:text-base">
+                    <div className="faq-accordion__answer-inner text-sm leading-7 text-[color:var(--template-primary-dark)] md:text-base">
                       {item.answer}
                     </div>
                   </div>

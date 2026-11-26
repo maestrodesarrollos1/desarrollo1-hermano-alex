@@ -1,0 +1,9 @@
+{
+  "id": "boda-nupia-esencia",
+  "name": "Nupia Esencia",
+  "description": "Demostración comercial de la invitación esencial: portada, agenda y ubicación.",
+  "source": "source",
+  "previewPath": "/es",
+  "valuesFile": "src/generated/template-values.json",
+  "commercial": { "fromPrice": 190, "currency": "EUR", "includes": ["Portada y datos esenciales", "Agenda y ubicación", "Adaptación de paleta y fotografías", "Versión móvil y una revisión"] }
+}

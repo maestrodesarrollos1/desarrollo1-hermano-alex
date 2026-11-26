@@ -1,0 +1,129 @@
+{
+  "nav": {
+    "story": "Historia",
+    "details": "Detalles",
+    "schedule": "Agenda",
+    "contact": "RSVP"
+  },
+  "hero": {
+    "tagline": "Una plantilla elegante para celebrar vuestro gran dia.",
+    "description": "Sustituye estos textos por vuestra historia, la informacion del evento y todos los detalles para vuestros invitados.",
+    "seeSchedule": "Ver agenda",
+    "rsvpNow": "Confirmar asistencia",
+    "dateLine": "18 de junio de 2027 · Lugar pendiente"
+  },
+  "about": {
+    "title": "Nuestra Historia",
+    "experienceTitle": "Presentad vuestra celebracion con un mensaje personal",
+    "experienceText1": "Esta seccion puede contar como os conocisteis, que significa este dia para vosotros o cualquier introduccion breve para situar a los invitados.",
+    "experienceText2": "Tambien podeis usarla para explicar el estilo del evento, recomendaciones de viaje, codigo de vestimenta o informacion importante.",
+    "highlights": {
+      "story": {
+        "title": "Vuestra historia",
+        "description": "Añadid un resumen cercano y emotivo sobre vuestra relacion."
+      },
+      "date": {
+        "title": "La fecha",
+        "description": "Dejad claro cuando empieza la ceremonia y cuando arranca la celebracion."
+      },
+      "place": {
+        "title": "El lugar",
+        "description": "Incluid la ubicacion, referencias utiles y opciones de transporte."
+      }
+    }
+  },
+  "services": {
+    "title": "Detalles Del Dia",
+    "subtitle": "Tres bloques sencillos para organizar la informacion principal del evento.",
+    "items": {
+      "welcome": {
+        "title": "Bienvenida",
+        "description": "Utilizad este espacio para el mensaje de bienvenida, alojamiento, traslados o recomendaciones para invitados.",
+        "tags": ["Bienvenida", "Viaje", "Alojamiento"]
+      },
+      "moments": {
+        "title": "Momentos Especiales",
+        "description": "Destacad ceremonia, cocktail, fotos, regalos o cualquier momento que querais remarcar.",
+        "tags": ["Ceremonia", "Fotos", "Regalos"]
+      },
+      "party": {
+        "title": "Celebracion",
+        "description": "Explicad la fiesta, la musica, la cena, el after party o cualquier otro plan de la jornada.",
+        "tags": ["Cena", "Musica", "Fiesta"]
+      }
+    }
+  },
+  "process": {
+    "title": "Agenda Del Evento",
+    "subtitle": "Un formato claro para presentar el ritmo del gran dia.",
+    "step1Title": "Ceremonia",
+    "step1Description": "Comparte aqui la hora de llegada, el comienzo de la ceremonia y cualquier indicacion importante.",
+    "step2Title": "Cocktail Y Cena",
+    "step2Description": "Añade los tiempos del aperitivo, la cena, discursos o sorpresas especiales.",
+    "step3Title": "Fiesta",
+    "step3Description": "Cierra la agenda con el baile, la barra libre, el after party o el final previsto.",
+    "communication": "Notas Para Invitados",
+    "communicationDesc": "Puedes usar este bloque para transporte, dress code, clima o recordatorios practicos.",
+    "availability": "Preguntas Frecuentes",
+    "availabilityDesc": "Perfecto para alergias, niños, alojamiento, parking u otra informacion util."
+  },
+  "contact": {
+    "title": "RSVP",
+    "subtitle": "Usa este formulario como base para recopilar confirmaciones antes del evento.",
+    "name": "Nombre",
+    "email": "Email",
+    "guests": "Numero de asistentes",
+    "guestsPlaceholder": "Ejemplo: 2 adultos",
+    "message": "Mensaje",
+    "messagePlaceholder": "Restricciones alimentarias, dudas o notas especiales",
+    "send": "Enviar confirmacion",
+    "submitting": "Enviando...",
+    "privacy": "Este formulario es solo una plantilla. Conectalo a vuestro backend o servicio de RSVP antes de publicarlo.",
+    "emailLabel": "Email de contacto",
+    "rsvpDeadline": "Fecha limite RSVP",
+    "rsvpDeadlineValue": "15 de mayo de 2027",
+    "venue": "Lugar del evento",
+    "venueValue": "Nombre del espacio\nCiudad, Pais",
+    "validationTitle": "Faltan datos",
+    "validationMessage": "Completa nombre, email y mensaje antes de enviar.",
+    "successTitle": "Formulario de ejemplo enviado",
+    "successMessage": "La plantilla funciona en frontend. Conecta aqui vuestro sistema real de RSVP.",
+    "errorTitle": "No se pudo enviar",
+    "errorMessage": "Revisa la integracion del formulario antes de publicar la web.",
+    "templateNoticeTitle": "Sin datos reales ni mapa incrustado",
+    "templateNoticeText": "Este bloque reemplaza la informacion personal anterior. Añade vuestro mapa, contacto y detalles cuando lo tengais listo."
+  },
+  "footer": {
+    "description": "Plantilla base para una web de boda con historia, detalles, agenda y RSVP.",
+    "location": "Nombre del lugar · Ciudad, Pais",
+    "navigationTitle": "Navegacion",
+    "navigation": {
+      "about": "Historia",
+      "services": "Detalles",
+      "schedule": "Agenda",
+      "contact": "RSVP"
+    },
+    "notesTitle": "Nota",
+    "notesText": "Sustituye todos los placeholders por vuestros datos antes de publicar.",
+    "credit": "Wedding Website Template",
+    "rights": "Todos los derechos reservados.",
+    "templateHint": "Esta version ya no incluye fotos, nombres ni datos del proyecto original."
+  },
+  "logo": {
+    "partner1": "Alex",
+    "partner2": "Jamie",
+    "asociados": "wedding day",
+    "ariaLabel": "Logotipo de ejemplo para una web de boda"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Pagina no encontrada",
+    "backHome": "Volver al inicio"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "message": "Esta plantilla usa cookies basicas para recordar preferencias del visitante.",
+    "accept": "Aceptar",
+    "deny": "Cerrar"
+  }
+}

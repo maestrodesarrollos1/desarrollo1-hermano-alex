@@ -5,7 +5,7 @@ import GiftRegistry from "@/components/GiftRegistry";
 import LoveMessages from "@/components/LoveMessages";
 import NightPhotoGallery from "@/components/NightPhotoGallery";
 import { weddingData } from "@/data/weddingData";
-import { templateValues } from "@/config/template-values";
+import { activeEditionId, templateValues } from "@/config/template-values";
 
 const schedule = [
   { time: "17:45", title: "Bienvenida", note: "Las puertas se abren", icon: Coffee },
@@ -15,10 +15,10 @@ const schedule = [
 ] as const;
 
 const faqItems = [
-  ["Como llego?", "Anade mapas, autobuses, aparcamiento y cualquier indicacion util para que el trayecto sea parte del plan."],
-  ["Codigo de vestimenta", "Define colores, formalidad y recomendaciones para una ceremonia exterior o para una celebracion de noche."],
-  ["Puedo llevar acompanante?", "Aclara aqui como confirmar acompanantes desde el formulario de asistencia."],
-  ["Regalos", "Explica la lista de bodas, el fondo de viaje o cualquier detalle que querais compartir con discrecion."],
+  ["¿Dónde nos encontramos?", "En Jardín de los Naranjos, en Córdoba. Os esperamos en la entrada."],
+  ["¿Cómo nos vestimos?", "Venid de fiesta y traed algo ligero para cuando caiga la noche."],
+  ["¿La cena es en el mismo sitio?", "Sí. Después del brindis nos sentaremos todos a la mesa, sin más desplazamientos."],
+  ["¿Hasta cuándo nos quedamos?", "Hasta que la última canción nos encuentre en la pista."],
 ] as const;
 
 const WeddingDetails = () => {
@@ -30,8 +30,8 @@ const WeddingDetails = () => {
         <section id="sobre-nosotros" data-editor-component="story" className="scroll-animate overflow-hidden bg-[#F3EFE4] py-20 md:py-28">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-[.65fr_1.35fr] md:px-8">
             <div>
-              <p className="font-nav text-[10px] font-medium uppercase tracking-[.34em] text-[#8D6D2D]">Capitulo I</p>
-              <p className="mt-8 font-script text-[10rem] leading-[.55] text-[#B58A3C]/30" aria-hidden="true">A</p>
+              <p className="font-nav text-[10px] font-medium uppercase tracking-[.34em] text-[#8D6D2D]">Capítulo I</p>
+              <p className="mt-8 font-script text-[10rem] leading-[.55] text-[#B58A3C]/30" aria-hidden="true">{weddingData.couple.partner1.charAt(0)}</p>
             </div>
             <div className="max-w-3xl border-l border-[#14382A]/20 pl-6 md:pl-12">
               <h2 data-editor-key="story.title" className="font-script text-6xl leading-[.8] text-[#14382A] md:text-8xl">{templateValues.story.title}</h2>
@@ -42,7 +42,11 @@ const WeddingDetails = () => {
               <p className="mt-12 font-nav text-[10px] font-medium uppercase tracking-[.25em] text-[#8D6D2D]">El comienzo de todo</p>
             </div>
           </div>
-          <div className="mt-20"><NightPhotoGallery /></div>
+          <div className="mt-20">{activeEditionId === "esencia" ? (
+              <figure className="mx-auto w-full max-w-5xl overflow-hidden">
+                <img src={templateValues.images.hero || "/images/intro/dinner-editorial.png"} alt="" loading="lazy" className="aspect-[3/2] w-full object-cover" />
+              </figure>
+            ) : <NightPhotoGallery />}</div>
         </section>
       ) : null}
 
@@ -79,7 +83,7 @@ const WeddingDetails = () => {
         </section>
       ) : null}
 
-      <GiftRegistry />
+      {templateValues.sections.gifts ? <GiftRegistry /> : null}
 
       {templateValues.sections.rsvp ? <Contact /> : null}
 

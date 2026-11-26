@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'Soho Pro';
+  src: url('/fonts/SohoPro-Light.eot');
+  src: local('Soho Pro Light'), local('SohoPro-Light'),
+       url('/fonts/SohoPro-Light.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SohoPro-Light.woff2') format('woff2'),
+       url('/fonts/SohoPro-Light.woff') format('woff'),
+       url('/fonts/SohoPro-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Soho Pro';
+  src: url('/fonts/SohoPro-Regular.eot');
+  src: local('Soho Pro Regular'), local('SohoPro-Regular'),
+       url('/fonts/SohoPro-Regular.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SohoPro-Regular.woff2') format('woff2'),
+       url('/fonts/SohoPro-Regular.woff') format('woff'),
+       url('/fonts/SohoPro-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Soho Pro';
+  src: url('/fonts/SohoPro-Medium.eot');
+  src: local('Soho Pro Medium'), local('SohoPro-Medium'),
+       url('/fonts/SohoPro-Medium.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SohoPro-Medium.woff2') format('woff2'),
+       url('/fonts/SohoPro-Medium.woff') format('woff'),
+       url('/fonts/SohoPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Soho Pro';
+  src: url('/fonts/SohoPro-Bold.eot');
+  src: local('Soho Pro Bold'), local('SohoPro-Bold'),
+       url('/fonts/SohoPro-Bold.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SohoPro-Bold.woff2') format('woff2'),
+       url('/fonts/SohoPro-Bold.woff') format('woff'),
+       url('/fonts/SohoPro-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

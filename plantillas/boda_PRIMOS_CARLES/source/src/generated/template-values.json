@@ -1,13 +1,13 @@
 {
   "couple": {
-    "partner1": "Nombre 1",
-    "partner2": "Nombre 2"
+    "partner1": "Marina",
+    "partner2": "Pau"
   },
   "event": {
-    "dateLabel": "Fecha por definir",
+    "dateLabel": "18 de junio de 2027",
     "dateIso": "2027-06-18T18:00",
-    "city": "Ciudad",
-    "venue": "Lugar del evento"
+    "city": "Girona",
+    "venue": "Mas dels Til·lers"
   },
   "contact": {
     "email": "contacto@example.com",
@@ -21,12 +21,12 @@
     "ctaText": "Conecta este botón con el formulario de confirmación que corresponda al proyecto exportado."
   },
   "hero": {
-    "eyebrow": "Plantilla de celebración"
+    "eyebrow": "Una carta para vosotros"
   },
   "story": {
-    "title": "Vuestras historias",
-    "paragraph1": "Sustituye este texto por una introducción breve que presente a las personas protagonistas y el motivo de la celebración.",
-    "paragraph2": "Este segundo párrafo puede recoger una anécdota, el tono del evento o un mensaje para las personas invitadas."
+    "title": "De puño y letra",
+    "paragraph1": "Encontramos la primera postal de Pau dentro de un libro de Marina. Tenía tres líneas y un dibujo torcido de la estación.",
+    "paragraph2": "Esta vez cabía todo en una sola frase: nos casamos y queremos que vengáis."
   },
   "theme": {
     "primaryDark": "#3D315B",
@@ -35,7 +35,7 @@
     "text": "#4E4568"
   },
   "images": {
-    "hero": ""
+    "hero": "/patio.webp"
   },
   "sections": {
     "intro": true,

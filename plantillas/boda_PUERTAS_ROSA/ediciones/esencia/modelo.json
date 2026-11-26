@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-puertas-rosa",
+  "templateName": "Puertas Rosa",
+  "modelId": "esencia",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}

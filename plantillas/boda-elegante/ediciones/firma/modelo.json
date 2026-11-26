@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "templateId": "boda-horizonte-azul",
+  "templateName": "Horizonte Azul",
+  "modelId": "firma",
+  "modelDefinition": "../../../../config/modelos-nupia.json",
+  "source": "../../source",
+  "previewPath": "/es"
+}
