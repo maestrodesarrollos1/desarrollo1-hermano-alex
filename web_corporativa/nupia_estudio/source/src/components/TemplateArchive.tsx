@@ -22,7 +22,7 @@ const TemplateArchive = () => {
 
     <section className="archive-grid" aria-label="Plantillas disponibles">
       {templateArchive.map((template) => (
-        <article className={`archive-card archive-card--${template.tone}`} key={template.id}>
+        <article className={`archive-card archive-card--${template.tone}`} data-design={template.id} key={template.id}>
           <div className="archive-card__image">
             <img src={template.image} alt={template.alt} loading="lazy" />
             <span className="archive-card__number">{template.number}</span>

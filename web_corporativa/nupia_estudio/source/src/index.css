@@ -213,6 +213,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible, select:focus-visib
 .archive-card__copy { display: grid; grid-template-columns: 1fr; align-content: end; gap: 24px; padding: 52px 58px; }
 .archive-card__copy .brand-index { grid-column: 1 / -1; color: var(--muted); }
 .archive-card__copy h2 { max-width: 360px; font-size: 58px; line-height: .9; }
+.archive-card:is([data-design="atlas-nocturno"], [data-design="nocturna-tinta"]) .archive-card__copy { min-width: 0; grid-template-columns: minmax(0, 1fr); container-type: inline-size; padding-inline: clamp(20px, 3%, 40px); }
+.archive-card:is([data-design="atlas-nocturno"], [data-design="nocturna-tinta"]) h2 { font-size: min(58px, 16cqi); text-wrap: balance; }
 .archive-card__copy > p:not(.brand-index) { max-width: 315px; color: var(--muted); font-size: 14px; line-height: 1.75; }
 .archive-card__copy a { grid-column: 1 / -1; display: inline-flex; justify-self: start; align-items: center; gap: 10px; min-height: 44px; padding-top: 8px; border-bottom: 1px solid currentColor; font-size: 13px; }
 .archive-card__copy a:hover { color: var(--muted); }
